@@ -7,216 +7,281 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0a;--bg2:#0f0f0f;--bg3:#161616;
-  --gold:#C9A227;--gold-light:#E8C547;--gold-dim:rgba(201,162,39,0.15);
-  --white:#F8FAFC;--white70:rgba(248,250,252,0.7);--white40:rgba(248,250,252,0.4);
-  --border:rgba(255,255,255,0.08);--radius:8px;
-  --panel:220px;
+  --bg:#080806;--bg2:#0e0e0b;--bg3:#151512;
+  --gold:#C9A227;--gold-light:#F0C94A;--gold-dim:rgba(201,162,39,0.12);--gold-glow:rgba(201,162,39,0.45);
+  --white:#F5F0E8;--white70:rgba(245,240,232,0.7);--white40:rgba(245,240,232,0.4);
+  --border:rgba(255,255,255,0.07);--border-gold:rgba(201,162,39,0.28);
   --font:'Inter',system-ui,sans-serif;
+  --panel:230px;
 }
-body{background:var(--bg);color:var(--white);font-family:var(--font);overflow:hidden;height:100vh;display:flex;flex-direction:column}
+body{background:var(--bg);color:var(--white);font-family:var(--font);overflow:hidden;height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
 a{color:var(--gold);text-decoration:none}
+button{cursor:pointer;font-family:var(--font)}
 
-/* TOP BAR */
-.topbar{display:flex;align-items:center;gap:12px;padding:8px 16px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;z-index:100}
-.topbar .logo{font-size:13px;font-weight:700;color:var(--gold);letter-spacing:2px;margin-right:8px}
-.topbar a.back{font-size:11px;color:var(--white40);padding:4px 10px;border:1px solid var(--border);border-radius:4px;transition:.2s}
-.topbar a.back:hover{color:var(--white);border-color:var(--gold)}
-.topbar-sep{width:1px;height:20px;background:var(--border)}
-.btn{padding:5px 12px;font-size:11px;font-weight:600;border:none;border-radius:4px;cursor:pointer;transition:.2s;letter-spacing:.5px}
-.btn-gold{background:var(--gold);color:#000}
-.btn-gold:hover{background:var(--gold-light)}
-.btn-outline{background:transparent;color:var(--white70);border:1px solid var(--border)}
-.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
-.btn-active{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold)}
-.room-btns{display:flex;gap:6px}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+/* ── TOP BAR ── */
+.topbar{display:flex;align-items:center;gap:10px;padding:0 16px;height:48px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;z-index:100;position:relative}
+.topbar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-glow),transparent)}
+.tb-logo{font-size:14px;font-weight:800;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.tb-back{font-size:11px;color:var(--white40);padding:4px 10px;border:1px solid var(--border);border-radius:3px;transition:.2s;background:none;color:var(--white40)}
+.tb-back:hover{color:var(--white);border-color:var(--gold)}
+.tb-sep{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.tb-btn{padding:5px 12px;font-size:11px;font-weight:600;border:none;border-radius:3px;letter-spacing:.05em;transition:.2s;flex-shrink:0}
+.tb-outline{background:transparent;color:var(--white40);border:1px solid var(--border)}
+.tb-outline:hover,.tb-outline.active{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.tb-gold{background:var(--gold);color:#070706}
+.tb-gold:hover{background:var(--gold-light)}
+.tb-group{display:flex;gap:4px;align-items:center}
+.tb-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.tb-label{font-size:10px;color:var(--white40);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 
-/* MAIN LAYOUT */
-.main{display:flex;flex:1;overflow:hidden}
+/* ── MAIN ── */
+.main{display:flex;flex:1;overflow:hidden;position:relative}
 
-/* LEFT PANEL */
+/* ── LEFT PANEL ── */
 .panel-left{width:var(--panel);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
-.panel-section{padding:10px 12px;border-bottom:1px solid var(--border)}
-.panel-title{font-size:10px;font-weight:700;color:var(--white40);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.panel-head{padding:10px 12px 0;border-bottom:1px solid var(--border)}
+.panel-title{font-size:10px;font-weight:700;color:var(--white40);letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
+.cat-tabs{display:flex;gap:2px;flex-wrap:wrap;padding-bottom:10px}
+.cat-tab{padding:3px 9px;font-size:10px;font-weight:700;border:1px solid var(--border);border-radius:2px;background:none;color:var(--white40);transition:.15s;letter-spacing:.04em;cursor:pointer}
+.cat-tab.active,.cat-tab:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
 .catalog-list{flex:1;overflow-y:auto;padding:8px}
 .catalog-list::-webkit-scrollbar{width:3px}
-.catalog-list::-webkit-scrollbar-thumb{background:var(--border)}
-.cat-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--radius);cursor:grab;border:1px solid transparent;transition:.15s;margin-bottom:4px;user-select:none}
+.catalog-list::-webkit-scrollbar-thumb{background:var(--gold-dim)}
+.cat-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:3px;cursor:grab;border:1px solid transparent;transition:.15s;margin-bottom:3px;user-select:none}
 .cat-item:hover{background:var(--bg3);border-color:var(--border)}
-.cat-item.dragging{opacity:.4}
-.cat-icon{width:32px;height:32px;border-radius:4px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cat-item.dragging{opacity:.35}
+.cat-icon{width:34px;height:34px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative}
+.cat-icon .type-dot{position:absolute;bottom:1px;right:1px;width:6px;height:6px;border-radius:50%}
+.type-light{background:#4488ff}
+.type-audio{background:#aaaaaa}
+.type-structure{background:#888866}
+.type-display{background:#4444ff}
+.type-furniture{background:#886644}
+.type-fx{background:#44aa88}
 .cat-info{min-width:0}
 .cat-name{font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cat-dims{font-size:10px;color:var(--white40);margin-top:1px}
-.cat-type{font-size:9px;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 
-/* CANVAS AREA */
+/* ── CANVAS ── */
 .canvas-wrap{flex:1;position:relative;overflow:hidden}
-#three-canvas{display:block;width:100%;height:100%}
-.canvas-overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+#three-canvas{display:block;width:100%;height:100%;cursor:default}
+.canvas-wrap.drop-hl #three-canvas{outline:2px solid var(--gold)}
 
-/* HUD labels */
-.hud{position:absolute;top:12px;left:12px;pointer-events:none}
-.hud-badge{display:inline-block;padding:3px 8px;background:rgba(10,10,10,.85);border:1px solid var(--border);border-radius:4px;font-size:10px;color:var(--white70);letter-spacing:.5px;margin-bottom:4px}
-.hud-badge.gold{color:var(--gold);border-color:var(--gold-dim)}
+/* ── HUD ── */
+.hud-tl{position:absolute;top:12px;left:12px;pointer-events:none;display:flex;flex-direction:column;gap:5px}
+.hud-badge{display:inline-block;padding:4px 10px;background:rgba(8,8,6,.85);border:1px solid var(--border);border-radius:3px;font-size:11px;color:var(--white40);letter-spacing:.05em;backdrop-filter:blur(8px)}
+.hud-badge.gold{color:var(--gold);border-color:var(--border-gold)}
 
-/* Dimension tooltip */
-#dim-tooltip{position:absolute;background:rgba(10,10,10,.9);border:1px solid var(--gold);border-radius:4px;padding:4px 8px;font-size:11px;color:var(--gold);pointer-events:none;display:none;white-space:nowrap}
-#angle-tooltip{position:absolute;background:rgba(10,10,10,.9);border:1px solid #E040FB;border-radius:4px;padding:4px 8px;font-size:11px;color:#E040FB;pointer-events:none;display:none;white-space:nowrap}
+/* ── TOOLTIPS ── */
+#dim-tip,#angle-tip{position:absolute;padding:4px 10px;border-radius:3px;font-size:12px;pointer-events:none;display:none;white-space:nowrap;font-weight:700}
+#dim-tip{background:rgba(8,8,6,.92);border:1px solid var(--gold);color:var(--gold)}
+#angle-tip{background:rgba(8,8,6,.92);border:1px solid #aa44ff;color:#cc88ff}
 
-/* RIGHT PANEL */
-.panel-right{width:200px;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
-.right-section{padding:10px 12px;border-bottom:1px solid var(--border)}
-.slider-row{display:flex;align-items:center;gap:8px;margin-top:6px}
-.slider-row label{font-size:10px;color:var(--white40);min-width:44px}
-input[type=range]{-webkit-appearance:none;flex:1;height:3px;background:var(--border);border-radius:2px;outline:none}
+/* ── SNAP INDICATOR ── */
+#snap-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid #fff;pointer-events:none;display:none;transform:translate(-50%,-50%)}
+
+/* ── BOTTOM MODE BAR ── */
+.mode-bar{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px;pointer-events:all;z-index:10}
+.mode-pill{padding:6px 16px;background:rgba(8,8,6,.9);border:1px solid var(--border);border-radius:20px;font-size:10px;font-weight:700;color:var(--white40);cursor:pointer;transition:.2s;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(12px)}
+.mode-pill.active,.mode-pill:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── ZOOM BUTTONS ── */
+.zoom-btns{position:absolute;bottom:16px;right:16px;display:flex;flex-direction:column;gap:4px;z-index:10}
+.zoom-btn{width:36px;height:36px;background:rgba(8,8,6,.9);border:1px solid var(--border);border-radius:3px;color:var(--white);font-size:18px;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:blur(12px)}
+.zoom-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── RIGHT PANEL ── */
+.panel-right{width:196px;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.panel-right::-webkit-scrollbar{width:3px}
+.panel-right::-webkit-scrollbar-thumb{background:var(--border)}
+.rs{padding:12px;border-bottom:1px solid var(--border)}
+.rs-title{font-size:10px;font-weight:700;color:var(--white40);letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+.sl-row{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.sl-row label{font-size:10px;color:var(--white40);min-width:42px;flex-shrink:0}
+input[type=range]{-webkit-appearance:none;flex:1;height:3px;background:var(--border);border-radius:2px;outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--gold);cursor:pointer}
-.slider-val{font-size:10px;color:var(--gold);min-width:36px;text-align:right}
-.compass{width:64px;height:64px;margin:8px auto;position:relative}
-.compass svg{width:100%;height:100%}
+.sl-val{font-size:10px;color:var(--gold);min-width:38px;text-align:right;font-weight:700}
+.sun-bar{width:100%;height:36px;border-radius:3px;margin-top:4px;position:relative;overflow:hidden}
+.sun-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;background:#f59e0b;border-radius:50%;box-shadow:0 0 8px #f59e0b;transition:left .2s}
+.compass-wrap{display:flex;justify-content:center;margin-top:8px}
+.compass-wrap svg{width:64px;height:64px}
 
-/* Selected object props */
-.prop-group{padding:8px 12px;border-bottom:1px solid var(--border)}
-.prop-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
-.prop-row label{font-size:10px;color:var(--white40);min-width:50px}
-.prop-input{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--white);font-size:11px;padding:3px 6px;outline:none;width:100%}
-.prop-input:focus{border-color:var(--gold)}
-.prop-btn-row{display:flex;gap:4px;padding:8px 12px}
-.prop-btn{flex:1;padding:5px;font-size:10px;border:none;border-radius:4px;cursor:pointer;transition:.2s}
-.del-btn{background:rgba(255,60,60,.15);color:#ff6b6b;border:1px solid rgba(255,60,60,.3)}
-.del-btn:hover{background:rgba(255,60,60,.3)}
+/* ── SELECTED PROPS ── */
+.prop-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.prop-row label{font-size:10px;color:var(--white40);min-width:48px;flex-shrink:0}
+.prop-inp{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--white);font-size:11px;padding:4px 6px;outline:none;font-family:var(--font);width:100%}
+.prop-inp:focus{border-color:var(--gold)}
+.prop-del{width:100%;padding:7px;background:rgba(255,45,32,.1);border:1px solid rgba(255,45,32,.25);color:#ff6b6b;font-size:11px;font-weight:700;border-radius:3px;letter-spacing:.06em;text-transform:uppercase;transition:.2s;margin-top:4px}
+.prop-del:hover{background:rgba(255,45,32,.25)}
 
-/* Mode indicator */
-.mode-bar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:6px;pointer-events:all}
-.mode-pill{padding:5px 12px;background:rgba(10,10,10,.9);border:1px solid var(--border);border-radius:20px;font-size:10px;color:var(--white40);cursor:pointer;transition:.2s;letter-spacing:.5px}
-.mode-pill:hover,.mode-pill.active{border-color:var(--gold);color:var(--gold)}
+/* ── HINTS ── */
+.hint-bar{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(8,8,6,.9);border:1px solid var(--border-gold);border-radius:3px;padding:6px 16px;font-size:11px;color:var(--gold);pointer-events:none;white-space:nowrap;backdrop-filter:blur(12px);letter-spacing:.04em;z-index:10;transition:opacity .3s}
+.keys-help{font-size:10px;color:var(--white40);line-height:1.8}
+.keys-help span{color:var(--gold)}
 
-/* Sun indicator */
-.sun-preview{width:100%;height:40px;border-radius:4px;margin-top:6px;background:linear-gradient(to right,#0a0a0a,#1a1000,#f59e0b);overflow:hidden;position:relative}
-.sun-dot{position:absolute;top:50%;transform:translateY(-50%);width:10px;height:10px;background:#f59e0b;border-radius:50%;box-shadow:0 0 8px #f59e0b;transition:.2s}
-
-/* Drop zone highlight */
-.drop-active #three-canvas{outline:2px solid var(--gold)}
-
-/* loading */
-#loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:12px}
-#loading .ld-title{font-size:20px;font-weight:700;color:var(--gold);letter-spacing:3px}
-#loading .ld-sub{font-size:12px;color:var(--white40)}
-.spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* ── WELCOME MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(7,7,6,.85);backdrop-filter:blur(12px);z-index:2000;display:flex;align-items:center;justify-content:center}
+.modal-box{background:var(--bg2);border:1px solid var(--border-gold);padding:40px;max-width:560px;width:90%;position:relative;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
+.modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),#ff2d20,var(--gold))}
+.modal-title{font-size:26px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.modal-title span{color:var(--gold)}
+.modal-sub{font-size:13px;color:var(--white40);margin-bottom:28px;line-height:1.5}
+.modal-steps{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.modal-step{display:flex;gap:14px;align-items:flex-start}
+.ms-num{width:28px;height:28px;border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--gold);flex-shrink:0;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%)}
+.ms-text{font-size:13px;color:var(--white70);padding-top:5px;line-height:1.5}
+.ms-text strong{color:var(--white);font-weight:700}
+.modal-btn{width:100%;padding:14px;background:var(--gold);color:#070706;font-size:13px;font-weight:800;border:none;letter-spacing:.12em;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:background .2s}
+.modal-btn:hover{background:var(--gold-light)}
 </style>
 </head>
 <body>
 
-<div id="loading">
-  <div class="ld-title">NEW DIRECTION</div>
-  <div class="spinner"></div>
-  <div class="ld-sub">Загрузка 3D планировщика...</div>
+<!-- WELCOME MODAL -->
+<div class="modal-overlay" id="welcomeModal">
+  <div class="modal-box">
+    <div class="modal-title">3D <span>Планировщик</span></div>
+    <div class="modal-sub">Расставьте оборудование в зале — посмотрите как будет выглядеть и откуда идёт свет</div>
+    <div class="modal-steps">
+      <div class="modal-step">
+        <div class="ms-num">1</div>
+        <div class="ms-text"><strong>Выберите форму зала</strong> — прямоугольник, квадрат или Г-образный, кнопки вверху</div>
+      </div>
+      <div class="modal-step">
+        <div class="ms-num">2</div>
+        <div class="ms-text"><strong>Тяните оборудование</strong> из левой панели прямо в зал</div>
+      </div>
+      <div class="modal-step">
+        <div class="ms-num">3</div>
+        <div class="ms-text"><strong>Вращайте камеру</strong> зажав правую кнопку мыши, приближайте колёсиком</div>
+      </div>
+      <div class="modal-step">
+        <div class="ms-num">4</div>
+        <div class="ms-text"><strong>Настройте свет</strong> — ползунки времени и направления солнца справа. Световые приборы создают лучи автоматически</div>
+      </div>
+      <div class="modal-step">
+        <div class="ms-num">5</div>
+        <div class="ms-text">Кнопки <strong>[R]</strong> = поворот, <strong>[Del]</strong> = удалить, <strong>[Ctrl+Z]</strong> = отмена</div>
+      </div>
+    </div>
+    <button class="modal-btn" onclick="closeWelcome()">Начать планирование →</button>
+  </div>
 </div>
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <span class="logo">ND</span>
-  <a href="index.html" class="back">← Сайт</a>
-  <div class="topbar-sep"></div>
-  <div class="room-btns">
-    <button class="btn btn-active" id="btn-rect" onclick="setRoomShape('rect')">Прямоугольник</button>
-    <button class="btn btn-outline" id="btn-square" onclick="setRoomShape('square')">Квадрат</button>
-    <button class="btn btn-outline" id="btn-l" onclick="setRoomShape('l')">Г-образный</button>
+  <span class="tb-logo">ND</span>
+  <a href="index.html" class="tb-back">← Сайт</a>
+  <div class="tb-sep"></div>
+  <span class="tb-label">Форма:</span>
+  <div class="tb-group">
+    <button class="tb-btn tb-outline active" id="btn-rect"   onclick="setShape('rect')">Прямоугольник</button>
+    <button class="tb-btn tb-outline"         id="btn-square" onclick="setShape('square')">Квадрат</button>
+    <button class="tb-btn tb-outline"         id="btn-l"      onclick="setShape('l')">Г-образный</button>
   </div>
-  <div class="topbar-sep"></div>
-  <button class="btn btn-outline" onclick="resetCamera()">Сбросить камеру</button>
-  <button class="btn btn-outline" onclick="toggleView()">2D / 3D</button>
-  <div class="topbar-right">
-    <button class="btn btn-outline" onclick="clearAll()">Очистить</button>
-    <button class="btn btn-gold" onclick="exportScene()">Экспорт</button>
+  <div class="tb-sep"></div>
+  <div class="tb-group">
+    <button class="tb-btn tb-outline" id="btn-view"  onclick="setMode('view')">👁 Просмотр</button>
+    <button class="tb-btn tb-outline" id="btn-edit"  onclick="setMode('edit')">📐 Изменить зал</button>
+    <button class="tb-btn tb-outline" id="btn-win"   onclick="setMode('window')">🪟 Добавить окно</button>
+  </div>
+  <div class="tb-sep"></div>
+  <button class="tb-btn tb-outline" onclick="toggleView()">2D / 3D</button>
+  <button class="tb-btn tb-outline" onclick="resetCam()">⟳ Камера</button>
+  <div class="tb-right">
+    <button class="tb-btn tb-outline" onclick="undoAction()">↩ Отмена</button>
+    <button class="tb-btn tb-outline" onclick="clearAll()">Очистить</button>
+    <button class="tb-btn tb-gold"    onclick="exportScene()">Экспорт</button>
   </div>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
-  <!-- LEFT: Equipment Catalog -->
+  <!-- LEFT: Catalog -->
   <div class="panel-left">
-    <div class="panel-section">
-      <div class="panel-title">Каталог оборудования</div>
+    <div class="panel-head">
+      <div class="panel-title">Оборудование</div>
+      <div class="cat-tabs" id="catTabs">
+        <button class="cat-tab active" onclick="filterCat('all',this)">Всё</button>
+        <button class="cat-tab" onclick="filterCat('light',this)">Свет</button>
+        <button class="cat-tab" onclick="filterCat('audio',this)">Звук</button>
+        <button class="cat-tab" onclick="filterCat('structure',this)">Сцена</button>
+        <button class="cat-tab" onclick="filterCat('display',this)">Экран</button>
+        <button class="cat-tab" onclick="filterCat('other',this)">Прочее</button>
+      </div>
     </div>
-    <div class="catalog-list" id="catalog-list">
-      <!-- populated by JS -->
-    </div>
+    <div class="catalog-list" id="catList"></div>
   </div>
 
-  <!-- CENTER: 3D Canvas -->
-  <div class="canvas-wrap" id="canvas-wrap">
+  <!-- CENTER: Canvas -->
+  <div class="canvas-wrap" id="canvasWrap">
     <canvas id="three-canvas"></canvas>
 
-    <div class="hud">
-      <div class="hud-badge gold" id="hud-room">Зал: 20 × 15 м</div><br>
-      <div class="hud-badge" id="hud-mode">Режим: Просмотр</div>
+    <div class="hud-tl">
+      <span class="hud-badge gold" id="hud-room">Зал: 20 × 15 м</span>
+      <span class="hud-badge" id="hud-mode">Режим: Просмотр</span>
+      <span class="hud-badge" id="hud-sel" style="display:none">Выбрано: —</span>
     </div>
 
-    <div id="dim-tooltip"></div>
-    <div id="angle-tooltip"></div>
+    <div class="hint-bar" id="hintBar">Перетащи оборудование из панели слева в зал →</div>
+    <div id="dim-tip"></div>
+    <div id="angle-tip"></div>
+    <div id="snap-dot"></div>
 
-    <!-- Bottom mode bar -->
     <div class="mode-bar">
-      <div class="mode-pill active" id="mode-view" onclick="setMode('view')">ПРОСМОТР</div>
-      <div class="mode-pill" id="mode-edit" onclick="setMode('edit')">РЕДАКТИРОВАТЬ ЗАЛ</div>
-      <div class="mode-pill" id="mode-place" onclick="setMode('place')">ДОБАВИТЬ ОКНО</div>
+      <div class="mode-pill active" id="pill-view"   onclick="setMode('view')">👁 ПРОСМОТР</div>
+      <div class="mode-pill"        id="pill-edit"   onclick="setMode('edit')">📐 ИЗМЕНИТЬ ЗАЛ</div>
+      <div class="mode-pill"        id="pill-window" onclick="setMode('window')">🪟 ДОБАВИТЬ ОКНО</div>
+    </div>
+
+    <div class="zoom-btns">
+      <button class="zoom-btn" onclick="adjustZoom(-5)" title="Приблизить">+</button>
+      <button class="zoom-btn" onclick="adjustZoom(5)"  title="Отдалить">−</button>
     </div>
   </div>
 
-  <!-- RIGHT: Properties & Sun -->
+  <!-- RIGHT: Properties -->
   <div class="panel-right">
-    <div class="right-section">
-      <div class="panel-title">Освещение</div>
-
-      <!-- Time of day -->
-      <div class="slider-row">
+    <div class="rs">
+      <div class="rs-title">Солнечный свет</div>
+      <div class="sl-row">
         <label>Время</label>
-        <input type="range" id="sl-time" min="0" max="24" step="0.25" value="12" oninput="updateSun()">
-        <span class="slider-val" id="val-time">12:00</span>
+        <input type="range" id="sl-time" min="0" max="24" step=".25" value="12" oninput="updateSun()">
+        <span class="sl-val" id="val-time">12:00</span>
       </div>
-
-      <!-- Building orientation -->
-      <div class="slider-row">
-        <label>Азимут</label>
+      <div class="sl-row">
+        <label>Направление</label>
         <input type="range" id="sl-orient" min="0" max="360" step="1" value="0" oninput="updateSun()">
-        <span class="slider-val" id="val-orient">0°</span>
+        <span class="sl-val" id="val-orient">С</span>
       </div>
-
-      <div class="sun-preview" id="sun-preview">
-        <div class="sun-dot" id="sun-dot" style="left:50%"></div>
-      </div>
-
-      <!-- Compass -->
-      <div class="compass">
-        <svg viewBox="0 0 64 64" id="compass-svg">
-          <circle cx="32" cy="32" r="30" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-          <text x="32" y="7" fill="rgba(255,255,255,.5)" font-size="8" text-anchor="middle">С</text>
-          <text x="58" y="35" fill="rgba(255,255,255,.5)" font-size="8" text-anchor="middle">В</text>
-          <text x="32" y="61" fill="rgba(255,255,255,.5)" font-size="8" text-anchor="middle">Ю</text>
-          <text x="6" y="35" fill="rgba(255,255,255,.5)" font-size="8" text-anchor="middle">З</text>
-          <line id="compass-needle" x1="32" y1="32" x2="32" y2="6" stroke="#C9A227" stroke-width="2" stroke-linecap="round"/>
+      <div class="sun-bar" id="sunBar"><div class="sun-dot" id="sunDot"></div></div>
+      <div class="compass-wrap">
+        <svg viewBox="0 0 64 64" id="compassSvg">
+          <circle cx="32" cy="32" r="30" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+          <text x="32" y="8"  fill="rgba(255,255,255,.35)" font-size="8" text-anchor="middle" font-family="Inter">С</text>
+          <text x="57" y="35" fill="rgba(255,255,255,.35)" font-size="8" text-anchor="middle" font-family="Inter">В</text>
+          <text x="32" y="60" fill="rgba(255,255,255,.35)" font-size="8" text-anchor="middle" font-family="Inter">Ю</text>
+          <text x="7"  y="35" fill="rgba(255,255,255,.35)" font-size="8" text-anchor="middle" font-family="Inter">З</text>
+          <line id="compNeedle" x1="32" y1="32" x2="32" y2="6" stroke="#C9A227" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </div>
     </div>
 
-    <!-- Selected object properties -->
-    <div class="right-section" id="props-section" style="display:none">
-      <div class="panel-title">Объект</div>
-      <div id="props-content"></div>
+    <div class="rs" id="propsSection" style="display:none">
+      <div class="rs-title">Объект</div>
+      <div id="propsContent"></div>
     </div>
 
-    <div class="right-section">
-      <div class="panel-title">Подсказки</div>
-      <div style="font-size:10px;color:var(--white40);line-height:1.6">
-        • Перетащи оборудование из каталога<br>
-        • ПКМ + движение — поворот камеры<br>
-        • Скролл — приближение<br>
-        • Режим «Редактировать» — тяни углы<br>
-        • Режим «Окно» — клик на стену
+    <div class="rs">
+      <div class="rs-title">Горячие клавиши</div>
+      <div class="keys-help">
+        <span>R</span> — повернуть на 45°<br>
+        <span>Del</span> — удалить<br>
+        <span>Esc</span> — снять выделение<br>
+        <span>Ctrl+Z</span> — отмена<br>
+        <span>ПКМ</span> + движение — камера<br>
+        <span>Колёсо</span> — приближение
       </div>
     </div>
   </div>
@@ -225,114 +290,95 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// ─────────────────────────────────────────────
-// CATALOG DATA
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
+// CATALOG
+// ════════════════════════════════════════════
 const CATALOG = [
-  {id:'mh',name:'Движущаяся голова',type:'light',emoji:'💡',w:0.4,d:0.4,h:0.6,color:0x8888ff,emissive:true,beamColor:0xffffff},
-  {id:'par',name:'PAR Can',type:'light',emoji:'🔦',w:0.2,d:0.2,h:0.3,color:0xffaa00,emissive:true,beamColor:0xffdd88},
-  {id:'led',name:'LED панель',type:'light',emoji:'📺',w:1.0,d:0.1,h:0.6,color:0x2244ff,emissive:true,beamColor:0xaaccff},
-  {id:'truss',name:'Ферма (2м)',type:'structure',emoji:'🏗️',w:2.0,d:0.15,h:0.15,color:0x444444,emissive:false},
-  {id:'subwoofer',name:'Сабвуфер',type:'audio',emoji:'🔊',w:0.6,d:0.6,h:0.7,color:0x222222,emissive:false},
-  {id:'speaker',name:'Топ-кабинет',type:'audio',emoji:'📢',w:0.4,d:0.4,h:0.8,color:0x333333,emissive:false},
-  {id:'mixer',name:'Пульт Midas',type:'audio',emoji:'🎚️',w:1.2,d:0.8,h:0.15,color:0x1a1a2e,emissive:false},
-  {id:'stage',name:'Сценический блок',type:'structure',emoji:'🏟️',w:2.0,d:2.0,h:0.6,color:0x2a2a2a,emissive:false},
-  {id:'screen',name:'LED экран 3×2',type:'display',emoji:'🖥️',w:3.0,d:0.1,h:2.0,color:0x001133,emissive:true,beamColor:0x0055ff},
-  {id:'hazer',name:'Генератор дыма',type:'fx',emoji:'🌫️',w:0.4,d:0.6,h:0.35,color:0x333344,emissive:false},
-  {id:'table',name:'Стол ресторан',type:'furniture',emoji:'🪑',w:1.5,d:0.9,h:0.75,color:0x4a3728,emissive:false},
-  {id:'chair',name:'Стул',type:'furniture',emoji:'🪑',w:0.45,d:0.45,h:0.45,color:0x3a2a1a,emissive:false},
+  {id:'mh',     name:'Движущаяся голова', type:'light',     emoji:'💡', w:.4,  d:.4,  h:.7,  color:0x223366, beam:0xaabbff, beamAngle:.4},
+  {id:'par',    name:'PAR-прожектор',     type:'light',     emoji:'🔦', w:.22, d:.22, h:.28, color:0x333322, beam:0xffee88, beamAngle:.55},
+  {id:'ledpar', name:'LED PAR (RGB)',      type:'light',     emoji:'🔮', w:.22, d:.22, h:.28, color:0x221122, beam:0xff44ff, beamAngle:.55},
+  {id:'ledpan', name:'LED панель',         type:'display',   emoji:'📺', w:1.2, d:.08, h:.72, color:0x111133, beam:0x4488ff, beamAngle:.6},
+  {id:'truss',  name:'Ферма 2м',          type:'structure', emoji:'🏗', w:2.0, d:.15, h:.15, color:0x555544},
+  {id:'sub',    name:'Сабвуфер',          type:'audio',     emoji:'🔊', w:.65, d:.65, h:.75, color:0x181818},
+  {id:'top',    name:'Топ-кабинет',       type:'audio',     emoji:'📢', w:.42, d:.38, h:.86, color:0x222222},
+  {id:'mixer',  name:'Пульт Midas',       type:'audio',     emoji:'🎚', w:1.3, d:.9,  h:.14, color:0x1a1a2e},
+  {id:'stage',  name:'Сценический блок',  type:'structure', emoji:'🏟', w:2.0, d:2.0, h:.6,  color:0x2a2a22},
+  {id:'screen', name:'LED экран 3×2',     type:'display',   emoji:'🖥', w:3.0, d:.08, h:2.0, color:0x000820, beam:0x0055ff, beamAngle:.0},
+  {id:'hazer',  name:'Генератор дыма',    type:'fx',        emoji:'🌫', w:.4,  d:.6,  h:.32, color:0x333344},
+  {id:'table',  name:'Стол',              type:'furniture', emoji:'🪑', w:1.5, d:.9,  h:.75, color:0x3d2b1a},
+  {id:'chair',  name:'Стул',              type:'furniture', emoji:'🪑', w:.48, d:.48, h:.46, color:0x2a1a0f},
 ];
+const TYPE_COLOR = {light:'#4488ff',audio:'#aaaaaa',structure:'#888866',display:'#4444ff',furniture:'#886644',fx:'#44aa88'};
 
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
 // STATE
-// ─────────────────────────────────────────────
-let scene, camera, renderer, raycaster, mouse;
-let ambientLight, sunLight, sunHelper;
-let mode = 'view'; // view | edit | place
-let roomShape = 'rect';
-let roomMeshes = [];
-let wallMeshes = [];
-let windowMeshes = [];
-let placedObjects = [];
-let cornerHandles = [];
-let selectedObj = null;
-let dragObj = null;
-let dragPlane;
-let orbitActive = false;
-let orbitStart = {x:0,y:0};
-let cameraTheta = Math.PI/4, cameraPhi = Math.PI/3, cameraRadius = 30;
-let cameraTarget = new THREE.Vector3(0,0,0);
-let is2D = false;
-let sunTime = 12;
-let sunOrient = 0;
-let roomVertices = [];
-let activeCorner = null;
-let cornerDragging = false;
+// ════════════════════════════════════════════
+let scene, camera, renderer, raycaster;
+let ambLight, sunLight, hemiLight;
+let mode = 'view', roomShape = 'rect', is2D = false;
+let roomVerts = [], roomMeshes = [], wallMeshes = [], dimSprites = [], beamMeshes = [], winLights = [];
+let cornerHandles = [], activeCorner = null, cornerDragging = false;
+let placed = [], undoStack = [];
+let selectedObj = null, dragObj = null, dragOffsetY = 0;
+let orbitActive = false, panActive = false;
+let camTheta = Math.PI/4, camPhi = Math.PI/3, camRadius = 30;
+let camTarget = new THREE.Vector3();
+let lastMouse = {x:0,y:0};
+const dragPlane = new THREE.Plane(new THREE.Vector3(0,1,0), 0);
+const SNAP = 0.5; // 0.5m grid snap
 
-// Room shape vertices (meters, XZ plane)
-function getDefaultVertices(shape){
-  if(shape==='rect') return [{x:-10,z:-7.5},{x:10,z:-7.5},{x:10,z:7.5},{x:-10,z:7.5}];
-  if(shape==='square') return [{x:-8,z:-8},{x:8,z:-8},{x:8,z:8},{x:-8,z:8}];
-  if(shape==='l') return [{x:-10,z:-8},{x:2,z:-8},{x:2,z:0},{x:10,z:0},{x:10,z:8},{x:-10,z:8}];
-  return [];
-}
+function snapVal(v){ return Math.round(v/SNAP)*SNAP; }
 
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
 // INIT
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
 function init(){
   const canvas = document.getElementById('three-canvas');
-  const wrap = document.getElementById('canvas-wrap');
+  const wrap   = document.getElementById('canvasWrap');
 
-  renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:false});
+  renderer = new THREE.WebGLRenderer({canvas, antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.8;
-  renderer.setClearColor(0x0a0a0a);
+  renderer.toneMappingExposure = 0.9;
+  renderer.setClearColor(0x070706);
 
   scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0a0a0a, 0.008);
+  scene.fog = new THREE.FogExp2(0x070706, 0.006);
 
-  camera = new THREE.PerspectiveCamera(55, 1, 0.1, 500);
-  updateCameraPos();
+  camera = new THREE.PerspectiveCamera(52, 1, 0.1, 600);
+  updateCamPos();
 
   raycaster = new THREE.Raycaster();
-  mouse = new THREE.Vector2();
-  dragPlane = new THREE.Plane(new THREE.Vector3(0,1,0), 0);
 
   // Lights
-  ambientLight = new THREE.AmbientLight(0x202035, 1.5);
-  scene.add(ambientLight);
-
-  sunLight = new THREE.DirectionalLight(0xfff5e0, 2.0);
+  ambLight  = new THREE.AmbientLight(0x302820, 1.2);
+  hemiLight = new THREE.HemisphereLight(0xfff5e0, 0x080808, 0.4);
+  sunLight  = new THREE.DirectionalLight(0xfff5e0, 1.5);
   sunLight.castShadow = true;
   sunLight.shadow.mapSize.set(2048,2048);
   sunLight.shadow.camera.near = 0.5;
-  sunLight.shadow.camera.far = 200;
-  sunLight.shadow.camera.left = -30;
-  sunLight.shadow.camera.right = 30;
-  sunLight.shadow.camera.top = 30;
-  sunLight.shadow.camera.bottom = -30;
-  scene.add(sunLight);
+  sunLight.shadow.camera.far  = 200;
+  sunLight.shadow.camera.left = sunLight.shadow.camera.bottom = -40;
+  sunLight.shadow.camera.right = sunLight.shadow.camera.top = 40;
+  scene.add(ambLight, hemiLight, sunLight);
+
+  // Floor base
+  const floorGeo = new THREE.PlaneGeometry(200,200);
+  const floorMat = new THREE.MeshLambertMaterial({color:0x060604});
+  const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+  floorMesh.rotation.x = -Math.PI/2;
+  floorMesh.receiveShadow = true;
+  floorMesh.name = 'basefloor';
+  scene.add(floorMesh);
 
   // Grid
-  const grid = new THREE.GridHelper(100, 100, 0x1a1a1a, 0x1a1a1a);
-  grid.material.opacity = 0.4;
-  grid.material.transparent = true;
+  const grid = new THREE.GridHelper(100,100,0x1a1a14,0x1a1a14);
+  grid.material.opacity = .35; grid.material.transparent = true;
   scene.add(grid);
 
-  // Floor
-  const floorGeo = new THREE.PlaneGeometry(200,200);
-  const floorMat = new THREE.MeshLambertMaterial({color:0x080808,transparent:true,opacity:.95});
-  const floor = new THREE.Mesh(floorGeo,floorMat);
-  floor.rotation.x = -Math.PI/2;
-  floor.receiveShadow = true;
-  floor.name = 'floor';
-  scene.add(floor);
-
-  roomVertices = getDefaultVertices(roomShape);
+  roomVerts = getDefaultVerts(roomShape);
   buildRoom();
   buildCatalogUI();
   updateSun();
@@ -340,638 +386,566 @@ function init(){
   // Events
   canvas.addEventListener('mousedown', onMouseDown);
   canvas.addEventListener('mousemove', onMouseMove);
-  canvas.addEventListener('mouseup', onMouseUp);
+  canvas.addEventListener('mouseup',   onMouseUp);
   canvas.addEventListener('contextmenu', e=>e.preventDefault());
-  canvas.addEventListener('wheel', onWheel);
-  canvas.addEventListener('dragover', e=>{e.preventDefault();document.getElementById('canvas-wrap').classList.add('drop-active')});
-  canvas.addEventListener('dragleave', ()=>document.getElementById('canvas-wrap').classList.remove('drop-active'));
+  canvas.addEventListener('wheel', onWheel, {passive:true});
+  canvas.addEventListener('dragover',  e=>{e.preventDefault(); wrap.classList.add('drop-hl');});
+  canvas.addEventListener('dragleave', ()=>wrap.classList.remove('drop-hl'));
   canvas.addEventListener('drop', onDrop);
   window.addEventListener('resize', onResize);
+  document.addEventListener('keydown', onKeyDown);
 
   onResize();
   animate();
-  document.getElementById('loading').style.display='none';
 }
 
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
 // ROOM BUILD
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
+function getDefaultVerts(shape){
+  if(shape==='rect')   return [{x:-10,z:-7.5},{x:10,z:-7.5},{x:10,z:7.5},{x:-10,z:7.5}];
+  if(shape==='square') return [{x:-8,z:-8},{x:8,z:-8},{x:8,z:8},{x:-8,z:8}];
+  if(shape==='l')      return [{x:-10,z:-8},{x:2,z:-8},{x:2,z:0},{x:10,z:0},{x:10,z:8},{x:-10,z:8}];
+  return [];
+}
+
 function buildRoom(){
-  // Remove old room meshes
-  roomMeshes.forEach(m=>{scene.remove(m);m.geometry.dispose();});
-  wallMeshes.forEach(m=>{scene.remove(m);m.geometry.dispose();});
-  cornerHandles.forEach(m=>{scene.remove(m);m.geometry.dispose();});
-  roomMeshes=[];wallMeshes=[];cornerHandles=[];
+  [...roomMeshes,...wallMeshes,...cornerHandles,...dimSprites,...beamMeshes].forEach(m=>{scene.remove(m); m.geometry&&m.geometry.dispose();});
+  roomMeshes=[]; wallMeshes=[]; cornerHandles=[]; dimSprites=[];
 
-  const verts = roomVertices;
-  const wallH = 4;
-  const wallT = 0.15;
+  const v = roomVerts, wallH=4, wallT=0.12;
 
-  // Floor shape
+  // Parquet floor
   const shape = new THREE.Shape();
-  verts.forEach((v,i)=>{
-    if(i===0) shape.moveTo(v.x,v.z);
-    else shape.lineTo(v.x,v.z);
-  });
+  v.forEach((pt,i)=>{ i===0 ? shape.moveTo(pt.x,pt.z) : shape.lineTo(pt.x,pt.z); });
   shape.closePath();
-
   const floorGeo = new THREE.ShapeGeometry(shape);
-  const floorMat = new THREE.MeshLambertMaterial({color:0x111111,side:THREE.DoubleSide});
-  const floorMesh = new THREE.Mesh(floorGeo,floorMat);
-  floorMesh.rotation.x = -Math.PI/2;
-  floorMesh.receiveShadow = true;
-  floorMesh.name = 'roomfloor';
-  scene.add(floorMesh);
-  roomMeshes.push(floorMesh);
+  const floorMat = new THREE.MeshLambertMaterial({color:0x1a1408, side:THREE.DoubleSide});
+  const floorM = new THREE.Mesh(floorGeo, floorMat);
+  floorM.rotation.x = -Math.PI/2; floorM.receiveShadow=true; floorM.name='roomfloor';
+  scene.add(floorM); roomMeshes.push(floorM);
 
-  // Ceiling (subtle, transparent)
-  const ceilMesh = new THREE.Mesh(floorGeo.clone(), new THREE.MeshLambertMaterial({color:0x0d0d0d,side:THREE.DoubleSide,transparent:true,opacity:.5}));
-  ceilMesh.rotation.x = -Math.PI/2;
-  ceilMesh.position.y = wallH;
-  ceilMesh.name='ceiling';
-  scene.add(ceilMesh);
-  roomMeshes.push(ceilMesh);
+  // Ceiling
+  const ceilM = new THREE.Mesh(floorGeo.clone(), new THREE.MeshLambertMaterial({color:0x0c0c08,side:THREE.DoubleSide,transparent:true,opacity:.4}));
+  ceilM.rotation.x=-Math.PI/2; ceilM.position.y=wallH; ceilM.name='ceiling';
+  scene.add(ceilM); roomMeshes.push(ceilM);
 
   // Walls
-  const wallMat = new THREE.MeshLambertMaterial({color:0x1a1a22,side:THREE.DoubleSide});
-  const n = verts.length;
-  for(let i=0;i<n;i++){
-    const a = verts[i], b = verts[(i+1)%n];
-    const dx = b.x-a.x, dz = b.z-a.z;
-    const len = Math.sqrt(dx*dx+dz*dz);
-    const wallGeo = new THREE.BoxGeometry(len, wallH, wallT);
-    const wallM = new THREE.Mesh(wallGeo, wallMat.clone());
-    wallM.position.set((a.x+b.x)/2, wallH/2, (a.z+b.z)/2);
-    wallM.rotation.y = -Math.atan2(dz,dx);
-    wallM.castShadow = true;
-    wallM.receiveShadow = true;
-    wallM.name = 'wall_'+i;
-    wallM.userData = {wallIndex:i, len};
-    scene.add(wallM);
-    wallMeshes.push(wallM);
+  const wallMat = new THREE.MeshLambertMaterial({color:0x1e1e16});
+  for(let i=0;i<v.length;i++){
+    const a=v[i], b=v[(i+1)%v.length];
+    const dx=b.x-a.x, dz=b.z-a.z;
+    const len=Math.sqrt(dx*dx+dz*dz);
+    const wG = new THREE.BoxGeometry(len,wallH,wallT);
+    const wM = new THREE.Mesh(wG, wallMat.clone());
+    wM.position.set((a.x+b.x)/2, wallH/2, (a.z+b.z)/2);
+    wM.rotation.y=-Math.atan2(dz,dx);
+    wM.castShadow=true; wM.receiveShadow=true;
+    wM.name='wall_'+i; wM.userData={wallIdx:i,len,windows:[]};
+    scene.add(wM); wallMeshes.push(wM);
+  }
+
+  // Dimension sprites on walls
+  for(let i=0;i<v.length;i++){
+    const a=v[i], b=v[(i+1)%v.length];
+    const mx=(a.x+b.x)/2, mz=(a.z+b.z)/2;
+    const dx=b.x-a.x, dz=b.z-a.z;
+    const len=Math.sqrt(dx*dx+dz*dz);
+    const sp = makeDimSprite(len.toFixed(1)+' м');
+    sp.position.set(mx, 0.6, mz);
+    scene.add(sp); dimSprites.push(sp);
   }
 
   // Corner handles
-  const hGeo = new THREE.SphereGeometry(0.25,12,12);
+  const hGeo = new THREE.SphereGeometry(0.22,10,10);
   const hMat = new THREE.MeshBasicMaterial({color:0xC9A227});
-  verts.forEach((v,i)=>{
-    const h = new THREE.Mesh(hGeo,hMat.clone());
-    h.position.set(v.x, 0.3, v.z);
-    h.name='corner_'+i;
-    h.userData={cornerIndex:i};
-    scene.add(h);
-    cornerHandles.push(h);
+  v.forEach((pt,i)=>{
+    const h = new THREE.Mesh(hGeo.clone(), hMat.clone());
+    h.position.set(pt.x,0.3,pt.z);
+    h.name='corner_'+i; h.userData={cornerIdx:i};
+    h.visible = (mode==='edit');
+    scene.add(h); cornerHandles.push(h);
   });
 
+  rebuildBeams();
   updateHUD();
-  buildWindowMeshes();
 }
 
-// ─────────────────────────────────────────────
-// WINDOWS
-// ─────────────────────────────────────────────
-function buildWindowMeshes(){
-  windowMeshes.forEach(m=>{scene.remove(m);m.geometry.dispose();});
-  windowMeshes=[];
-  // Windows stored in wallMeshes userData
-  wallMeshes.forEach(wall=>{
-    if(!wall.userData.windows) return;
-    wall.userData.windows.forEach(win=>{
-      addWindowMeshToWall(wall,win);
-    });
+function makeDimSprite(text){
+  const c=document.createElement('canvas'); c.width=220; c.height=48;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='rgba(201,162,39,.82)';
+  ctx.beginPath(); ctx.roundRect(4,4,212,40,4); ctx.fill();
+  ctx.fillStyle='#070706'; ctx.font='bold 22px Inter,sans-serif';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(text,110,28);
+  const tex=new THREE.CanvasTexture(c);
+  const mat=new THREE.SpriteMaterial({map:tex,depthTest:false,transparent:true});
+  const sp=new THREE.Sprite(mat);
+  sp.scale.set(2.2,.55,1); sp.name='dimLabel';
+  return sp;
+}
+
+// ════════════════════════════════════════════
+// EQUIPMENT PLACEMENT
+// ════════════════════════════════════════════
+function makeEquipMesh(item){
+  let geo;
+  // Use recognizable shapes per type
+  if(item.type==='light' && (item.id==='mh'||item.id==='par'||item.id==='ledpar')){
+    geo = new THREE.CylinderGeometry(item.w/2, item.w/2*.8, item.h, 12);
+  } else {
+    geo = new THREE.BoxGeometry(item.w, item.h, item.d);
+  }
+  const mat = new THREE.MeshStandardMaterial({
+    color: item.color,
+    metalness: item.type==='structure'?.5:.3,
+    roughness: item.type==='audio'?.7:.5,
+    emissive: item.beam ? new THREE.Color(item.beam) : new THREE.Color(0),
+    emissiveIntensity: item.beam ? .2 : 0,
+  });
+  const mesh = new THREE.Mesh(geo,mat);
+  mesh.castShadow=true; mesh.receiveShadow=true;
+  return mesh;
+}
+
+function placeEquipment(item, x, z){
+  const mesh = makeEquipMesh(item);
+  const sy = snapVal(x), sz = snapVal(z);
+  mesh.position.set(sy, item.h/2, sz);
+  mesh.name='equip_'+item.id+'_'+Date.now();
+  mesh.userData = {catalog:item, origColor:item.color, origEmissive:item.beam||0};
+  scene.add(mesh);
+  placed.push(mesh);
+
+  // Light beam cone for lighting equipment
+  if(item.beam && item.type==='light'){
+    addBeamCone(mesh, item);
+  }
+  // SpotLight
+  if(item.type==='light'){
+    const ptL = new THREE.SpotLight(new THREE.Color(item.beam||0xffffff), 0.6, 10, item.beamAngle||Math.PI/6, 0.4);
+    ptL.position.set(sy, item.h, sz);
+    ptL.target.position.set(sy,0,sz);
+    ptL.castShadow=false;
+    scene.add(ptL); scene.add(ptL.target);
+    mesh.userData.spotLight=ptL; mesh.userData.spotTarget=ptL.target;
+    placed.push(ptL, ptL.target);
+  }
+
+  undoStack.push({type:'place', mesh, lights:[mesh.userData.spotLight, mesh.userData.spotTarget].filter(Boolean)});
+  if(undoStack.length>20) undoStack.shift();
+  selectObj(mesh);
+  hideHint();
+  return mesh;
+}
+
+function addBeamCone(mesh, item){
+  const beamH = 4.5;
+  const beamR = beamH*(item.beamAngle||0.4);
+  const cGeo = new THREE.ConeGeometry(beamR, beamH, 16, 1, true);
+  const cMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(item.beam),
+    transparent:true, opacity:.06,
+    side:THREE.DoubleSide, depthWrite:false,
+    blending:THREE.AdditiveBlending
+  });
+  const cone = new THREE.Mesh(cGeo, cMat);
+  // ConeGeometry: tip at +Y, base at -Y  → tip UP, opening DOWN = spotlight down
+  // Position so tip (at +beamH/2 above cone center) is at top of equipment (item.h from floor)
+  // cone.pos.y in scene = item.h - beamH/2  (tip = item.h - beamH/2 + beamH/2 = item.h ✓)
+  cone.position.set(mesh.position.x, item.h - beamH/2, mesh.position.z);
+  cone.name='beam_'+mesh.name;
+  cone.userData={parentMesh:mesh};
+  scene.add(cone);
+  beamMeshes.push(cone);
+  mesh.userData.beamCone=cone;
+}
+
+function rebuildBeams(){
+  beamMeshes.forEach(b=>{scene.remove(b); b.geometry.dispose();});
+  beamMeshes=[];
+  placed.filter(o=>o.isMesh&&o.userData.catalog).forEach(mesh=>{
+    const item=mesh.userData.catalog;
+    if(item.beam&&item.type==='light') addBeamCone(mesh,item);
   });
 }
 
-function addWindowMeshToWall(wall,win){
-  const winGeo = new THREE.PlaneGeometry(win.w||1.5, win.h||1.5);
-  const winMat = new THREE.MeshBasicMaterial({color:0x88ccff,transparent:true,opacity:.25,side:THREE.DoubleSide});
-  const winM = new THREE.Mesh(winGeo,winMat);
-  winM.position.copy(wall.position);
-  winM.position.y = win.y||2;
-  winM.rotation.copy(wall.rotation);
-  winM.name='window';
-  scene.add(winM);
-  windowMeshes.push(winM);
-
-  // Window light
-  const winLight = new THREE.PointLight(0xaaddff, 0.3, 8);
-  winLight.position.copy(winM.position);
-  winLight.position.y = win.y||2;
-  scene.add(winLight);
-  windowMeshes.push(winLight);
+// ════════════════════════════════════════════
+// WINDOWS
+// ════════════════════════════════════════════
+function addWindowToWall(wall){
+  if(!wall.userData.windows) wall.userData.windows=[];
+  wall.userData.windows.push({w:1.5,h:1.5,y:2});
+  buildWindowLights(wall);
+}
+function buildWindowLights(wall){
+  const wPos = wall.position;
+  const ptL = new THREE.PointLight(0xaaddff,.5,10);
+  ptL.position.copy(wPos); ptL.position.y=2;
+  scene.add(ptL);
+  winLights.push(ptL);
+  wall.userData.winLight=ptL;
 }
 
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
 // CATALOG UI
-// ─────────────────────────────────────────────
-function buildCatalogUI(){
-  const list = document.getElementById('catalog-list');
-  list.innerHTML = '';
-  CATALOG.forEach(item=>{
-    const el = document.createElement('div');
-    el.className='cat-item';
-    el.draggable=true;
-    el.dataset.id=item.id;
+// ════════════════════════════════════════════
+let currentFilter='all';
+function buildCatalogUI(){ filterCat(currentFilter, null); }
+
+function filterCat(filter, btn){
+  currentFilter=filter;
+  if(btn){ document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); }
+  const list=document.getElementById('catList');
+  list.innerHTML='';
+  const items = filter==='all' ? CATALOG :
+    filter==='other' ? CATALOG.filter(c=>c.type==='furniture'||c.type==='fx') :
+    CATALOG.filter(c=>c.type===filter);
+  items.forEach(item=>{
+    const el=document.createElement('div');
+    el.className='cat-item'; el.draggable=true; el.dataset.id=item.id;
+    el.title=`${item.name} | ${item.w}×${item.d} м`;
     el.innerHTML=`
-      <div class="cat-icon">${item.emoji}</div>
+      <div class="cat-icon" style="background:${TYPE_COLOR[item.type]}22">
+        ${item.emoji}
+        <span class="type-dot" style="background:${TYPE_COLOR[item.type]}"></span>
+      </div>
       <div class="cat-info">
         <div class="cat-name">${item.name}</div>
         <div class="cat-dims">${item.w}×${item.d} м</div>
-        <div class="cat-type">${item.type}</div>
       </div>`;
-    el.addEventListener('dragstart',e=>{
-      e.dataTransfer.setData('cat-id',item.id);
-      el.classList.add('dragging');
-    });
+    el.addEventListener('dragstart',e=>{e.dataTransfer.setData('cat-id',item.id);el.classList.add('dragging');});
     el.addEventListener('dragend',()=>el.classList.remove('dragging'));
     list.appendChild(el);
   });
 }
 
-// ─────────────────────────────────────────────
-// DROP EQUIPMENT
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
+// DROP
+// ════════════════════════════════════════════
 function onDrop(e){
   e.preventDefault();
-  document.getElementById('canvas-wrap').classList.remove('drop-active');
-  const id = e.dataTransfer.getData('cat-id');
+  document.getElementById('canvasWrap').classList.remove('drop-hl');
+  const id=e.dataTransfer.getData('cat-id');
   if(!id) return;
-  const item = CATALOG.find(c=>c.id===id);
-  if(!item) return;
-
-  // Convert drop position to 3D
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse.x = ((e.clientX-rect.left)/rect.width)*2-1;
-  mouse.y = -((e.clientY-rect.top)/rect.height)*2+1;
-  raycaster.setFromCamera(mouse,camera);
-  const target = new THREE.Vector3();
-  raycaster.ray.intersectPlane(dragPlane,target);
-
-  placeEquipment(item, target.x, target.z);
+  const item=CATALOG.find(c=>c.id===id); if(!item) return;
+  const rect=renderer.domElement.getBoundingClientRect();
+  const mouse=new THREE.Vector2(
+    ((e.clientX-rect.left)/rect.width)*2-1,
+    -((e.clientY-rect.top)/rect.height)*2+1
+  );
+  raycaster.setFromCamera(mouse, camera);
+  const pt=new THREE.Vector3();
+  raycaster.ray.intersectPlane(dragPlane, pt);
+  placeEquipment(item, pt.x, pt.z);
 }
 
-function placeEquipment(item, x, z){
-  const geo = new THREE.BoxGeometry(item.w, item.h, item.d);
-  let mat;
-  if(item.emissive){
-    mat = new THREE.MeshStandardMaterial({
-      color: item.color,
-      emissive: item.beamColor||item.color,
-      emissiveIntensity: 0.4,
-      metalness:0.3,roughness:0.6
-    });
-  } else {
-    mat = new THREE.MeshLambertMaterial({color:item.color});
-  }
-  const mesh = new THREE.Mesh(geo,mat);
-  mesh.position.set(x, item.h/2, z);
-  mesh.castShadow=true;
-  mesh.receiveShadow=true;
-  mesh.name='equip_'+item.id+'_'+Date.now();
-  mesh.userData = {catalog:item, rotY:0};
-  scene.add(mesh);
-  placedObjects.push(mesh);
-
-  // Light sources
-  if(item.emissive && item.type==='light'){
-    const ptLight = new THREE.SpotLight(item.beamColor||0xffffff, 0.8, 12, Math.PI/6, 0.5);
-    ptLight.position.copy(mesh.position);
-    ptLight.target.position.set(x, 0, z);
-    ptLight.castShadow=false;
-    scene.add(ptLight);
-    scene.add(ptLight.target);
-    mesh.userData.light = ptLight;
-    placedObjects.push(ptLight);
-    placedObjects.push(ptLight.target);
-  }
-
-  selectObject(mesh);
-  return mesh;
-}
-
-// ─────────────────────────────────────────────
-// CAMERA CONTROL
-// ─────────────────────────────────────────────
-let mouseButton = -1;
-let lastMouse = {x:0,y:0};
-let panMode = false;
-
+// ════════════════════════════════════════════
+// MOUSE
+// ════════════════════════════════════════════
 function onMouseDown(e){
-  mouseButton = e.button;
-  lastMouse = {x:e.clientX,y:e.clientY};
+  lastMouse={x:e.clientX,y:e.clientY};
+  const mouse=screenToNDC(e);
+  raycaster.setFromCamera(mouse, camera);
 
-  if(e.button===1){panMode=true;return;}
+  if(e.button===2){ orbitActive=true; return; }
+  if(e.button===1){ panActive=true; return; }
 
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse.x = ((e.clientX-rect.left)/rect.width)*2-1;
-  mouse.y = -((e.clientY-rect.top)/rect.height)*2+1;
-  raycaster.setFromCamera(mouse,camera);
-
-  if(e.button===2){orbitActive=true;return;}
-
-  // Left click
   if(mode==='edit'){
-    // Check corner handles
-    const hits = raycaster.intersectObjects(cornerHandles);
-    if(hits.length>0){
-      activeCorner = hits[0].object.userData.cornerIndex;
-      cornerDragging=true;
-      document.body.style.cursor='grabbing';
-      return;
-    }
+    const hits=raycaster.intersectObjects(cornerHandles);
+    if(hits.length){ activeCorner=hits[0].object.userData.cornerIdx; cornerDragging=true; document.body.style.cursor='grabbing'; return; }
+  }
+  if(mode==='window'){
+    const hits=raycaster.intersectObjects(wallMeshes);
+    if(hits.length){ addWindowToWall(hits[0].object); updateSun(); return; }
   }
 
-  if(mode==='place'){
-    // Add window to wall
-    const hits = raycaster.intersectObjects(wallMeshes);
-    if(hits.length>0){
-      const wall = hits[0].object;
-      if(!wall.userData.windows) wall.userData.windows=[];
-      wall.userData.windows.push({w:1.5,h:1.5,y:2});
-      buildWindowMeshes();
-      updateSun();
-    }
-    return;
-  }
-
-  // Select / drag placed objects
-  const allHittable = [...placedObjects.filter(o=>o.isMesh)];
-  const hits = raycaster.intersectObjects(allHittable);
-  if(hits.length>0){
-    const obj = hits[0].object;
-    selectObject(obj);
-    dragObj = obj;
-    document.body.style.cursor='grabbing';
-  } else {
-    deselectObject();
-  }
+  // Click on placed
+  const hittable=placed.filter(o=>o.isMesh&&o.userData.catalog);
+  const hits=raycaster.intersectObjects(hittable);
+  if(hits.length){ selectObj(hits[0].object); dragObj=hits[0].object; document.body.style.cursor='grabbing'; return; }
+  deselectObj();
 }
 
 function onMouseMove(e){
   const dx=e.clientX-lastMouse.x, dy=e.clientY-lastMouse.y;
   lastMouse={x:e.clientX,y:e.clientY};
+  const mouse=screenToNDC(e);
 
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse.x = ((e.clientX-rect.left)/rect.width)*2-1;
-  mouse.y = -((e.clientY-rect.top)/rect.height)*2+1;
-
-  if(orbitActive){
-    cameraTheta -= dx*0.005;
-    cameraPhi = Math.max(0.1, Math.min(Math.PI/2-0.05, cameraPhi - dy*0.005));
-    updateCameraPos();
-    return;
+  if(orbitActive){ camTheta-=dx*.005; camPhi=Math.max(.05,Math.min(Math.PI/2-.02,camPhi-dy*.005)); updateCamPos(); return; }
+  if(panActive){
+    const spd=camRadius*.001;
+    const right=new THREE.Vector3(); right.crossVectors(camera.getWorldDirection(new THREE.Vector3()), camera.up).normalize();
+    camTarget.addScaledVector(right,-dx*spd); camTarget.addScaledVector(camera.up, dy*spd);
+    updateCamPos(); return;
   }
 
-  if(panMode){
-    const panSpeed = cameraRadius*0.001;
-    const right = new THREE.Vector3();
-    right.crossVectors(camera.getWorldDirection(new THREE.Vector3()), camera.up).normalize();
-    const up = camera.up.clone();
-    cameraTarget.addScaledVector(right, -dx*panSpeed);
-    cameraTarget.addScaledVector(up, dy*panSpeed);
-    updateCameraPos();
-    return;
-  }
-
-  if(cornerDragging && activeCorner!==null){
+  if(cornerDragging&&activeCorner!==null){
     raycaster.setFromCamera(mouse,camera);
-    const pt = new THREE.Vector3();
+    const pt=new THREE.Vector3();
     raycaster.ray.intersectPlane(dragPlane,pt);
-
-    const old = roomVertices[activeCorner];
-    roomVertices[activeCorner] = {x:pt.x, z:pt.z};
+    roomVerts[activeCorner]={x:snapVal(pt.x),z:snapVal(pt.z)};
     buildRoom();
-
-    // Show dimension tooltip
-    showDimTooltip(e.clientX,e.clientY, activeCorner);
-    showAngleTip(e.clientX,e.clientY, activeCorner);
-    return;
+    showDimTip(e,activeCorner); showAngleTip(e,activeCorner); return;
   }
 
   if(dragObj){
     raycaster.setFromCamera(mouse,camera);
-    const pt = new THREE.Vector3();
+    const pt=new THREE.Vector3();
     raycaster.ray.intersectPlane(dragPlane,pt);
-    dragObj.position.set(pt.x, dragObj.position.y, pt.z);
-    if(dragObj.userData.light){
-      dragObj.userData.light.position.copy(dragObj.position);
-      dragObj.userData.light.target.position.set(pt.x,0,pt.z);
+    const sx=snapVal(pt.x), sz=snapVal(pt.z);
+    dragObj.position.set(sx, dragObj.position.y, sz);
+    // Update spot + beam
+    if(dragObj.userData.spotLight){
+      dragObj.userData.spotLight.position.set(sx,dragObj.userData.catalog.h,sz);
+      dragObj.userData.spotTarget.position.set(sx,0,sz);
     }
+    if(dragObj.userData.beamCone){
+      const item=dragObj.userData.catalog;
+      dragObj.userData.beamCone.position.set(sx, item.h-4.5/2, sz);
+    }
+    // Snap dot on screen
+    const snapDot=document.getElementById('snap-dot');
+    const p2=worldToScreen(new THREE.Vector3(sx,0,sz));
+    if(p2){ snapDot.style.display='block'; snapDot.style.left=p2.x+'px'; snapDot.style.top=p2.y+'px'; }
     return;
   }
+  document.getElementById('snap-dot').style.display='none';
 }
 
-function onMouseUp(e){
-  orbitActive=false;
-  panMode=false;
-  cornerDragging=false;
-  activeCorner=null;
-  dragObj=null;
-  mouseButton=-1;
-  document.body.style.cursor='';
-  hideDimTooltip();
-  hideAngleTip();
+function onMouseUp(){
+  orbitActive=false; panActive=false; cornerDragging=false; activeCorner=null; dragObj=null;
+  document.body.style.cursor=''; document.getElementById('snap-dot').style.display='none';
+  hideTips();
 }
 
-function onWheel(e){
-  cameraRadius = Math.max(3, Math.min(100, cameraRadius + e.deltaY*0.03));
-  updateCameraPos();
+function onWheel(e){ camRadius=Math.max(3,Math.min(120,camRadius+e.deltaY*.025)); updateCamPos(); }
+
+function onKeyDown(e){
+  if(e.key==='Escape'){ deselectObj(); return; }
+  if((e.key==='Delete'||e.key==='Backspace')&&selectedObj){ deleteSelected(); return; }
+  if(e.key==='r'||e.key==='R'){ if(selectedObj){ selectedObj.rotation.y+=Math.PI/4; updatePropsPanel(selectedObj); } return; }
+  if(e.ctrlKey&&e.key==='z'){ undoAction(); return; }
 }
 
-function updateCameraPos(){
-  if(is2D){
-    camera.position.set(cameraTarget.x, cameraRadius*1.5, cameraTarget.z);
-    camera.lookAt(cameraTarget);
-    return;
-  }
-  camera.position.set(
-    cameraTarget.x + cameraRadius*Math.sin(cameraPhi)*Math.sin(cameraTheta),
-    cameraTarget.y + cameraRadius*Math.cos(cameraPhi),
-    cameraTarget.z + cameraRadius*Math.sin(cameraPhi)*Math.cos(cameraTheta)
-  );
-  camera.lookAt(cameraTarget);
-}
-
-// ─────────────────────────────────────────────
-// DIMENSION / ANGLE TOOLTIPS
-// ─────────────────────────────────────────────
-function showDimTooltip(px,py,ci){
-  const verts = roomVertices;
-  const n = verts.length;
-  const v = verts[ci];
-  const prev = verts[(ci-1+n)%n];
-  const next = verts[(ci+1)%n];
-  const d1 = Math.sqrt((v.x-prev.x)**2+(v.z-prev.z)**2).toFixed(1);
-  const d2 = Math.sqrt((v.x-next.x)**2+(v.z-next.z)**2).toFixed(1);
-
-  const tip = document.getElementById('dim-tooltip');
-  tip.style.display='block';
-  tip.style.left=(px+12)+'px';
-  tip.style.top=(py-30)+'px';
-  tip.textContent=`${d1} м | ${d2} м`;
-}
-function hideDimTooltip(){document.getElementById('dim-tooltip').style.display='none';}
-
-function showAngleTip(px,py,ci){
-  const verts = roomVertices;
-  const n = verts.length;
-  const v = verts[ci];
-  const prev = verts[(ci-1+n)%n];
-  const next = verts[(ci+1)%n];
-  const ax = prev.x-v.x, az = prev.z-v.z;
-  const bx = next.x-v.x, bz = next.z-v.z;
-  const dot = ax*bx+az*bz;
-  const cross = ax*bz-az*bx;
-  const angle = Math.round(Math.abs(Math.atan2(Math.abs(cross),dot)*180/Math.PI));
-
-  const tip = document.getElementById('angle-tooltip');
-  tip.style.display='block';
-  tip.style.left=(px+12)+'px';
-  tip.style.top=(py+10)+'px';
-  tip.textContent=`${angle}°`;
-}
-function hideAngleTip(){document.getElementById('angle-tooltip').style.display='none';}
-
-// ─────────────────────────────────────────────
-// SUN SIMULATION
-// ─────────────────────────────────────────────
-function updateSun(){
-  const tSlider = document.getElementById('sl-time');
-  const oSlider = document.getElementById('sl-orient');
-  sunTime = parseFloat(tSlider.value);
-  sunOrient = parseFloat(oSlider.value);
-
-  const h = Math.floor(sunTime), m = Math.round((sunTime-h)*60);
-  document.getElementById('val-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-  document.getElementById('val-orient').textContent=`${Math.round(sunOrient)}°`;
-
-  // Sun elevation: 0=horizon, peaks at noon
-  const elevation = Math.max(0, Math.sin((sunTime/24-0.25)*Math.PI*2)) * Math.PI/2.2;
-  const azimuth = (sunOrient/180)*Math.PI + (sunTime/24)*Math.PI*2;
-
-  const dist = 40;
-  const sx = dist*Math.cos(elevation)*Math.sin(azimuth);
-  const sy = dist*Math.sin(elevation);
-  const sz = dist*Math.cos(elevation)*Math.cos(azimuth);
-  sunLight.position.set(sx,sy,sz);
-  sunLight.target.position.set(0,0,0);
-
-  // Color based on time
-  const nightColor = new THREE.Color(0x0a0a1a);
-  const dawnColor  = new THREE.Color(0xff6633);
-  const dayColor   = new THREE.Color(0xfff5e0);
-  let t;
-  if(sunTime<6) {t=0;}
-  else if(sunTime<8) {t=(sunTime-6)/2*0.5;}
-  else if(sunTime<17) {t=0.5+(sunTime-8)/9*0.5;}
-  else if(sunTime<20) {t=1-(sunTime-17)/3*0.5;}
-  else {t=0;}
-
-  const col = t<0.5 ? nightColor.lerp(dawnColor,t*2) : dawnColor.clone().lerp(dayColor,(t-0.5)*2);
-  sunLight.color.set(col);
-  sunLight.intensity = Math.max(0, elevation) * 2.5;
-
-  // Ambient shifts
-  const ambInt = 0.3 + Math.max(0,elevation)*0.8;
-  ambientLight.intensity = ambInt;
-
-  // Scene background
-  const bgCol = new THREE.Color(0x0a0a0a).lerp(new THREE.Color(0x050810), 1-Math.min(1,elevation*1.5));
-  renderer.setClearColor(bgCol);
-
-  // Window lights update
-  windowMeshes.filter(m=>m.isLight).forEach(wl=>{
-    wl.intensity = Math.max(0,elevation)*0.6;
-    wl.color.set(col);
-  });
-
-  // Compass
-  const needle = document.getElementById('compass-needle');
-  const nx = 32+20*Math.sin((sunOrient/180)*Math.PI);
-  const ny = 32-20*Math.cos((sunOrient/180)*Math.PI);
-  needle.setAttribute('x2',nx);
-  needle.setAttribute('y2',ny);
-
-  // Sun preview dot
-  const dotPct = sunTime/24*100;
-  document.getElementById('sun-dot').style.left=dotPct+'%';
-  document.getElementById('sun-preview').style.background=
-    `linear-gradient(to right, #0a0a0a 0%, #1a0500 ${Math.max(0,dotPct-10)}%, #f59e0b ${dotPct}%, #1a0500 ${Math.min(100,dotPct+10)}%, #0a0a0a 100%)`;
-}
-
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
 // SELECTION
-// ─────────────────────────────────────────────
-function selectObject(obj){
-  if(selectedObj && selectedObj._origColor!==undefined){
-    selectedObj.material.emissive&&selectedObj.material.emissive.setHex(selectedObj._origEmissive||0);
-    selectedObj.material.color&&selectedObj.material.color.setHex(selectedObj._origColor);
-  }
-  selectedObj = obj;
-  obj._origColor = obj.material.color?.getHex();
-  obj._origEmissive = obj.material.emissive?.getHex();
+// ════════════════════════════════════════════
+function selectObj(obj){
+  if(selectedObj&&selectedObj!==obj) restoreObjColor(selectedObj);
+  selectedObj=obj;
   if(obj.material.emissive) obj.material.emissive.setHex(0xC9A227);
-  else obj.material.color?.setHex(0xC9A227);
-
-  showProps(obj);
+  else obj.material.color.setHex(0xC9A227);
+  const hudSel=document.getElementById('hud-sel');
+  hudSel.style.display=''; hudSel.textContent='Выбрано: '+(obj.userData.catalog?.name||obj.name);
+  showPropsPanel(obj);
 }
-
-function deselectObject(){
-  if(selectedObj){
-    if(selectedObj.material.emissive) selectedObj.material.emissive.setHex(selectedObj._origEmissive||0);
-    else selectedObj.material.color?.setHex(selectedObj._origColor||0);
-    selectedObj=null;
-  }
-  document.getElementById('props-section').style.display='none';
+function restoreObjColor(obj){
+  if(obj.material.emissive) obj.material.emissive.setHex(obj.userData.origEmissive||0);
+  else obj.material.color.setHex(obj.userData.origColor||0);
 }
-
-function showProps(obj){
-  const sec = document.getElementById('props-section');
-  sec.style.display='block';
-  const cat = obj.userData.catalog;
-  const pos = obj.position;
-
-  document.getElementById('props-content').innerHTML=`
-    <div class="prop-row"><label>Название</label><span style="font-size:11px;color:var(--white70)">${cat?cat.name:obj.name}</span></div>
-    <div class="prop-row"><label>X</label><input class="prop-input" id="p-x" type="number" value="${pos.x.toFixed(2)}" step="0.1" onchange="setProp('x',this.value)"></div>
-    <div class="prop-row"><label>Z</label><input class="prop-input" id="p-z" type="number" value="${pos.z.toFixed(2)}" step="0.1" onchange="setProp('z',this.value)"></div>
-    <div class="prop-row"><label>Поворот°</label><input class="prop-input" id="p-ry" type="number" value="${Math.round((obj.rotation.y*180/Math.PI))}" step="5" onchange="setProp('ry',this.value)"></div>
-    ${cat?`<div class="prop-row"><label>Тип</label><span style="font-size:10px;color:var(--gold)">${cat.type}</span></div>`:''}
-  `;
+function deselectObj(){
+  if(selectedObj) restoreObjColor(selectedObj);
+  selectedObj=null;
+  document.getElementById('hud-sel').style.display='none';
+  document.getElementById('propsSection').style.display='none';
 }
-
-function setProp(prop,val){
-  if(!selectedObj) return;
-  val=parseFloat(val);
-  if(prop==='x') selectedObj.position.x=val;
-  if(prop==='z') selectedObj.position.z=val;
-  if(prop==='ry') selectedObj.rotation.y=val*Math.PI/180;
-  if(selectedObj.userData.light){
-    selectedObj.userData.light.position.copy(selectedObj.position);
-    selectedObj.userData.light.target.position.set(selectedObj.position.x,0,selectedObj.position.z);
-  }
-}
-
 function deleteSelected(){
   if(!selectedObj) return;
-  scene.remove(selectedObj);
-  if(selectedObj.userData.light){
-    scene.remove(selectedObj.userData.light);
-    scene.remove(selectedObj.userData.light.target);
-  }
-  const idx = placedObjects.indexOf(selectedObj);
-  if(idx>-1) placedObjects.splice(idx,1);
+  const l=selectedObj.userData.spotLight, lt=selectedObj.userData.spotTarget, bc=selectedObj.userData.beamCone;
+  scene.remove(selectedObj); if(l){scene.remove(l);} if(lt){scene.remove(lt);} if(bc){scene.remove(bc);}
+  placed=placed.filter(o=>o!==selectedObj&&o!==l&&o!==lt);
+  beamMeshes=beamMeshes.filter(b=>b!==bc);
   selectedObj=null;
-  document.getElementById('props-section').style.display='none';
+  document.getElementById('hud-sel').style.display='none';
+  document.getElementById('propsSection').style.display='none';
 }
 
-// ─────────────────────────────────────────────
-// UI CONTROLS
-// ─────────────────────────────────────────────
-function setRoomShape(shape){
-  roomShape=shape;
-  ['rect','square','l'].forEach(s=>{
-    const btn=document.getElementById('btn-'+s);
-    btn.className='btn '+(s===shape?'btn-active':'btn-outline');
-  });
-  roomVertices = getDefaultVertices(shape);
-  buildRoom();
+// ════════════════════════════════════════════
+// PROPERTIES PANEL
+// ════════════════════════════════════════════
+function showPropsPanel(obj){
+  const sec=document.getElementById('propsSection'); sec.style.display='';
+  updatePropsPanel(obj);
+}
+function updatePropsPanel(obj){
+  const p=obj.position, cat=obj.userData.catalog;
+  document.getElementById('propsContent').innerHTML=`
+    <div class="prop-row"><label>Название</label><span style="font-size:11px;color:var(--gold)">${cat?.name||obj.name}</span></div>
+    <div class="prop-row"><label>X (м)</label><input class="prop-inp" value="${p.x.toFixed(1)}" step=".5" type="number" onchange="setProp('x',this.value)"></div>
+    <div class="prop-row"><label>Y (м)</label><input class="prop-inp" value="${p.z.toFixed(1)}" step=".5" type="number" onchange="setProp('z',this.value)"></div>
+    <div class="prop-row"><label>Угол°</label><input class="prop-inp" value="${Math.round(obj.rotation.y*180/Math.PI)}" step="45" type="number" onchange="setProp('ry',this.value)"></div>
+    <button class="prop-del" onclick="deleteSelected()">🗑 Удалить</button>`;
+}
+function setProp(prop,val){
+  if(!selectedObj) return; val=parseFloat(val);
+  if(prop==='x') selectedObj.position.x=snapVal(val);
+  if(prop==='z') selectedObj.position.z=snapVal(val);
+  if(prop==='ry') selectedObj.rotation.y=val*Math.PI/180;
+  const l=selectedObj.userData.spotLight, lt=selectedObj.userData.spotTarget, bc=selectedObj.userData.beamCone, it=selectedObj.userData.catalog;
+  if(l){ l.position.set(selectedObj.position.x,it.h,selectedObj.position.z); lt.position.set(selectedObj.position.x,0,selectedObj.position.z); }
+  if(bc){ bc.position.set(selectedObj.position.x,it.h-4.5/2,selectedObj.position.z); }
 }
 
+// ════════════════════════════════════════════
+// SUN
+// ════════════════════════════════════════════
+const DIR_LABELS=['С','СВ','В','ЮВ','Ю','ЮЗ','З','СЗ'];
+function updateSun(){
+  const t=parseFloat(document.getElementById('sl-time').value);
+  const o=parseFloat(document.getElementById('sl-orient').value);
+
+  const h=Math.floor(t), m=Math.round((t-h)*60);
+  document.getElementById('val-time').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  const dirIdx=Math.round(o/45)%8;
+  document.getElementById('val-orient').textContent=DIR_LABELS[dirIdx];
+
+  const elev=Math.max(0,Math.sin((t/24-.25)*Math.PI*2))*Math.PI/2.1;
+  const az=(o/180)*Math.PI+(t/24)*Math.PI*2;
+  const D=45;
+  sunLight.position.set(D*Math.cos(elev)*Math.sin(az), D*Math.sin(elev), D*Math.cos(elev)*Math.cos(az));
+
+  // Color ramp: night → dawn → day → dusk → night
+  const clampedT = Math.max(0, Math.min(1, (elev/(Math.PI/2.1))));
+  const sunCol = new THREE.Color();
+  if(t<6||t>20)       sunCol.set(0x0a0a14); // night
+  else if(t<8)        sunCol.lerpColors(new THREE.Color(0xff4400), new THREE.Color(0xfff5e0), (t-6)/2); // dawn
+  else if(t<17)       sunCol.set(0xfff5e0); // day
+  else                sunCol.lerpColors(new THREE.Color(0xfff5e0), new THREE.Color(0xff4400), (t-17)/3); // dusk
+  sunLight.color.set(sunCol);
+  sunLight.intensity = clampedT * 2.0;
+  ambLight.intensity = .3 + clampedT * 1.0;
+
+  // Window lights track sun
+  winLights.forEach(wl=>{ wl.intensity=clampedT*.6; wl.color.set(sunCol); });
+
+  // Sun preview bar
+  const pct=t/24*100;
+  document.getElementById('sunDot').style.left=pct+'%';
+  document.getElementById('sunBar').style.background=
+    `linear-gradient(to right,#0a0a14 0%,#c05000 ${Math.max(0,pct-8)}%,#f59e0b ${pct}%,#c05000 ${Math.min(100,pct+8)}%,#0a0a14 100%)`;
+
+  // Compass
+  const nx=32+22*Math.sin((o/180)*Math.PI), ny=32-22*Math.cos((o/180)*Math.PI);
+  const n=document.getElementById('compNeedle');
+  n.setAttribute('x2',nx.toFixed(1)); n.setAttribute('y2',ny.toFixed(1));
+}
+
+// ════════════════════════════════════════════
+// CAMERA
+// ════════════════════════════════════════════
+function updateCamPos(){
+  if(is2D){
+    camera.position.set(camTarget.x,camRadius,camTarget.z);
+    camera.lookAt(camTarget); return;
+  }
+  camera.position.set(
+    camTarget.x+camRadius*Math.sin(camPhi)*Math.sin(camTheta),
+    camTarget.y+camRadius*Math.cos(camPhi),
+    camTarget.z+camRadius*Math.sin(camPhi)*Math.cos(camTheta)
+  );
+  camera.lookAt(camTarget);
+}
+function resetCam(){ camTheta=Math.PI/4; camPhi=Math.PI/3; camRadius=30; camTarget.set(0,0,0); is2D=false; updateCamPos(); }
+function toggleView(){ is2D=!is2D; if(is2D){camRadius=40;} else{camPhi=Math.PI/3;camRadius=30;} updateCamPos(); }
+function adjustZoom(d){ camRadius=Math.max(3,Math.min(120,camRadius+d)); updateCamPos(); }
+
+// ════════════════════════════════════════════
+// MODE / SHAPE
+// ════════════════════════════════════════════
+const MODES={view:'👁 Просмотр',edit:'📐 Изменить зал',window:'🪟 Добавить окно'};
 function setMode(m){
   mode=m;
-  ['view','edit','place'].forEach(s=>{
-    document.getElementById('mode-'+s).classList.toggle('active',s===m);
+  ['view','edit','window'].forEach(s=>{
+    const p=document.getElementById('pill-'+s), b=document.getElementById('btn-'+s);
+    if(p) p.classList.toggle('active',s===m);
+    if(b) b.classList.toggle('active',s===m);
   });
-  cornerHandles.forEach(h=>{h.visible=(m==='edit');});
-  document.getElementById('hud-mode').textContent='Режим: '+
-    {view:'Просмотр',edit:'Редактировать зал',place:'Добавить окно'}[m];
+  cornerHandles.forEach(h=>h.visible=(m==='edit'));
+  document.getElementById('hud-mode').textContent='Режим: '+MODES[m];
+}
+function setShape(s){
+  roomShape=s;
+  ['rect','square','l'].forEach(n=>{ const b=document.getElementById('btn-'+n); if(b) b.classList.toggle('active',n===s); });
+  roomVerts=getDefaultVerts(s); buildRoom();
 }
 
-function toggleView(){
-  is2D=!is2D;
-  if(is2D){
-    cameraPhi=0.001;
-    cameraRadius=40;
-  } else {
-    cameraPhi=Math.PI/3;
-    cameraRadius=30;
+// ════════════════════════════════════════════
+// UNDO
+// ════════════════════════════════════════════
+function undoAction(){
+  const a=undoStack.pop(); if(!a) return;
+  if(a.type==='place'){
+    scene.remove(a.mesh);
+    a.lights.forEach(l=>scene.remove(l));
+    placed=placed.filter(o=>o!==a.mesh&&!a.lights.includes(o));
+    if(a.mesh.userData.beamCone){ scene.remove(a.mesh.userData.beamCone); beamMeshes=beamMeshes.filter(b=>b!==a.mesh.userData.beamCone); }
+    if(selectedObj===a.mesh) deselectObj();
   }
-  updateCameraPos();
 }
-
-function resetCamera(){
-  cameraTheta=Math.PI/4;
-  cameraPhi=Math.PI/3;
-  cameraRadius=30;
-  cameraTarget.set(0,0,0);
-  is2D=false;
-  updateCameraPos();
-}
-
-function clearAll(){
-  if(!confirm('Очистить все объекты?')) return;
-  placedObjects.forEach(o=>{scene.remove(o);if(o.geometry)o.geometry.dispose();});
-  placedObjects=[];
-  windowMeshes.forEach(m=>{scene.remove(m);if(m.geometry)m.geometry.dispose();});
-  windowMeshes=[];
-  wallMeshes.forEach(w=>{w.userData.windows=[];});
-  selectedObj=null;
-  document.getElementById('props-section').style.display='none';
-}
-
-function updateHUD(){
-  if(!roomVertices.length) return;
-  const verts=roomVertices;
-  let minX=Infinity,maxX=-Infinity,minZ=Infinity,maxZ=-Infinity;
-  verts.forEach(v=>{minX=Math.min(minX,v.x);maxX=Math.max(maxX,v.x);minZ=Math.min(minZ,v.z);maxZ=Math.max(maxZ,v.z);});
-  const w=(maxX-minX).toFixed(1), h=(maxZ-minZ).toFixed(1);
-  document.getElementById('hud-room').textContent=`Зал: ${w} × ${h} м`;
-}
-
+function clearAll(){ if(!confirm('Очистить всё?')) return; placed.forEach(o=>scene.remove(o)); beamMeshes.forEach(b=>scene.remove(b)); winLights.forEach(l=>scene.remove(l)); placed=[]; beamMeshes=[]; winLights=[]; undoStack=[]; deselectObj(); }
 function exportScene(){
-  const data={roomVertices,placed:placedObjects.filter(o=>o.isMesh&&o.userData.catalog).map(o=>({
-    id:o.userData.catalog.id,x:o.position.x,y:o.position.y,z:o.position.z,ry:o.rotation.y
-  }))};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='nd-plan.json';a.click();
-  URL.revokeObjectURL(url);
+  const data={shape:roomShape, verts:roomVerts, placed:placed.filter(o=>o.isMesh&&o.userData.catalog).map(o=>({id:o.userData.catalog.id,x:o.position.x,z:o.position.z,ry:o.rotation.y}))};
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})); a.download='nd-plan.json'; a.click();
 }
 
-// ─────────────────────────────────────────────
-// RESIZE
-// ─────────────────────────────────────────────
+// ════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════
+function screenToNDC(e){
+  const r=renderer.domElement.getBoundingClientRect();
+  return new THREE.Vector2(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);
+}
+function worldToScreen(v){
+  const w=v.clone().project(camera);
+  const r=renderer.domElement.getBoundingClientRect();
+  return {x:(w.x*.5+.5)*r.width+r.left, y:(-.5*w.y+.5)*r.height+r.top};
+}
+function showDimTip(e,ci){
+  const v=roomVerts, n=v.length, a=v[ci], prev=v[(ci-1+n)%n], next=v[(ci+1)%n];
+  const d1=Math.sqrt((a.x-prev.x)**2+(a.z-prev.z)**2).toFixed(1);
+  const d2=Math.sqrt((a.x-next.x)**2+(a.z-next.z)**2).toFixed(1);
+  const t=document.getElementById('dim-tip'); t.style.display='block'; t.style.left=(e.clientX+14)+'px'; t.style.top=(e.clientY-36)+'px'; t.textContent=`${d1} м · ${d2} м`;
+}
+function showAngleTip(e,ci){
+  const v=roomVerts, n=v.length, a=v[ci], prev=v[(ci-1+n)%n], next=v[(ci+1)%n];
+  const ax=prev.x-a.x,az=prev.z-a.z,bx=next.x-a.x,bz=next.z-a.z;
+  const ang=Math.round(Math.abs(Math.atan2(Math.abs(ax*bz-az*bx),ax*bx+az*bz)*180/Math.PI));
+  const t=document.getElementById('angle-tip'); t.style.display='block'; t.style.left=(e.clientX+14)+'px'; t.style.top=(e.clientY+6)+'px'; t.textContent=`${ang}°`;
+}
+function hideTips(){ document.getElementById('dim-tip').style.display='none'; document.getElementById('angle-tip').style.display='none'; }
+function updateHUD(){
+  const v=roomVerts; let mnX=Infinity,mxX=-Infinity,mnZ=Infinity,mxZ=-Infinity;
+  v.forEach(p=>{mnX=Math.min(mnX,p.x);mxX=Math.max(mxX,p.x);mnZ=Math.min(mnZ,p.z);mxZ=Math.max(mxZ,p.z);});
+  document.getElementById('hud-room').textContent=`Зал: ${(mxX-mnX).toFixed(1)} × ${(mxZ-mnZ).toFixed(1)} м`;
+}
+function hideHint(){ document.getElementById('hintBar').style.opacity='0'; }
+function closeWelcome(){ document.getElementById('welcomeModal').style.display='none'; }
+
+// ════════════════════════════════════════════
+// RESIZE + ANIMATE
+// ════════════════════════════════════════════
 function onResize(){
-  const wrap=document.getElementById('canvas-wrap');
-  const w=wrap.clientWidth,h=wrap.clientHeight;
-  camera.aspect=w/h;
-  camera.updateProjectionMatrix();
-  renderer.setSize(w,h);
+  const w=document.getElementById('canvasWrap');
+  const ww=w.clientWidth, hh=w.clientHeight;
+  camera.aspect=ww/hh; camera.updateProjectionMatrix();
+  renderer.setSize(ww,hh);
 }
-
-// ─────────────────────────────────────────────
-// ANIMATE
-// ─────────────────────────────────────────────
-let clock = new THREE.Clock();
+const clock=new THREE.Clock();
 function animate(){
   requestAnimationFrame(animate);
-  const t = clock.getElapsedTime();
-
-  // Subtle pulse on emissive lights
-  placedObjects.filter(o=>o.isMesh&&o.userData.catalog?.emissive).forEach(o=>{
-    if(o.material.emissiveIntensity!==undefined && o!==selectedObj){
-      o.material.emissiveIntensity = 0.35 + Math.sin(t*2+o.position.x)*0.1;
-    }
+  const t=clock.getElapsedTime();
+  // Subtle emissive pulse on light equipment
+  placed.filter(o=>o.isMesh&&o.userData.catalog?.type==='light'&&o!==selectedObj).forEach(o=>{
+    if(o.material.emissiveIntensity!==undefined) o.material.emissiveIntensity=.15+Math.sin(t*1.8+o.position.x)*.06;
   });
-
-  renderer.render(scene, camera);
+  // Beam cone flicker
+  beamMeshes.forEach((b,i)=>{ if(b.material) b.material.opacity=.05+Math.sin(t*2+i)*.01; });
+  renderer.render(scene,camera);
 }
 
-// ─────────────────────────────────────────────
-// BOOT
-// ─────────────────────────────────────────────
-window.addEventListener('load', init);
+window.addEventListener('load',init);
 </script>
 </body>
 </html>

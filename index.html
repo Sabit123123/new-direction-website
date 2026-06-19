@@ -12,22 +12,22 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:    #050507;
-      --bg2:   #080810;
-      --bg3:   #0d0d18;
+      --bg:    #070706;
+      --bg2:   #0c0c0a;
+      --bg3:   #131310;
       --gold:  #C9A227;
       --gold-light: #F0C94A;
-      --gold-dim:   rgba(201,162,39,0.12);
-      --gold-glow:  rgba(201,162,39,0.5);
+      --gold-dim:   rgba(201,162,39,0.10);
+      --gold-glow:  rgba(201,162,39,0.45);
       --red:   #FF2D20;
-      --red-dim: rgba(255,45,32,0.12);
-      --white: #F0F4FF;
-      --white70: rgba(240,244,255,0.7);
-      --white40: rgba(240,244,255,0.4);
-      --white15: rgba(240,244,255,0.15);
-      --white06: rgba(240,244,255,0.06);
+      --red-dim: rgba(255,45,32,0.10);
+      --white: #F5F0E8;
+      --white70: rgba(245,240,232,0.7);
+      --white40: rgba(245,240,232,0.4);
+      --white15: rgba(245,240,232,0.15);
+      --white06: rgba(245,240,232,0.06);
       --border: rgba(255,255,255,0.07);
-      --border-gold: rgba(201,162,39,0.3);
+      --border-gold: rgba(201,162,39,0.28);
       --radius: 2px;
       --font-head: 'Barlow Condensed', 'Inter', system-ui, sans-serif;
       --font: 'Inter', system-ui, sans-serif;
@@ -43,21 +43,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── SCAN LINES ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.03) 2px,
-        rgba(0,0,0,0.03) 4px
-      );
-    }
+    /* scanlines removed — too gaming for event company */
 
     /* ── SCROLLBAR ── */
     ::-webkit-scrollbar { width: 3px; }
@@ -1091,6 +1077,109 @@
       .portfolio-item:nth-child(4), .portfolio-item:nth-child(5) { display: none; }
       .client-item { padding: 16px 20px; font-size: 14px; }
     }
+    /* ── HOW IT WORKS ── */
+    #process { padding: 108px 48px; background: var(--bg2); position: relative; }
+    #process::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold-glow),transparent); }
+    #process > div { max-width:1240px; margin:0 auto; }
+    .process-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(201,162,39,0.07); margin-top:60px; }
+    .process-step {
+      background:var(--bg2); padding:48px 36px;
+      position:relative; overflow:hidden;
+      clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%);
+      transition:background .3s;
+    }
+    .process-step:hover { background:var(--bg3); }
+    .process-step::before { content:''; position:absolute; top:0; left:0; width:3px; height:0; background:var(--gold); transition:height .4s; }
+    .process-step:hover::before { height:100%; }
+    .process-num {
+      font-family:var(--font-head); font-size:72px; font-weight:900;
+      color:rgba(201,162,39,0.12); line-height:1; margin-bottom:20px;
+      letter-spacing:-0.02em;
+    }
+    .process-icon { font-size:36px; margin-bottom:16px; display:block; }
+    .process-title { font-family:var(--font-head); font-size:22px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; margin-bottom:12px; }
+    .process-text { font-size:14px; color:var(--white40); line-height:1.7; }
+    .process-connector { display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--gold); opacity:.4; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { padding:108px 48px; }
+    #testimonials > div { max-width:1240px; margin:0 auto; }
+    .reviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:56px; }
+    .review-card {
+      background:var(--bg2); border:1px solid var(--border);
+      padding:36px 32px;
+      clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%);
+      transition:border-color .3s, background .3s;
+      position:relative;
+    }
+    .review-card:hover { border-color:var(--border-gold); background:var(--bg3); }
+    .review-stars { color:var(--gold); font-size:14px; margin-bottom:16px; letter-spacing:2px; }
+    .review-text { font-size:14px; color:var(--white70); line-height:1.75; margin-bottom:24px; font-style:italic; }
+    .review-author { display:flex; align-items:center; gap:12px; }
+    .review-avatar {
+      width:40px; height:40px; border-radius:50%;
+      background:var(--gold-dim); border:1px solid var(--border-gold);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--font-head); font-size:16px; font-weight:800; color:var(--gold);
+    }
+    .review-name { font-size:13px; font-weight:700; }
+    .review-company { font-size:11px; color:var(--white40); margin-top:2px; }
+    .review-badge {
+      position:absolute; top:20px; right:20px;
+      background:var(--gold-dim); border:1px solid var(--border-gold);
+      padding:3px 10px; font-size:9px; font-weight:800; color:var(--gold);
+      letter-spacing:.15em; text-transform:uppercase;
+      clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+    }
+
+    /* ── FAQ ── */
+    #faq { padding:108px 48px; background:var(--bg2); position:relative; }
+    #faq::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold-glow),transparent); }
+    #faq > div { max-width:900px; margin:0 auto; }
+    .faq-list { margin-top:56px; display:flex; flex-direction:column; gap:2px; }
+    .faq-item { background:var(--bg2); border:1px solid var(--border); overflow:hidden; transition:border-color .25s; }
+    .faq-item.open { border-color:var(--border-gold); }
+    .faq-q {
+      padding:24px 28px; display:flex; justify-content:space-between; align-items:center;
+      cursor:pointer; gap:16px; user-select:none;
+    }
+    .faq-q:hover { background:var(--bg3); }
+    .faq-q-text { font-size:16px; font-weight:600; }
+    .faq-icon {
+      width:28px; height:28px; border:1px solid var(--border-gold); flex-shrink:0;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--gold); font-size:18px; font-weight:300;
+      transition:transform .3s, background .3s;
+    }
+    .faq-item.open .faq-icon { transform:rotate(45deg); background:var(--gold-dim); }
+    .faq-a { display:none; padding:0 28px 24px; font-size:14px; color:var(--white40); line-height:1.75; }
+    .faq-item.open .faq-a { display:block; }
+
+    /* ── FLOATING WHATSAPP ── */
+    .wa-float {
+      position:fixed; bottom:28px; right:28px; z-index:900;
+      width:56px; height:56px;
+      background:#25D366;
+      border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 20px rgba(37,211,102,.4), 0 0 0 0 rgba(37,211,102,.3);
+      animation:waPulse 2.5s infinite;
+      transition:transform .2s;
+      text-decoration:none;
+    }
+    .wa-float:hover { transform:scale(1.1); }
+    .wa-float svg { width:28px; height:28px; fill:#fff; }
+    @keyframes waPulse {
+      0%,100% { box-shadow:0 4px 20px rgba(37,211,102,.4), 0 0 0 0 rgba(37,211,102,.3); }
+      50% { box-shadow:0 4px 20px rgba(37,211,102,.4), 0 0 0 12px rgba(37,211,102,0); }
+    }
+
+    /* ── RESPONSIVE additions ── */
+    @media (max-width:768px) {
+      .process-steps { grid-template-columns:1fr; }
+      .reviews-grid { grid-template-columns:1fr; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .hero-bg, .equip-track, .scroll-line { animation: none; }
       .hero-badge, .hero-title, .hero-sub, .hero-actions, .hero-scroll { animation: none; opacity: 1; }
@@ -1182,6 +1271,34 @@
     <div class="stat-item reveal reveal-delay-3">
       <div class="stat-num"><span class="counter" data-target="100">0</span><span class="plus">%</span></div>
       <div class="stat-label">Довольных клиентов</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div id="process" role="region" aria-labelledby="process-title">
+  <div>
+    <div class="section-tag reveal">Как мы работаем</div>
+    <h2 class="section-title reveal reveal-delay-1" id="process-title">Три шага<br>до идеального события</h2>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="process-num">01</div>
+        <span class="process-icon">📋</span>
+        <div class="process-title">Заявка</div>
+        <p class="process-text">Опишите формат, дату, площадку и количество гостей. Мы связываемся в течение 1 часа, уточняем детали и готовим технический райдер.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="process-num">02</div>
+        <span class="process-icon">⚙️</span>
+        <div class="process-title">Подготовка</div>
+        <p class="process-text">Подбираем оборудование под площадку, согласовываем схему расстановки, проводим предмонтаж и тест всех систем накануне события.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="process-num">03</div>
+        <span class="process-icon">🎤</span>
+        <div class="process-title">Реализация</div>
+        <p class="process-text">Наша команда на месте с монтажа до демонтажа. Технический директор следит за каждой системой в реальном времени — без сбоев и пауз.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -1329,6 +1446,50 @@
   </div>
 </div>
 
+<!-- TESTIMONIALS -->
+<section id="testimonials" aria-labelledby="reviews-title">
+  <div class="section-tag reveal">Отзывы</div>
+  <h2 class="section-title reveal reveal-delay-1" id="reviews-title">Что говорят<br>клиенты</h2>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-badge">Проверено</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">«Работали с New Direction на запуске Seeds for the Future в Алматы. Звук и LED-экран — на высшем уровне. Монтаж завершён заранее, никаких технических пауз во время мероприятия.»</p>
+      <div class="review-author">
+        <div class="review-avatar">H</div>
+        <div>
+          <div class="review-name">Айдана Сейткали</div>
+          <div class="review-company">Event Manager · Huawei Kazakhstan</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal reveal-delay-1">
+      <div class="review-badge">Проверено</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">«Организовывали клубный вечер для YSL Beauté. Световое шоу произвело эффект разорвавшейся бомбы — гости восхищались всю ночь. Команда профессионалов от А до Я.»</p>
+      <div class="review-author">
+        <div class="review-avatar">Y</div>
+        <div>
+          <div class="review-name">Карина Ли</div>
+          <div class="review-company">Brand Coordinator · YSL Beauté</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal reveal-delay-2">
+      <div class="review-badge">Проверено</div>
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">«Для open-air фестиваля Asyl Tas нужна была мощная уличная сцена и звук на 3000 человек. New Direction собрали всё за ночь. Работают чётко, без нервов, по делу.»</p>
+      <div class="review-author">
+        <div class="review-avatar">S</div>
+        <div>
+          <div class="review-name">Данияр Ахметов</div>
+          <div class="review-company">Директор · SVOY DOM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PORTFOLIO -->
 <section id="portfolio" aria-labelledby="portfolio-title">
   <div class="portfolio-header">
@@ -1453,6 +1614,51 @@
   </div>
 </div>
 
+<!-- FAQ -->
+<div id="faq" role="region" aria-labelledby="faq-title">
+  <div>
+    <div class="section-tag reveal">FAQ</div>
+    <h2 class="section-title reveal reveal-delay-1" id="faq-title">Частые<br>вопросы</h2>
+    <div class="faq-list reveal reveal-delay-2" id="faqList">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">В каких городах вы работаете?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Основная база — Алматы. Выезжаем по всему Казахстану: Астана, Шымкент, Атырау и другие города. Условия выезда уточняйте при заявке.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Сколько стоят услуги?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Стоимость зависит от формата, количества оборудования, площадки и длительности. Звуковое сопровождение небольшого корпоратива и полный технический райдер большого концерта — разные бюджеты. Свяжитесь с нами для точного расчёта.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Можно ли арендовать оборудование без команды?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Да, предоставляем оборудование в аренду. Но рекомендуем услугу "под ключ" с техническим сопровождением — это гарантирует безупречный результат и снимает риски во время события.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">За сколько нужно бронировать?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Для крупных мероприятий рекомендуем бронировать за 2–4 недели. Небольшие события можем принять за 3–5 дней, в зависимости от загрузки. Срочные запросы — обсуждаем индивидуально.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Работаете ли вы с международными брендами?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Да. В нашем портфолио — мероприятия Huawei, YSL Beauté и других международных компаний. Работаем по профессиональному техническому райдеру, предоставляем всю документацию.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- CONTACT -->
 <div id="contact" role="region" aria-labelledby="contact-title">
   <div>
@@ -1497,6 +1703,11 @@
     </div>
   </div>
 </div>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/message/BJCZTDJA77CGI1" class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.374 0 0 5.373 0 12c0 2.124.549 4.12 1.508 5.857L0 24l6.335-1.652A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.012-1.371l-.361-.214-3.741.975.997-3.647-.234-.374A9.786 9.786 0 012.181 12C2.181 6.566 6.566 2.18 12 2.18c5.435 0 9.818 4.385 9.818 9.82 0 5.434-4.383 9.818-9.818 9.818z"/></svg>
+</a>
 
 <!-- FOOTER -->
 <footer>
@@ -1640,6 +1851,14 @@ const counterObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.5 });
 counters.forEach(c => counterObserver.observe(c));
+
+// ─── FAQ ───
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
 
 // ─── ACTIVE NAV ───
 const sections = document.querySelectorAll('section[id], div[id]');
