@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="New Direction — профессиональное техническое обеспечение мероприятий под ключ в Казахстане. Звук, свет, LED-экраны, сцены, backline.">
+  <title>New Direction — Техническое обеспечение мероприятий</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #0f0f0f;
+      --bg3: #161616;
+      --gold: #C9A227;
+      --gold-light: #E8C547;
+      --gold-dim: rgba(201,162,39,0.15);
+      --blue: #3B82F6;
+      --blue-dim: rgba(59,130,246,0.12);
+      --white: #F8FAFC;
+      --white70: rgba(248,250,252,0.7);
+      --white40: rgba(248,250,252,0.4);
+      --white15: rgba(248,250,252,0.15);
+      --white08: rgba(248,250,252,0.08);
+      --border: rgba(255,255,255,0.08);
+      --radius: 12px;
+      --radius-lg: 20px;
+      --font: 'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, padding 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 14px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      text-decoration: none;
+    }
+    .nav-logo-main {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .nav-logo-sub {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--white70);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold);
+      color: #0a0a0a !important;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-weight: 700 !important;
+      transition: background 0.2s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-burger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      height: 100dvh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('0b7d2f25-f9e0-42c0-a681-93f985b446c5.JPG.jpeg');
+      background-size: cover;
+      background-position: center 30%;
+      transform: scale(1.05);
+      animation: heroZoom 12s ease-out forwards;
+    }
+    @keyframes heroZoom {
+      from { transform: scale(1.1); }
+      to { transform: scale(1.0); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,10,10,0.35) 0%,
+        rgba(10,10,10,0.55) 40%,
+        rgba(10,10,10,0.85) 75%,
+        rgba(10,10,10,1) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 24px;
+      max-width: 900px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(201,162,39,0.4);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 7px 18px;
+      border-radius: 40px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s forwards;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.5); }
+    }
+    .hero-title {
+      font-size: clamp(52px, 9vw, 110px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, #A07820 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 400;
+      color: var(--white70);
+      max-width: 560px;
+      margin: 24px auto 0;
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 44px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.9s forwards;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold);
+      color: #0a0a0a;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 16px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,162,39,0.35);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 15px 36px;
+      border-radius: 8px;
+      border: 1px solid var(--white15);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .btn-secondary:hover {
+      border-color: var(--white40);
+      background: var(--white08);
+      transform: translateY(-2px);
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s 1.4s forwards;
+    }
+    .hero-scroll span {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white40);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollAnim 2s infinite;
+    }
+    @keyframes scrollAnim {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── STATS ── */
+    #stats {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 40px;
+    }
+    .stats-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 20px 24px;
+      position: relative;
+    }
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: var(--border);
+    }
+    .stat-num {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-num .plus { color: var(--gold-light); }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--white40);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 100px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+    }
+    h2.section-title {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 16px;
+      color: var(--white70);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* ── SERVICES ── */
+    #services { padding-top: 100px; }
+    .services-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 60px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .service-card {
+      background: var(--bg2);
+      padding: 44px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .service-card:hover { background: var(--bg3); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .service-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .service-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.15em;
+    }
+    .service-name {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .service-text {
+      font-size: 14px;
+      color: var(--white40);
+      line-height: 1.65;
+      flex: 1;
+    }
+    .service-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .service-card:hover .service-arrow { opacity: 1; }
+
+    /* ── WHY US ── */
+    #why {
+      padding: 100px 40px;
+      background: var(--bg2);
+    }
+    #why > div {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .why-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 60px;
+    }
+    .why-image-wrap {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/5;
+    }
+    .why-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s;
+    }
+    .why-image-wrap:hover img { transform: scale(1.04); }
+    .why-image-badge {
+      position: absolute;
+      bottom: 28px;
+      left: 28px;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 22px;
+    }
+    .why-image-badge strong {
+      display: block;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--gold);
+    }
+    .why-image-badge span {
+      font-size: 12px;
+      color: var(--white40);
+      letter-spacing: 0.05em;
+    }
+    .why-list {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .why-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .why-item:hover {
+      border-color: rgba(201,162,39,0.3);
+      background: var(--bg3);
+    }
+    .why-item-icon {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      background: var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .why-item-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .why-item-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .why-item-text {
+      font-size: 14px;
+      color: var(--white40);
+      line-height: 1.6;
+    }
+
+    /* ── PORTFOLIO ── */
+    #portfolio { padding-top: 100px; }
+    .portfolio-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 50px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 12px;
+    }
+    .portfolio-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      cursor: pointer;
+      background: var(--bg3);
+    }
+    .portfolio-item:nth-child(1) { grid-column: span 7; grid-row: span 2; aspect-ratio: 4/3; }
+    .portfolio-item:nth-child(2) { grid-column: span 5; }
+    .portfolio-item:nth-child(3) { grid-column: span 5; }
+    .portfolio-item:nth-child(4) { grid-column: span 5; }
+    .portfolio-item:nth-child(5) { grid-column: span 7; }
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s;
+    }
+    .portfolio-item:hover img { transform: scale(1.06); }
+    .portfolio-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+    }
+    .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+    .portfolio-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+    .portfolio-label small {
+      display: block;
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    /* ── EQUIPMENT ── */
+    #equipment {
+      padding: 100px 40px;
+      background: var(--bg2);
+    }
+    #equipment > div {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .equip-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 60px;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .equip-track-wrap {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    }
+    .equip-track {
+      display: flex;
+      gap: 20px;
+      animation: scrollTrack 28s linear infinite;
+      width: max-content;
+    }
+    .equip-track:hover { animation-play-state: paused; }
+    @keyframes scrollTrack {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .equip-card {
+      flex-shrink: 0;
+      width: 240px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .equip-card:hover {
+      border-color: rgba(201,162,39,0.35);
+      transform: translateY(-4px);
+    }
+    .equip-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #161616;
+      display: block;
+    }
+    .equip-img-placeholder {
+      width: 100%;
+      height: 180px;
+      background: #161616;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .equip-info {
+      padding: 18px 18px 20px;
+    }
+    .equip-brand {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .equip-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+    .equip-type {
+      font-size: 12px;
+      color: var(--white40);
+      margin-top: 4px;
+    }
+
+    /* ── CLIENTS ── */
+    #clients { padding: 80px 40px; }
+    #clients > div {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .clients-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white40);
+      margin-bottom: 36px;
+    }
+    .clients-grid {
+      display: flex;
+      gap: 0;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .client-item {
+      padding: 20px 40px;
+      border-right: 1px solid var(--border);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white40);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .client-item:first-child { border-left: 1px solid var(--border); }
+    .client-item:hover { color: var(--white); }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 0 40px 100px;
+    }
+    #contact > div {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .contact-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      padding: 80px 80px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+    }
+    .contact-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('6872c26f-2476-4f54-bbda-8f4828220496.JPG.jpeg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.08;
+    }
+    .contact-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .contact-left h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .contact-left p {
+      font-size: 15px;
+      color: var(--white70);
+      line-height: 1.7;
+      max-width: 400px;
+    }
+    .contact-items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(10,10,10,0.6);
+      text-decoration: none;
+      color: var(--white);
+      transition: border-color 0.3s, background 0.3s, transform 0.2s;
+    }
+    .contact-item:hover {
+      border-color: rgba(201,162,39,0.4);
+      background: rgba(201,162,39,0.06);
+      transform: translateX(4px);
+    }
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-icon.gold { background: var(--gold-dim); }
+    .contact-icon.green { background: rgba(37,211,102,0.12); }
+    .contact-icon.purple { background: rgba(131,58,180,0.12); }
+    .contact-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .contact-icon.gold svg { stroke: var(--gold); }
+    .contact-icon.green svg { stroke: #25D366; }
+    .contact-icon.purple svg { stroke: #E1306C; }
+    .contact-item-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--white40);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .contact-item-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      background: var(--bg2);
+    }
+    .footer-logo {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-copy {
+      font-size: 12px;
+      color: var(--white40);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-size: 12px;
+      color: var(--white40);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ── MOBILE NAV ── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      padding: 40px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .mobile-close svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--white);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-layout { gap: 48px; }
+      .contact-content { gap: 48px; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      nav.scrolled { padding: 12px 20px; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+
+      section, #contact { padding: 70px 20px; }
+      #why, #equipment, #clients { padding: 70px 20px; }
+
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2)::after { display: none; }
+      .stat-item { padding: 20px 16px; }
+
+      .services-grid { grid-template-columns: 1fr; border-radius: 12px; }
+      .service-card { padding: 32px 24px; }
+
+      .why-layout { grid-template-columns: 1fr; }
+      .why-image-wrap { aspect-ratio: 16/9; }
+
+      .portfolio-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .portfolio-item:nth-child(1) { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; }
+      .portfolio-item:nth-child(2) { grid-column: span 1; }
+      .portfolio-item:nth-child(3) { grid-column: span 1; }
+      .portfolio-item:nth-child(4) { grid-column: span 1; }
+      .portfolio-item:nth-child(5) { grid-column: span 1; }
+
+      .contact-card { padding: 44px 28px; }
+      .contact-content { grid-template-columns: 1fr; gap: 44px; }
+
+      .services-header, .portfolio-header, .equip-header { flex-direction: column; align-items: flex-start; }
+
+      footer { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+
+      .clients-grid { gap: 0; }
+      .client-item { padding: 16px 20px; font-size: 13px; }
+
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; max-width: 320px; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .portfolio-item:nth-child(4),
+      .portfolio-item:nth-child(5) { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-bg { animation: none; }
+      .equip-track { animation: none; }
+      .scroll-line { animation: none; }
+      .hero-badge, .hero-title, .hero-sub, .hero-actions, .hero-scroll {
+        animation: none; opacity: 1;
+      }
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo" aria-label="New Direction — на главную">
+    <span class="nav-logo-main">New Direction</span>
+    <span class="nav-logo-sub">Event Tech</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#portfolio">Проекты</a></li>
+    <li><a href="#equipment">Оборудование</a></li>
+    <li><a href="#contact" class="nav-cta">Связаться</a></li>
+  </ul>
+  <button class="nav-burger" id="burgerBtn" aria-label="Открыть меню">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+  <button class="mobile-close" id="closeMenu" aria-label="Закрыть меню">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <a href="#services" onclick="closeMobileMenu()">Услуги</a>
+  <a href="#portfolio" onclick="closeMobileMenu()">Проекты</a>
+  <a href="#equipment" onclick="closeMobileMenu()">Оборудование</a>
+  <a href="#contact" onclick="closeMobileMenu()">Контакты</a>
+</div>
+
+<!-- HERO -->
+<section id="hero" aria-label="Главная">
+  <div class="hero-bg" role="img" aria-label="Концертное освещение на мероприятии"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Казахстан · Техническое обеспечение</div>
+    <h1 class="hero-title">
+      New<br><span>Direction</span>
+    </h1>
+    <p class="hero-sub">Профессиональное техническое обеспечение мероприятий под ключ — от камерных презентаций до масштабных концертных площадок</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Обсудить проект
+      </a>
+      <a href="#portfolio" class="btn-secondary">
+        Посмотреть работы
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats" role="region" aria-label="Статистика компании">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <div class="stat-num"><span class="counter" data-target="200">0</span><span class="plus">+</span></div>
+      <div class="stat-label">Мероприятий</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-1">
+      <div class="stat-num"><span class="counter" data-target="5">0</span><span class="plus">+</span></div>
+      <div class="stat-label">Лет опыта</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-num"><span class="counter" data-target="50">0</span><span class="plus">+</span></div>
+      <div class="stat-label">Брендов</div>
+    </div>
+    <div class="stat-item reveal reveal-delay-3">
+      <div class="stat-num"><span class="counter" data-target="100">0</span><span class="plus">%</span></div>
+      <div class="stat-label">Довольных клиентов</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" aria-labelledby="services-title">
+  <div class="services-header">
+    <div>
+      <div class="section-tag reveal">Что мы делаем</div>
+      <h2 class="section-title reveal reveal-delay-1" id="services-title">Наши услуги</h2>
+      <p class="section-desc reveal reveal-delay-2">Комплексное техническое обеспечение мероприятий любого масштаба и формата</p>
+    </div>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <span class="service-num">01</span>
+      </div>
+      <div class="service-name">Звуковое оборудование</div>
+      <p class="service-text">Профессиональные звуковые системы Midas, Turbosound, пульты микширования для залов любого размера — от камерных до open-air площадок.</p>
+      <span class="service-arrow" aria-hidden="true">Подробнее →</span>
+    </div>
+
+    <div class="service-card reveal reveal-delay-1">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <span class="service-num">02</span>
+      </div>
+      <div class="service-name">Концертное освещение</div>
+      <p class="service-text">Движущиеся головы, прожекторы, архитектурная подсветка и световые шоу — создаём атмосферу, которая производит впечатление.</p>
+      <span class="service-arrow" aria-hidden="true">Подробнее →</span>
+    </div>
+
+    <div class="service-card reveal reveal-delay-2">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <span class="service-num">03</span>
+      </div>
+      <div class="service-name">LED-экраны</div>
+      <p class="service-text">Светодиодные экраны для помещений и улицы с высоким разрешением — для презентаций, концертов, трансляций и брендинга.</p>
+      <span class="service-arrow" aria-hidden="true">Подробнее →</span>
+    </div>
+
+    <div class="service-card reveal reveal-delay-1">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+        </div>
+        <span class="service-num">04</span>
+      </div>
+      <div class="service-name">Сцены и конструкции</div>
+      <p class="service-text">Монтаж и демонтаж сценических конструкций, ферм, подиумов и систем подвеса любой конфигурации под ключ.</p>
+      <span class="service-arrow" aria-hidden="true">Подробнее →</span>
+    </div>
+
+    <div class="service-card reveal reveal-delay-2">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/><path d="M12 12v8"/></svg>
+        </div>
+        <span class="service-num">05</span>
+      </div>
+      <div class="service-name">Backline</div>
+      <p class="service-text">Профессиональный бэклайн: Yamaha drums, Ampeg, Peavey, гитарные усилители, клавишные — всё для музыкантов на сцене.</p>
+      <span class="service-arrow" aria-hidden="true">Подробнее →</span>
+    </div>
+
+    <div class="service-card reveal reveal-delay-3">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div class="service-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <span class="service-num">06</span>
+      </div>
+      <div class="service-name">Техническое сопровождение</div>
+      <p class="service-text">Команда квалифицированных специалистов обеспечивает бесперебойную работу всех систем с монтажа до завершения события.</p>
+      <span class="service-arrow" aria-hidden="true">Подробнее →</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY US -->
+<div id="why" role="region" aria-labelledby="why-title">
+  <div>
+    <div style="display:grid;grid-template-columns:1fr;">
+      <div class="reveal">
+        <div class="section-tag">Почему мы</div>
+        <h2 class="section-title" id="why-title">Надёжность,<br>которой доверяют</h2>
+      </div>
+    </div>
+    <div class="why-layout">
+      <div class="why-image-wrap reveal">
+        <img src="IMG_3868.jpg.jpeg" alt="Профессиональное световое шоу на мероприятии YSL" loading="lazy">
+        <div class="why-image-badge">
+          <strong>200+</strong>
+          <span>успешных мероприятий</span>
+        </div>
+      </div>
+      <div class="why-list">
+        <div class="why-item reveal reveal-delay-1">
+          <div class="why-item-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="why-item-title">Профессиональное оборудование</div>
+            <p class="why-item-text">Работаем только с надёжными брендами: Midas, Shure, Yamaha, Pioneer, Ampeg, Turbosound. Никаких компромиссов в качестве.</p>
+          </div>
+        </div>
+        <div class="why-item reveal reveal-delay-2">
+          <div class="why-item-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="why-item-title">Пунктуальность и надёжность</div>
+            <p class="why-item-text">Монтаж точно в срок, техническая готовность до начала — мы не допускаем сбоев на вашем мероприятии.</p>
+          </div>
+        </div>
+        <div class="why-item reveal reveal-delay-3">
+          <div class="why-item-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
+          <div>
+            <div class="why-item-title">Индивидуальный подход</div>
+            <p class="why-item-text">Каждый проект уникален. Предлагаем решения под особенности площадки, формат и бюджет заказчика.</p>
+          </div>
+        </div>
+        <div class="why-item reveal reveal-delay-4">
+          <div class="why-item-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div>
+            <div class="why-item-title">Гибкие условия</div>
+            <p class="why-item-text">Решения под любой масштаб и бюджет — от небольших корпоративов до крупных концертных шоу.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" aria-labelledby="portfolio-title">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-tag reveal">Наши проекты</div>
+      <h2 class="section-title reveal reveal-delay-1" id="portfolio-title">Реализованные<br>мероприятия</h2>
+    </div>
+    <p class="section-desc reveal reveal-delay-2" style="margin-bottom:0;">Корпоративы, концерты, фестивали, презентации и частные события — реализуем любой формат.</p>
+  </div>
+  <div class="portfolio-grid reveal">
+    <div class="portfolio-item">
+      <img src="0b7d2f25-f9e0-42c0-a681-93f985b446c5.JPG.jpeg" alt="Концертное освещение" loading="lazy">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          Концертное шоу
+          <small>Свет · Звук</small>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="4F883F2F-986F-4770-8395-2C97AAB4C6A0.JPG.jpeg" alt="Huawei Seeds for the Future — LED экран" loading="lazy">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          Huawei Seeds for the Future
+          <small>LED-экран · Звук</small>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="6872c26f-2476-4f54-bbda-8f4828220496.JPG.jpeg" alt="SVOY DOM — уличная сцена" loading="lazy">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          SVOY DOM — Asyl Tas
+          <small>Сцена · Звук · Свет</small>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="83750a4d-aa8c-4985-9b55-e8533736cc82.JPG.jpeg" alt="YSL — звуковое оборудование в ТЦ" loading="lazy">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          YSL Beauté
+          <small>Звук · Техсопровождение</small>
+        </div>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <img src="IMG_3868.jpg.jpeg" alt="YSL — LED-шоу с освещением" loading="lazy">
+      <div class="portfolio-overlay">
+        <div class="portfolio-label">
+          YSL Beauté Club Night
+          <small>LED · Свет · Pioneer DJ</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPMENT -->
+<div id="equipment" role="region" aria-labelledby="equip-title">
+  <div>
+    <div class="equip-header">
+      <div>
+        <div class="section-tag reveal">Наш парк</div>
+        <h2 class="section-title reveal reveal-delay-1" id="equip-title">Профессиональное<br>оборудование</h2>
+        <p class="section-desc reveal reveal-delay-2">Работаем с ведущими мировыми брендами — только проверенная техника для вашего события</p>
+      </div>
+    </div>
+    <div class="equip-track-wrap reveal">
+      <div class="equip-track" role="list" aria-label="Карусель оборудования">
+
+        <div class="equip-card" role="listitem">
+          <img class="equip-img" src="IMG_9484.JPG.jpeg" alt="Midas профессиональный микшер" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Midas</div>
+            <div class="equip-name">Цифровой микшерный пульт</div>
+            <div class="equip-type">Профессиональный звук</div>
+          </div>
+        </div>
+
+        <div class="equip-card" role="listitem">
+          <img class="equip-img" src="IMG_3439.jpg.jpeg" alt="Shure Beta 58A микрофон" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Shure</div>
+            <div class="equip-name">Beta 58A</div>
+            <div class="equip-type">Вокальный микрофон</div>
+          </div>
+        </div>
+
+        <div class="equip-card" role="listitem">
+          <img class="equip-img" src="IMG_9491.JPG.jpeg" alt="Turbosound колонки" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Turbosound</div>
+            <div class="equip-name">Система линейного массива</div>
+            <div class="equip-type">Звуковое оборудование</div>
+          </div>
+        </div>
+
+        <div class="equip-card" role="listitem">
+          <img class="equip-img" src="IMG_9503.JPG.jpeg" alt="Yamaha ударная установка" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Yamaha</div>
+            <div class="equip-name">Stage Custom Drum Kit</div>
+            <div class="equip-type">Backline · Ударные</div>
+          </div>
+        </div>
+
+        <div class="equip-card" role="listitem">
+          <img class="equip-img" src="IMG_9488.jpg.jpeg" alt="Shure BLX беспроводная система" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Shure</div>
+            <div class="equip-name">BLX Wireless System</div>
+            <div class="equip-type">Беспроводной микрофон</div>
+          </div>
+        </div>
+
+        <div class="equip-card" role="listitem">
+          <img class="equip-img" src="IMG_1875.jpg.jpeg" alt="Движущиеся головы" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Moving Heads</div>
+            <div class="equip-name">Прожекторы с поворотной головой</div>
+            <div class="equip-type">Концертное освещение</div>
+          </div>
+        </div>
+
+        <div class="equip-card" role="listitem">
+          <img class="equip-img" src="IMG_9515.JPG.jpeg" alt="Ampeg SVT-3 Pro бас усилитель" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Ampeg</div>
+            <div class="equip-name">SVT-3 Pro</div>
+            <div class="equip-type">Backline · Бас усилитель</div>
+          </div>
+        </div>
+
+        <div class="equip-card" role="listitem">
+          <img class="equip-img" src="IMG_9518.JPG.jpeg" alt="Peavey басовый кабинет" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Peavey</div>
+            <div class="equip-name">Bass Cabinet</div>
+            <div class="equip-type">Backline · Акустика</div>
+          </div>
+        </div>
+
+        <!-- Duplicate for infinite scroll -->
+        <div class="equip-card" role="listitem" aria-hidden="true">
+          <img class="equip-img" src="IMG_9484.JPG.jpeg" alt="" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Midas</div>
+            <div class="equip-name">Цифровой микшерный пульт</div>
+            <div class="equip-type">Профессиональный звук</div>
+          </div>
+        </div>
+        <div class="equip-card" role="listitem" aria-hidden="true">
+          <img class="equip-img" src="IMG_3439.jpg.jpeg" alt="" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Shure</div>
+            <div class="equip-name">Beta 58A</div>
+            <div class="equip-type">Вокальный микрофон</div>
+          </div>
+        </div>
+        <div class="equip-card" role="listitem" aria-hidden="true">
+          <img class="equip-img" src="IMG_9491.JPG.jpeg" alt="" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Turbosound</div>
+            <div class="equip-name">Система линейного массива</div>
+            <div class="equip-type">Звуковое оборудование</div>
+          </div>
+        </div>
+        <div class="equip-card" role="listitem" aria-hidden="true">
+          <img class="equip-img" src="IMG_9503.JPG.jpeg" alt="" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Yamaha</div>
+            <div class="equip-name">Stage Custom Drum Kit</div>
+            <div class="equip-type">Backline · Ударные</div>
+          </div>
+        </div>
+        <div class="equip-card" role="listitem" aria-hidden="true">
+          <img class="equip-img" src="IMG_9488.jpg.jpeg" alt="" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Shure</div>
+            <div class="equip-name">BLX Wireless System</div>
+            <div class="equip-type">Беспроводной микрофон</div>
+          </div>
+        </div>
+        <div class="equip-card" role="listitem" aria-hidden="true">
+          <img class="equip-img" src="IMG_1875.jpg.jpeg" alt="" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Moving Heads</div>
+            <div class="equip-name">Прожекторы с поворотной головой</div>
+            <div class="equip-type">Концертное освещение</div>
+          </div>
+        </div>
+        <div class="equip-card" role="listitem" aria-hidden="true">
+          <img class="equip-img" src="IMG_9515.JPG.jpeg" alt="" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Ampeg</div>
+            <div class="equip-name">SVT-3 Pro</div>
+            <div class="equip-type">Backline · Бас усилитель</div>
+          </div>
+        </div>
+        <div class="equip-card" role="listitem" aria-hidden="true">
+          <img class="equip-img" src="IMG_9518.JPG.jpeg" alt="" loading="lazy">
+          <div class="equip-info">
+            <div class="equip-brand">Peavey</div>
+            <div class="equip-name">Bass Cabinet</div>
+            <div class="equip-type">Backline · Акустика</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLIENTS -->
+<div id="clients" role="region" aria-label="Наши клиенты">
+  <div>
+    <p class="clients-label">Нам доверяют</p>
+    <div class="clients-grid">
+      <div class="client-item">Huawei</div>
+      <div class="client-item">YSL Beauté</div>
+      <div class="client-item">SVOY DOM</div>
+      <div class="client-item">Asyl Tas</div>
+      <div class="client-item">AIT</div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" role="region" aria-labelledby="contact-title">
+  <div>
+    <div class="contact-card">
+      <div class="contact-bg" aria-hidden="true"></div>
+      <div class="contact-content">
+        <div class="contact-left reveal">
+          <div class="section-tag">Контакты</div>
+          <h2 id="contact-title">Готовы обсудить<br>ваш проект?</h2>
+          <p>Свяжитесь с нами любым удобным способом. Ответим быстро, предложим решение под ваш формат и бюджет.</p>
+        </div>
+        <div class="contact-items">
+          <a href="tel:+77757614816" class="contact-item reveal reveal-delay-1" aria-label="Позвонить на номер +7 775 761 48 16">
+            <div class="contact-icon gold">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Телефон</div>
+              <div class="contact-item-value">+7 775 761 48 16</div>
+            </div>
+          </a>
+          <a href="https://wa.me/message/BJCZTDJA77CGI1" class="contact-item reveal reveal-delay-2" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">
+            <div class="contact-icon green">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-label">WhatsApp</div>
+              <div class="contact-item-value">Написать сейчас</div>
+            </div>
+          </a>
+          <a href="https://www.instagram.com/new_direction_tech_support" class="contact-item reveal reveal-delay-3" target="_blank" rel="noopener noreferrer" aria-label="Перейти в Instagram">
+            <div class="contact-icon purple">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Instagram</div>
+              <div class="contact-item-value">@new_direction_tech_support</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">New <span>Direction</span></div>
+  <p class="footer-copy">© 2025 New Direction. Все права защищены.</p>
+  <nav class="footer-links" aria-label="Навигация в футере">
+    <a href="#services">Услуги</a>
+    <a href="#portfolio">Проекты</a>
+    <a href="#equipment">Оборудование</a>
+    <a href="#contact">Контакты</a>
+  </nav>
+</footer>
+
+<script>
+  // Navbar scroll behavior
+  const navbar = document.getElementById('navbar');
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        navbar.classList.toggle('scrolled', window.scrollY > 60);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Mobile menu
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenu = document.getElementById('closeMenu');
+
+  burgerBtn.addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  closeMenu.addEventListener('click', closeMobileMenu);
+  mobileMenu.addEventListener('click', (e) => {
+    if (e.target === mobileMenu) closeMobileMenu();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMobileMenu();
+  });
+
+  // Intersection Observer for reveal animations
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // Animated counters
+  const counters = document.querySelectorAll('.counter');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target);
+        const duration = 1800;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          el.textContent = Math.floor(current);
+        }, 16);
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  counters.forEach(c => counterObserver.observe(c));
+
+  // Smooth active nav highlight
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.style.color = link.getAttribute('href') === `#${id}`
+            ? 'var(--gold)'
+            : '';
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => sectionObserver.observe(s));
+</script>
+
+</body>
+</html>
