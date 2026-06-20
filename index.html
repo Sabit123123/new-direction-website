@@ -1077,6 +1077,50 @@
       .portfolio-item:nth-child(4), .portfolio-item:nth-child(5) { display: none; }
       .client-item { padding: 16px 20px; font-size: 14px; }
     }
+    /* ── EVENT TYPES ── */
+    #eventtypes { padding: 80px 48px; }
+    #eventtypes > div { max-width: 1240px; margin: 0 auto; }
+    .etypes-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin-top: 48px; }
+    .etype-card {
+      background: var(--bg2); padding: 28px 20px 24px;
+      text-align: center; position: relative; overflow: hidden;
+      border-top: 2px solid transparent;
+      transition: background .3s, border-color .3s;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    }
+    .etype-card:hover { background: var(--bg3); border-color: var(--gold); }
+    .etype-icon { font-size: 32px; display: block; margin-bottom: 12px; }
+    .etype-name { font-family: var(--font-head); font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+    .etype-desc { font-size: 11px; color: var(--white40); line-height: 1.65; }
+    @media (max-width: 768px) {
+      .etypes-grid { grid-template-columns: repeat(2, 1fr); }
+      .etype-card:nth-child(5) { grid-column: span 2; }
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact-form { display: flex; flex-direction: column; gap: 12px; }
+    .cf-group { display: flex; flex-direction: column; gap: 5px; }
+    .cf-group label { font-size: 10px; font-weight: 700; color: var(--white40); letter-spacing: .14em; text-transform: uppercase; }
+    .cf-input, .cf-select, .cf-textarea {
+      background: rgba(5,5,7,.6); border: 1px solid var(--border);
+      color: var(--white); font-family: var(--font); font-size: 13px;
+      padding: 11px 14px; outline: none; border-radius: 0; width: 100%;
+      transition: border-color .2s;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+    }
+    .cf-input:focus, .cf-select:focus, .cf-textarea:focus { border-color: var(--gold); }
+    .cf-select { appearance: none; cursor: pointer; }
+    .cf-select option { background: #111; }
+    .cf-textarea { resize: vertical; min-height: 80px; }
+    .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cf-note { font-size: 10px; color: var(--white40); margin-top: 4px; }
+    .form-success {
+      text-align: center; padding: 28px; font-size: 15px; color: var(--gold);
+      border: 1px solid var(--border-gold); background: var(--gold-dim);
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    }
+    @media (max-width: 768px) { .cf-row { grid-template-columns: 1fr; } }
+
     /* ── HOW IT WORKS ── */
     #process { padding: 108px 48px; background: var(--bg2); position: relative; }
     #process::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--gold-glow),transparent); }
@@ -1204,6 +1248,7 @@
     <li><a href="#portfolio">Проекты</a></li>
     <li><a href="#equipment">Оборудование</a></li>
     <li><a href="planner.html">3D Планировщик</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact" class="nav-cta">Связаться</a></li>
   </ul>
   <button class="nav-burger" id="burgerBtn" aria-label="Открыть меню">
@@ -1271,6 +1316,41 @@
     <div class="stat-item reveal reveal-delay-3">
       <div class="stat-num"><span class="counter" data-target="100">0</span><span class="plus">%</span></div>
       <div class="stat-label">Довольных клиентов</div>
+    </div>
+  </div>
+</div>
+
+<!-- EVENT TYPES -->
+<div id="eventtypes" role="region" aria-labelledby="etypes-title">
+  <div>
+    <div class="section-tag reveal">Для каких событий</div>
+    <h2 class="section-title reveal reveal-delay-1" id="etypes-title">Любой формат —<br>под ключ</h2>
+    <div class="etypes-grid">
+      <div class="etype-card reveal">
+        <span class="etype-icon">🏢</span>
+        <div class="etype-name">Корпоратив</div>
+        <p class="etype-desc">Звук, свет и сцена для корпоративных вечеров, тимбилдингов и праздников компаний</p>
+      </div>
+      <div class="etype-card reveal reveal-delay-1">
+        <span class="etype-icon">🎵</span>
+        <div class="etype-name">Концерт</div>
+        <p class="etype-desc">Полный технический райдер для живых выступлений: от клубов до open-air площадок</p>
+      </div>
+      <div class="etype-card reveal reveal-delay-2">
+        <span class="etype-icon">💍</span>
+        <div class="etype-name">Свадьба</div>
+        <p class="etype-desc">Атмосферный свет, кристальный звук и профессиональная поддержка для вашего дня</p>
+      </div>
+      <div class="etype-card reveal reveal-delay-3">
+        <span class="etype-icon">🎤</span>
+        <div class="etype-name">Конференция</div>
+        <p class="etype-desc">LED-экраны, микрофонные системы и трансляции для бизнес-мероприятий и презентаций</p>
+      </div>
+      <div class="etype-card reveal reveal-delay-4">
+        <span class="etype-icon">🎪</span>
+        <div class="etype-name">Фестиваль</div>
+        <p class="etype-desc">Сценические конструкции, масштабный звук и световые шоу для уличных фестивалей</p>
+      </div>
     </div>
   </div>
 </div>
@@ -1670,34 +1750,49 @@
           <h2 id="contact-title">Готовы обсудить<br>ваш проект?</h2>
           <p>Свяжитесь с нами любым удобным способом. Ответим быстро, предложим решение под ваш формат и бюджет.</p>
         </div>
-        <div class="contact-items">
-          <a href="tel:+77757614816" class="contact-item reveal reveal-delay-1" aria-label="Позвонить на номер +7 775 761 48 16">
-            <div class="contact-icon gold">
-              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        <div class="reveal reveal-delay-1" id="contactFormWrap">
+          <form class="contact-form" id="contactForm" onsubmit="submitContactForm(event)" novalidate>
+            <div class="cf-row">
+              <div class="cf-group">
+                <label for="cf-name">Ваше имя</label>
+                <input class="cf-input" id="cf-name" name="name" type="text" placeholder="Имя и фамилия" required>
+              </div>
+              <div class="cf-group">
+                <label for="cf-phone">Телефон</label>
+                <input class="cf-input" id="cf-phone" name="phone" type="tel" placeholder="+7 ___ ___ __ __" required>
+              </div>
             </div>
-            <div>
-              <div class="contact-item-label">Телефон</div>
-              <div class="contact-item-value">+7 775 761 48 16</div>
+            <div class="cf-group">
+              <label for="cf-type">Тип мероприятия</label>
+              <select class="cf-select" id="cf-type" name="type">
+                <option value="">Выберите формат</option>
+                <option>Корпоратив</option>
+                <option>Концерт / Фестиваль</option>
+                <option>Свадьба</option>
+                <option>Конференция / Презентация</option>
+                <option>Другое</option>
+              </select>
             </div>
-          </a>
-          <a href="https://wa.me/message/BJCZTDJA77CGI1" class="contact-item reveal reveal-delay-2" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp">
-            <div class="contact-icon green">
-              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            <div class="cf-group">
+              <label for="cf-msg">Дата и описание</label>
+              <textarea class="cf-textarea" id="cf-msg" name="msg" placeholder="Расскажите о вашем мероприятии: дата, площадка, количество гостей..."></textarea>
             </div>
-            <div>
-              <div class="contact-item-label">WhatsApp</div>
-              <div class="contact-item-value">Написать сейчас</div>
-            </div>
-          </a>
-          <a href="https://www.instagram.com/new_direction_tech_support" class="contact-item reveal reveal-delay-3" target="_blank" rel="noopener noreferrer" aria-label="Перейти в Instagram">
-            <div class="contact-icon purple">
-              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            </div>
-            <div>
-              <div class="contact-item-label">Instagram</div>
-              <div class="contact-item-value">@new_direction_tech_support</div>
-            </div>
-          </a>
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+              Отправить заявку
+            </button>
+            <p class="cf-note">Заявка откроет WhatsApp — ответим в течение часа</p>
+          </form>
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
+            <a href="tel:+77757614816" class="contact-item" aria-label="Позвонить">
+              <div class="contact-icon gold"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div><div class="contact-item-label">Телефон</div><div class="contact-item-value">+7 775 761 48 16</div></div>
+            </a>
+            <a href="https://www.instagram.com/new_direction_tech_support" class="contact-item" target="_blank" rel="noopener noreferrer">
+              <div class="contact-icon purple"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" stroke="currentColor" stroke-width="1.5" fill="none"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+              <div><div class="contact-item-label">Instagram</div><div class="contact-item-value">@new_direction_tech_support</div></div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -1712,7 +1807,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">New <span>Direction</span></div>
-  <p class="footer-copy">© 2025 New Direction. Все права защищены.</p>
+  <p class="footer-copy">© 2026 New Direction. Все права защищены.</p>
   <nav class="footer-links" aria-label="Навигация в футере">
     <a href="#services">Услуги</a>
     <a href="#portfolio">Проекты</a>
@@ -1851,6 +1946,24 @@ const counterObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.5 });
 counters.forEach(c => counterObserver.observe(c));
+
+// ─── CONTACT FORM ───
+function submitContactForm(e) {
+  e.preventDefault();
+  const f = e.target;
+  const name  = f.querySelector('[name=name]').value.trim();
+  const phone = f.querySelector('[name=phone]').value.trim();
+  const type  = f.querySelector('[name=type]').value;
+  const msg   = f.querySelector('[name=msg]').value.trim();
+  if (!name || !phone) {
+    f.querySelector('[name=' + (!name ? 'name' : 'phone') + ']').focus();
+    return;
+  }
+  const text = `Заявка с сайта New Direction!\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}${type ? '\n🎪 Тип: '+type : ''}${msg ? '\n📝 '+msg : ''}`;
+  window.open('https://wa.me/77757614816?text=' + encodeURIComponent(text), '_blank');
+  document.getElementById('contactFormWrap').innerHTML =
+    '<div class="form-success">✓ Открываем WhatsApp с вашей заявкой...<br><span style="font-size:12px;color:var(--white40);margin-top:8px;display:block">Если не открылось — напишите напрямую: +7 775 761 48 16</span></div>';
+}
 
 // ─── FAQ ───
 function toggleFaq(btn) {

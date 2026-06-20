@@ -221,6 +221,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;heigh
     <div class="hud-tl">
       <span class="hud-badge gold" id="hud-room">Зал: 20 × 15 м</span>
       <span class="hud-badge" id="hud-mode">Режим: Просмотр</span>
+      <span class="hud-badge" id="hud-count">Пусто</span>
       <span class="hud-badge" id="hud-sel" style="display:none">Выбрано: —</span>
     </div>
 
@@ -307,6 +308,12 @@ const CATALOG = [
   {id:'hazer',  name:'Генератор дыма',    type:'fx',        emoji:'🌫', w:.4,  d:.6,  h:.32, color:0x333344},
   {id:'table',  name:'Стол',              type:'furniture', emoji:'🪑', w:1.5, d:.9,  h:.75, color:0x3d2b1a},
   {id:'chair',  name:'Стул',              type:'furniture', emoji:'🪑', w:.48, d:.48, h:.46, color:0x2a1a0f},
+  {id:'spot',   name:'Следящий прожектор',type:'light',     emoji:'🔆', w:.3,  d:.5,  h:.6,  color:0x222211, beam:0xffffff,  beamAngle:.22},
+  {id:'dj',     name:'DJ-стол',           type:'furniture', emoji:'🎧', w:1.6, d:.8,  h:.95, color:0x0d0d20},
+  {id:'mic',    name:'Стойка микрофона',  type:'audio',     emoji:'🎤', w:.15, d:.15, h:1.6, color:0x282828},
+  {id:'podium', name:'Подиум',            type:'structure', emoji:'🎙', w:.7,  d:.5,  h:1.1, color:0x201808},
+  {id:'wash',   name:'Wash LED (заливка)',type:'light',     emoji:'🌈', w:.25, d:.25, h:.32, color:0x112200, beam:0x88ff44, beamAngle:.7},
+  {id:'strip',  name:'LED лента 1м',      type:'light',     emoji:'✨', w:1.0, d:.05, h:.04, color:0x001122, beam:0x00ccff, beamAngle:.3},
 ];
 const TYPE_COLOR = {light:'#4488ff',audio:'#aaaaaa',structure:'#888866',display:'#4444ff',furniture:'#886644',fx:'#44aa88'};
 
@@ -420,7 +427,8 @@ function buildRoom(){
   v.forEach((pt,i)=>{ i===0 ? shape.moveTo(pt.x,pt.z) : shape.lineTo(pt.x,pt.z); });
   shape.closePath();
   const floorGeo = new THREE.ShapeGeometry(shape);
-  const floorMat = new THREE.MeshLambertMaterial({color:0x1a1408, side:THREE.DoubleSide});
+  const floorTex = makeParquetTexture();
+  const floorMat = new THREE.MeshLambertMaterial({map:floorTex, side:THREE.DoubleSide});
   const floorM = new THREE.Mesh(floorGeo, floorMat);
   floorM.rotation.x = -Math.PI/2; floorM.receiveShadow=true; floorM.name='roomfloor';
   scene.add(floorM); roomMeshes.push(floorM);
@@ -533,10 +541,14 @@ function placeEquipment(item, x, z){
     placed.push(ptL, ptL.target);
   }
 
+  addEquipLabel(mesh, item);
+  if(item.beam && item.type==='light') addFloorSpot(mesh, item);
+
   undoStack.push({type:'place', mesh, lights:[mesh.userData.spotLight, mesh.userData.spotTarget].filter(Boolean)});
   if(undoStack.length>20) undoStack.shift();
   selectObj(mesh);
   hideHint();
+  updateCount();
   return mesh;
 }
 
@@ -546,7 +558,7 @@ function addBeamCone(mesh, item){
   const cGeo = new THREE.ConeGeometry(beamR, beamH, 16, 1, true);
   const cMat = new THREE.MeshBasicMaterial({
     color: new THREE.Color(item.beam),
-    transparent:true, opacity:.06,
+    transparent:true, opacity:.18,
     side:THREE.DoubleSide, depthWrite:false,
     blending:THREE.AdditiveBlending
   });
@@ -560,6 +572,65 @@ function addBeamCone(mesh, item){
   scene.add(cone);
   beamMeshes.push(cone);
   mesh.userData.beamCone=cone;
+}
+
+function addFloorSpot(mesh, item){
+  const r = 4.5*(item.beamAngle||0.4)*1.2;
+  const geo = new THREE.CircleGeometry(r, 32);
+  const mat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(item.beam),
+    transparent:true, opacity:.13,
+    depthWrite:false, blending:THREE.AdditiveBlending, side:THREE.DoubleSide
+  });
+  const circle = new THREE.Mesh(geo, mat);
+  circle.rotation.x = -Math.PI/2;
+  circle.position.set(mesh.position.x, 0.025, mesh.position.z);
+  circle.name = 'fspot_'+mesh.name;
+  scene.add(circle);
+  mesh.userData.floorSpot = circle;
+}
+
+function addEquipLabel(mesh, item){
+  const c = document.createElement('canvas'); c.width=240; c.height=44;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle='rgba(7,7,6,.82)';
+  ctx.beginPath(); ctx.roundRect(2,2,236,40,4); ctx.fill();
+  ctx.strokeStyle='rgba(201,162,39,.7)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.roundRect(2,2,236,40,4); ctx.stroke();
+  ctx.fillStyle='#F5F0E8'; ctx.font='bold 18px Inter,sans-serif';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(item.emoji+' '+item.name, 120, 22);
+  const tex = new THREE.CanvasTexture(c);
+  const mat = new THREE.SpriteMaterial({map:tex, depthTest:false, transparent:true});
+  const sp = new THREE.Sprite(mat); sp.scale.set(2.0,.46,1);
+  sp.position.set(mesh.position.x, item.h+0.5, mesh.position.z);
+  sp.name='label_'+mesh.name;
+  scene.add(sp);
+  mesh.userData.label = sp;
+}
+
+function makeParquetTexture(){
+  const size=512;
+  const c=document.createElement('canvas'); c.width=c.height=size;
+  const ctx=c.getContext('2d');
+  ctx.fillStyle='#1a1208'; ctx.fillRect(0,0,size,size);
+  const pw=64,ph=16;
+  for(let row=0;row<size/ph+1;row++){
+    for(let col=-1;col<size/pw+1;col++){
+      const x=(col*pw + (row%2)*pw/2) % size;
+      const y=row*ph;
+      const shade=0.65+Math.random()*.25;
+      ctx.fillStyle=`rgba(${Math.floor(38*shade)},${Math.floor(26*shade)},${Math.floor(10*shade)},1)`;
+      ctx.fillRect(x,y,pw-1,ph-1);
+      ctx.strokeStyle='rgba(0,0,0,.25)'; ctx.lineWidth=.8;
+      ctx.beginPath(); ctx.moveTo(x+6,y+ph/2); ctx.lineTo(x+pw-8,y+ph/2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x+pw/3,y+2); ctx.lineTo(x+pw/3,y+ph-2); ctx.stroke();
+    }
+  }
+  const tex=new THREE.CanvasTexture(c);
+  tex.wrapS=tex.wrapT=THREE.RepeatWrapping;
+  tex.repeat.set(8,8);
+  return tex;
 }
 
 function rebuildBeams(){
@@ -705,6 +776,8 @@ function onMouseMove(e){
       const item=dragObj.userData.catalog;
       dragObj.userData.beamCone.position.set(sx, item.h-4.5/2, sz);
     }
+    if(dragObj.userData.label) dragObj.userData.label.position.set(sx, dragObj.userData.catalog.h+.5, sz);
+    if(dragObj.userData.floorSpot) dragObj.userData.floorSpot.position.set(sx, .025, sz);
     // Snap dot on screen
     const snapDot=document.getElementById('snap-dot');
     const p2=worldToScreen(new THREE.Vector3(sx,0,sz));
@@ -753,13 +826,17 @@ function deselectObj(){
 }
 function deleteSelected(){
   if(!selectedObj) return;
-  const l=selectedObj.userData.spotLight, lt=selectedObj.userData.spotTarget, bc=selectedObj.userData.beamCone;
-  scene.remove(selectedObj); if(l){scene.remove(l);} if(lt){scene.remove(lt);} if(bc){scene.remove(bc);}
+  const l=selectedObj.userData.spotLight, lt=selectedObj.userData.spotTarget;
+  const bc=selectedObj.userData.beamCone, lab=selectedObj.userData.label, fs=selectedObj.userData.floorSpot;
+  scene.remove(selectedObj);
+  if(l){scene.remove(l);} if(lt){scene.remove(lt);}
+  if(bc){scene.remove(bc);} if(lab){scene.remove(lab);} if(fs){scene.remove(fs);}
   placed=placed.filter(o=>o!==selectedObj&&o!==l&&o!==lt);
   beamMeshes=beamMeshes.filter(b=>b!==bc);
   selectedObj=null;
   document.getElementById('hud-sel').style.display='none';
   document.getElementById('propsSection').style.display='none';
+  updateCount();
 }
 
 // ════════════════════════════════════════════
@@ -783,9 +860,13 @@ function setProp(prop,val){
   if(prop==='x') selectedObj.position.x=snapVal(val);
   if(prop==='z') selectedObj.position.z=snapVal(val);
   if(prop==='ry') selectedObj.rotation.y=val*Math.PI/180;
-  const l=selectedObj.userData.spotLight, lt=selectedObj.userData.spotTarget, bc=selectedObj.userData.beamCone, it=selectedObj.userData.catalog;
-  if(l){ l.position.set(selectedObj.position.x,it.h,selectedObj.position.z); lt.position.set(selectedObj.position.x,0,selectedObj.position.z); }
-  if(bc){ bc.position.set(selectedObj.position.x,it.h-4.5/2,selectedObj.position.z); }
+  const o=selectedObj, it=o.userData.catalog;
+  const l=o.userData.spotLight, lt=o.userData.spotTarget, bc=o.userData.beamCone;
+  const lab=o.userData.label, fs=o.userData.floorSpot;
+  if(l){ l.position.set(o.position.x,it.h,o.position.z); lt.position.set(o.position.x,0,o.position.z); }
+  if(bc){ bc.position.set(o.position.x,it.h-4.5/2,o.position.z); }
+  if(lab){ lab.position.set(o.position.x,it.h+.5,o.position.z); }
+  if(fs){ fs.position.set(o.position.x,.025,o.position.z); }
 }
 
 // ════════════════════════════════════════════
@@ -877,17 +958,36 @@ function setShape(s){
 function undoAction(){
   const a=undoStack.pop(); if(!a) return;
   if(a.type==='place'){
-    scene.remove(a.mesh);
+    const m=a.mesh;
+    scene.remove(m);
     a.lights.forEach(l=>scene.remove(l));
-    placed=placed.filter(o=>o!==a.mesh&&!a.lights.includes(o));
-    if(a.mesh.userData.beamCone){ scene.remove(a.mesh.userData.beamCone); beamMeshes=beamMeshes.filter(b=>b!==a.mesh.userData.beamCone); }
-    if(selectedObj===a.mesh) deselectObj();
+    if(m.userData.beamCone){ scene.remove(m.userData.beamCone); beamMeshes=beamMeshes.filter(b=>b!==m.userData.beamCone); }
+    if(m.userData.label) scene.remove(m.userData.label);
+    if(m.userData.floorSpot) scene.remove(m.userData.floorSpot);
+    placed=placed.filter(o=>o!==m&&!a.lights.includes(o));
+    if(selectedObj===m) deselectObj();
+    updateCount();
   }
 }
-function clearAll(){ if(!confirm('Очистить всё?')) return; placed.forEach(o=>scene.remove(o)); beamMeshes.forEach(b=>scene.remove(b)); winLights.forEach(l=>scene.remove(l)); placed=[]; beamMeshes=[]; winLights=[]; undoStack=[]; deselectObj(); }
+function clearAll(){
+  if(!confirm('Очистить всё?')) return;
+  placed.forEach(o=>{
+    scene.remove(o);
+    if(o.userData){
+      if(o.userData.label) scene.remove(o.userData.label);
+      if(o.userData.floorSpot) scene.remove(o.userData.floorSpot);
+    }
+  });
+  beamMeshes.forEach(b=>scene.remove(b)); winLights.forEach(l=>scene.remove(l));
+  placed=[]; beamMeshes=[]; winLights=[]; undoStack=[]; deselectObj(); updateCount();
+}
 function exportScene(){
-  const data={shape:roomShape, verts:roomVerts, placed:placed.filter(o=>o.isMesh&&o.userData.catalog).map(o=>({id:o.userData.catalog.id,x:o.position.x,z:o.position.z,ry:o.rotation.y}))};
-  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})); a.download='nd-plan.json'; a.click();
+  // Hide labels briefly for clean screenshot
+  placed.forEach(o=>{ if(o.userData.label) o.userData.label.visible=false; });
+  renderer.render(scene,camera);
+  const url=renderer.domElement.toDataURL('image/png');
+  placed.forEach(o=>{ if(o.userData.label) o.userData.label.visible=true; });
+  const a=document.createElement('a'); a.href=url; a.download='nd-plan.png'; a.click();
 }
 
 // ════════════════════════════════════════════
@@ -922,6 +1022,11 @@ function updateHUD(){
 }
 function hideHint(){ document.getElementById('hintBar').style.opacity='0'; }
 function closeWelcome(){ document.getElementById('welcomeModal').style.display='none'; }
+function updateCount(){
+  const n=placed.filter(o=>o.isMesh&&o.userData.catalog).length;
+  const el=document.getElementById('hud-count');
+  if(el) el.textContent=n>0?n+' объект'+(n===1?'':n<5?'а':'ов'):'Пусто';
+}
 
 // ════════════════════════════════════════════
 // RESIZE + ANIMATE
@@ -941,7 +1046,11 @@ function animate(){
     if(o.material.emissiveIntensity!==undefined) o.material.emissiveIntensity=.15+Math.sin(t*1.8+o.position.x)*.06;
   });
   // Beam cone flicker
-  beamMeshes.forEach((b,i)=>{ if(b.material) b.material.opacity=.05+Math.sin(t*2+i)*.01; });
+  beamMeshes.forEach((b,i)=>{ if(b.material) b.material.opacity=.14+Math.sin(t*1.5+i*.7)*.04; });
+  // Floor spot pulse
+  placed.filter(o=>o.isMesh&&o.userData.floorSpot).forEach((o,i)=>{
+    o.userData.floorSpot.material.opacity=.10+Math.sin(t*1.2+i*.5)*.03;
+  });
   renderer.render(scene,camera);
 }
 
