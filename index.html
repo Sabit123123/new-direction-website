@@ -2043,139 +2043,7 @@ closeMenu.addEventListener('click', closeMobileMenu);
 mobileMenu.addEventListener('click', e => { if (e.target === mobileMenu) closeMobileMenu(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
 
-// ─── HERO PARTICLES (interactive — mouse repels) ───
-(function() {
-  const canvas = document.getElementById('hero-canvas');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [];
-  let mx = -9999, my = -9999;
-
-  function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  canvas.addEventListener('mousemove', e => {
-    const r = canvas.getBoundingClientRect();
-    mx = e.clientX - r.left; my = e.clientY - r.top;
-  });
-  canvas.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
-
-  const GOLD = 'rgba(201,162,39,';
-  const RED  = 'rgba(255,45,32,';
-  const REPEL = 140;
-
-  class Particle {
-    constructor(randomY) {
-      this.reset();
-      if (randomY) this.y = Math.random() * H;
-    }
-    reset() {
-      this.x  = Math.random() * W;
-      this.y  = H + 8;
-      this.vx = (Math.random() - .5) * .45;
-      this.vy = -Math.random() * .65 - .12;
-      this.size  = Math.random() * 1.8 + .25;
-      this.alpha = Math.random() * .55 + .08;
-      this.type  = Math.random() < .82 ? 'gold' : 'red';
-    }
-    update() {
-      // Mouse repulsion
-      const dx = this.x - mx, dy = this.y - my;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if (d < REPEL && d > 0) {
-        const f = (1 - d/REPEL) * 3.0;
-        this.vx += (dx/d) * f * .07;
-        this.vy += (dy/d) * f * .07;
-      }
-      this.vx *= .97;
-      this.vy  = Math.min(this.vy * .97, -.04);
-      this.x  += this.vx;
-      this.y  += this.vy;
-      this.alpha -= .00065;
-      if (this.y < -10 || this.alpha <= 0) this.reset();
-    }
-    draw() {
-      const c = this.type === 'gold' ? GOLD : RED;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = c + this.alpha + ')';
-      ctx.fill();
-    }
-  }
-
-  function drawNet() {
-    const n = particles.length;
-    for (let i = 0; i < n; i++) {
-      for (let j = i + 1; j < n; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const d  = Math.sqrt(dx*dx + dy*dy);
-        if (d < 95) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = GOLD + ((1 - d/95) * .07) + ')';
-          ctx.lineWidth = .5;
-          ctx.stroke();
-        }
-      }
-    }
-    // Glow halo at cursor
-    if (mx > 0 && mx < W) {
-      const g = ctx.createRadialGradient(mx, my, 0, mx, my, 110);
-      g.addColorStop(0, 'rgba(201,162,39,.06)');
-      g.addColorStop(1, 'rgba(201,162,39,0)');
-      ctx.beginPath(); ctx.arc(mx, my, 110, 0, Math.PI*2);
-      ctx.fillStyle = g; ctx.fill();
-    }
-  }
-
-  for (let i = 0; i < 160; i++) particles.push(new Particle(true));
-
-  function animate() {
-    ctx.clearRect(0, 0, W, H);
-    drawNet();
-    particles.forEach(p => { p.update(); p.draw(); });
-    requestAnimationFrame(animate);
-  }
-  animate();
-})();
-
-// ─── SCROLL REVEAL ───
-const revealEls = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-revealEls.forEach(el => revealObserver.observe(el));
-
-// ─── COUNTERS ───
-const counters = document.querySelectorAll('.counter');
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      const target = parseInt(el.dataset.target);
-      const duration = 2000;
-      const step = target / (duration / 16);
-      let current = 0;
-      const timer = setInterval(() => {
-        current += step;
-        if (current >= target) { current = target; clearInterval(timer); }
-        el.textContent = Math.floor(current);
-      }, 16);
-      counterObserver.unobserve(el);
-    }
-  });
-}, { threshold: 0.5 });
-counters.forEach(c => counterObserver.observe(c));
+// Particles, scroll-reveal, and counters handled by bundle.min.js (Three.js + GSAP)
 
 // ─── CONTACT FORM ───
 function submitContactForm(e) {
@@ -2360,5 +2228,6 @@ const sectionObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.35 });
 sections.forEach(s => sectionObs.observe(s));
 </script>
+<script src="bundle.min.js" defer></script>
 </body>
 </html>
