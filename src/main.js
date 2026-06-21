@@ -6,27 +6,26 @@ import Lenis from '@studio-freight/lenis'
 gsap.registerPlugin(ScrollTrigger)
 
 /* ─────────────────────────────────────────
-   LENIS  smooth scroll
+   LENIS  smooth scroll (desktop only)
+   On mobile, native scroll is used so that GSAP
+   ScrollTrigger touch events work without interference.
 ───────────────────────────────────────── */
 const isMobile = window.matchMedia('(hover:none)').matches
-const lenis = new Lenis({
-  duration: isMobile ? 0.7 : 1.15,
-  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-  wheelMultiplier: 0.85,
-  touchMultiplier: 1.6,
-})
-gsap.ticker.add(time => { lenis.raf(time * 1000) })
-gsap.ticker.lagSmoothing(0)
-lenis.on('scroll', ScrollTrigger.update)
 
-// On mobile never block touch scroll — Lenis.stop() prevents swipe, which breaks ScrollTrigger
-const startLenis = () => lenis.start()
-if (isMobile) {
-  startLenis()
-} else {
-  lenis.stop()  // desktop only: hold until loader exits
+if (!isMobile) {
+  const lenis = new Lenis({
+    duration: 1.15,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    wheelMultiplier: 0.85,
+  })
+  gsap.ticker.add(time => { lenis.raf(time * 1000) })
+  gsap.ticker.lagSmoothing(0)
+  lenis.on('scroll', ScrollTrigger.update)
+
+  lenis.stop()
   const loader = document.getElementById('loader')
+  const startLenis = () => lenis.start()
   if (loader) loader.addEventListener('transitionend', startLenis, { once: true })
   else setTimeout(startLenis, 50)
 }
