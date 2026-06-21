@@ -16,17 +16,20 @@ const lenis = new Lenis({
   wheelMultiplier: 0.85,
   touchMultiplier: 1.6,
 })
-lenis.stop()   // hold until loader exits
-
 gsap.ticker.add(time => { lenis.raf(time * 1000) })
 gsap.ticker.lagSmoothing(0)
 lenis.on('scroll', ScrollTrigger.update)
 
-// Start after loader exits
+// On mobile never block touch scroll — Lenis.stop() prevents swipe, which breaks ScrollTrigger
 const startLenis = () => lenis.start()
-const loader = document.getElementById('loader')
-if (loader) loader.addEventListener('transitionend', startLenis, { once: true })
-else setTimeout(startLenis, 50)  // no loader on service pages — start quickly
+if (isMobile) {
+  startLenis()
+} else {
+  lenis.stop()  // desktop only: hold until loader exits
+  const loader = document.getElementById('loader')
+  if (loader) loader.addEventListener('transitionend', startLenis, { once: true })
+  else setTimeout(startLenis, 50)
+}
 
 /* ─────────────────────────────────────────
    THREE.JS  WebGL particle field on #hero-canvas
@@ -479,6 +482,9 @@ function initScrollAnimations() {
     opacity: 0, y: 36, duration: 0.85, ease: 'power3.out',
     scrollTrigger: { trigger: '.cta-banner', start: 'top 82%', once: true },
   })
+
+  // Re-measure after all resources load (fonts shift layout on mobile)
+  window.addEventListener('load', () => ScrollTrigger.refresh())
 
   /* ── Generic .reveal fallback (for any section not covered) ── */
   gsap.utils.toArray('.reveal').forEach(el => {
