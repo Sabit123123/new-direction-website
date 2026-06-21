@@ -302,6 +302,40 @@ function initHeroGL() {
 function initScrollAnimations() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+  /* ── Navbar entrance — runs on all devices ── */
+  const navDelay = document.getElementById('loader') ? 1.85 : 0.2
+  gsap.from('#navbar', { y: -28, opacity: 0, duration: 0.7, ease: 'power3.out', delay: navDelay })
+
+  /* ── Service page hero — immediate, no scroll trigger, all devices ── */
+  gsap.from('.svc-hero-title', { opacity: 0, y: 40, duration: 0.85, ease: 'power3.out', delay: 0.15 })
+  gsap.from('.svc-hero-sub',   { opacity: 0, y: 24, duration: 0.7,  ease: 'power3.out', delay: 0.38 })
+
+  /* ─────────────────────────────────────────────────────────────────────
+     MOBILE GUARD
+     gsap.from() sets elements to opacity:0 the moment it runs. If the
+     accompanying ScrollTrigger never fires (unreliable on Android/iOS
+     native scroll without Lenis), content stays invisible permanently.
+     On mobile we skip every scroll-triggered from() and let content be
+     naturally visible. Only the counter increment runs (no opacity change).
+  ────────────────────────────────────────────────────────────────────── */
+  if (isMobile) {
+    ScrollTrigger.create({
+      trigger: '#stats', start: 'top 80%', once: true,
+      onEnter() {
+        document.querySelectorAll('.counter').forEach(el => {
+          const target = parseInt(el.dataset.target, 10)
+          gsap.to({ val: 0 }, {
+            val: target, duration: 2.2, ease: 'power2.out',
+            onUpdate() { el.textContent = Math.floor(this.targets()[0].val) },
+          })
+        })
+      },
+    })
+    return
+  }
+
+  /* ── DESKTOP ONLY from here ─────────────────────────────────────── */
+
   /* ── Hero bg parallax ── */
   gsap.to('.hero-bg', {
     yPercent: 25, ease: 'none',
@@ -315,10 +349,6 @@ function initScrollAnimations() {
     opacity: 0, ease: 'none',
     scrollTrigger: { trigger: '#hero', start: '20% top', end: '70% top', scrub: true },
   })
-
-  /* ── Navbar entrance (after loader) ── */
-  const navDelay = document.getElementById('loader') ? 1.85 : 0.2
-  gsap.from('#navbar', { y: -28, opacity: 0, duration: 0.7, ease: 'power3.out', delay: navDelay })
 
   /* ── Stats ── */
   gsap.from('.stat-item, .stat-block', {
@@ -451,12 +481,6 @@ function initScrollAnimations() {
   })
 
   /* ── Service detail page sections ── */
-  gsap.from('.svc-hero-title', {
-    opacity: 0, y: 40, duration: 0.85, ease: 'power3.out', delay: 0.15,
-  })
-  gsap.from('.svc-hero-sub', {
-    opacity: 0, y: 24, duration: 0.7, ease: 'power3.out', delay: 0.38,
-  })
   gsap.from('.feat', {
     opacity: 0, y: 44, duration: 0.6, ease: 'power3.out',
     stagger: { each: 0.1 },
@@ -482,12 +506,9 @@ function initScrollAnimations() {
     scrollTrigger: { trigger: '.cta-banner', start: 'top 82%', once: true },
   })
 
-  // Re-measure after all resources load (fonts shift layout on mobile)
-  window.addEventListener('load', () => ScrollTrigger.refresh())
-
-  /* ── Generic .reveal fallback (for any section not covered) ── */
+  /* ── Generic .reveal fallback ── */
   gsap.utils.toArray('.reveal').forEach(el => {
-    if (gsap.getProperty(el, 'opacity') < 0.1) return // already handled above
+    if (gsap.getProperty(el, 'opacity') < 0.1) return
     gsap.fromTo(el,
       { y: 44, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.85, ease: 'power3.out',
@@ -502,6 +523,8 @@ function initScrollAnimations() {
       scrollTrigger: { trigger: 'body', start: 'top top', end: 'bottom bottom', scrub: 1.5 },
     })
   })
+
+  window.addEventListener('load', () => ScrollTrigger.refresh())
 }
 
 /* ─────────────────────────────────────────
