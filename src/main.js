@@ -26,7 +26,7 @@ lenis.on('scroll', ScrollTrigger.update)
 const startLenis = () => lenis.start()
 const loader = document.getElementById('loader')
 if (loader) loader.addEventListener('transitionend', startLenis, { once: true })
-else setTimeout(startLenis, 1800)
+else setTimeout(startLenis, 50)  // no loader on service pages — start quickly
 
 /* ─────────────────────────────────────────
    THREE.JS  WebGL particle field on #hero-canvas
@@ -315,7 +315,8 @@ function initScrollAnimations() {
   })
 
   /* ── Navbar entrance (after loader) ── */
-  gsap.from('#navbar', { y: -28, opacity: 0, duration: 0.7, ease: 'power3.out', delay: 1.85 })
+  const navDelay = document.getElementById('loader') ? 1.85 : 0.2
+  gsap.from('#navbar', { y: -28, opacity: 0, duration: 0.7, ease: 'power3.out', delay: navDelay })
 
   /* ── Stats ── */
   gsap.from('.stat-item, .stat-block', {
@@ -447,6 +448,38 @@ function initScrollAnimations() {
     scrollTrigger: { trigger: 'footer', start: 'top 92%', once: true },
   })
 
+  /* ── Service detail page sections ── */
+  gsap.from('.svc-hero-title', {
+    opacity: 0, y: 40, duration: 0.85, ease: 'power3.out', delay: 0.15,
+  })
+  gsap.from('.svc-hero-sub', {
+    opacity: 0, y: 24, duration: 0.7, ease: 'power3.out', delay: 0.38,
+  })
+  gsap.from('.feat', {
+    opacity: 0, y: 44, duration: 0.6, ease: 'power3.out',
+    stagger: { each: 0.1 },
+    scrollTrigger: { trigger: '.features-grid', start: 'top 82%', once: true },
+  })
+  gsap.from('.role-card', {
+    opacity: 0, y: 40, duration: 0.6, ease: 'power2.out',
+    stagger: { each: 0.1 },
+    scrollTrigger: { trigger: '.roles-grid', start: 'top 82%', once: true },
+  })
+  gsap.from('.pstep', {
+    opacity: 0, y: 30, scale: 0.96, duration: 0.5, ease: 'power2.out',
+    stagger: { each: 0.12 },
+    scrollTrigger: { trigger: '.process-steps', start: 'top 82%', once: true },
+  })
+  gsap.from('.gal-img', {
+    opacity: 0, scale: 0.93, duration: 0.65, ease: 'power2.out',
+    stagger: { each: 0.1 },
+    scrollTrigger: { trigger: '.gallery', start: 'top 82%', once: true },
+  })
+  gsap.from('.cta-banner', {
+    opacity: 0, y: 36, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: '.cta-banner', start: 'top 82%', once: true },
+  })
+
   /* ── Generic .reveal fallback (for any section not covered) ── */
   gsap.utils.toArray('.reveal').forEach(el => {
     if (gsap.getProperty(el, 'opacity') < 0.1) return // already handled above
@@ -504,7 +537,7 @@ function initFaqGSAP() {
 ───────────────────────────────────────── */
 function initMagnetic() {
   if (isMobile) return
-  document.querySelectorAll('.btn-primary, .btn-secondary, .nav-cta').forEach(btn => {
+  document.querySelectorAll('.btn-primary, .btn-secondary, .nav-cta, .btn-p, .btn-s').forEach(btn => {
     btn.addEventListener('mousemove', e => {
       const r = btn.getBoundingClientRect()
       const x = (e.clientX - r.left - r.width  / 2) * 0.3
@@ -526,7 +559,7 @@ function initCursor() {
   const ring = document.getElementById('curRing')
   if (!dot || !ring) return
 
-  const hoverEls = document.querySelectorAll('a, button, .service-card, .etype-card, .portfolio-item, .equip-card, .faq-q')
+  const hoverEls = document.querySelectorAll('a, button, .service-card, .etype-card, .portfolio-item, .equip-card, .faq-q, .feat, .role-card')
   hoverEls.forEach(el => {
     el.addEventListener('mouseenter', () => {
       ring.classList.add('on-link')
