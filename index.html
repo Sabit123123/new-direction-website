@@ -1272,6 +1272,19 @@
     }
     .cur-ring.clicking { width: 24px; height: 24px; background: rgba(201,162,39,.25); }
     @media (hover:none) { .cur-dot, .cur-ring { display: none !important; } }
+    /* ── Mobile: force all GSAP-animated elements visible (overrides cached bundle opacity:0) ── */
+    @media (hover:none),(max-width:768px) {
+      .stat-item,.stat-block,.etype-card,.process-step,
+      .service-card,.why-item,.why-image-wrap,.review-card,
+      .portfolio-item,.equip-track-wrap,.client-item,
+      .planner-promo,.planner-banner,.planner-icon,
+      .faq-item,.contact-card,.contact-left>*,.contact-form>*,
+      .contact-item,footer>*,.hero-content,.hero-bg {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+      }
+    }
 
     /* ── CINEMATIC LOADER ── */
     #loader {
