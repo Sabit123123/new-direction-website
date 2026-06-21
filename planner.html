@@ -151,6 +151,62 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
 .mst{font-size:11px;color:var(--w5);line-height:1.5}.mst strong{color:var(--w);font-weight:600}
 .skip-btn{width:100%;padding:12px;border:1px solid var(--border);background:transparent;color:var(--w5);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;transition:.2s}
 .skip-btn:hover{border-color:var(--g);color:var(--g)}
+
+/* ═══════════════ MOBILE ═══════════════ */
+@media (hover:none),(max-width:768px){
+  /* hide desktop-only panels */
+  .pl{display:none!important}
+  .pr{display:none!important}
+  .sb{display:none!important}
+  /* hide topbar clutter */
+  .tb-sep,.tb-lbl,.ri,.rx,.tb-shp,.tb-view-grp,.tb-right{display:none!important}
+  .topbar{padding:0 10px;justify-content:space-between;gap:8px}
+  .tb-logo{font-size:16px}
+  .tb-mob-right{display:flex!important;gap:6px;margin-left:auto}
+  /* canvas full screen */
+  .app{position:fixed;inset:0;top:var(--bh)}
+  .ca{position:absolute;inset:0}
+  /* FABs */
+  .mob-fab{display:flex!important}
+  /* bottom drawer */
+  .mob-drawer{display:flex!important}
+  /* mode bar lower */
+  .mode-bar{bottom:72px}
+  .zbtn-wrap{bottom:72px}
+  /* bigger touch targets */
+  .mpill{padding:8px 18px;font-size:11px}
+  .zbtn{width:40px;height:40px;font-size:18px}
+  /* modal single column */
+  .tpl-grid,.msteps{grid-template-columns:1fr}
+  .mi{padding:20px}
+  .mt{font-size:22px}
+}
+/* desktop hides mobile elements */
+.tb-mob-right{display:none}
+.mob-fab{display:none!important}
+.mob-drawer{display:none!important}
+
+/* MOB FAB */
+.mob-fab{position:fixed;bottom:22px;right:18px;width:56px;height:56px;border-radius:28px;background:var(--g);border:none;color:#050507;font-size:28px;font-weight:900;align-items:center;justify-content:center;z-index:500;box-shadow:0 4px 24px rgba(201,162,39,.5);transition:transform .15s,box-shadow .15s}
+.mob-fab:active{transform:scale(.91);box-shadow:0 2px 12px rgba(201,162,39,.3)}
+
+/* MOB DRAWER */
+.mob-drawer{position:fixed;inset:0;z-index:800;flex-direction:column;justify-content:flex-end}
+.mob-drawer-bg{position:absolute;inset:0;background:rgba(5,5,7,.72);backdrop-filter:blur(5px);opacity:0;transition:opacity .28s}
+.mob-drawer.open .mob-drawer-bg{opacity:1}
+.mob-drawer-inner{position:relative;z-index:1;background:rgba(10,10,16,.98);border-top:1px solid var(--g4);border-radius:16px 16px 0 0;max-height:72vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .28s cubic-bezier(.32,0,.15,1)}
+.mob-drawer.open .mob-drawer-inner{transform:translateY(0)}
+.mob-dh{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--border);flex-shrink:0}
+.mob-dtitle{font-family:var(--ff);font-size:19px;font-weight:800;letter-spacing:.06em;color:var(--w);text-transform:uppercase}
+.mob-dclose{width:32px;height:32px;border:1px solid var(--border);border-radius:50%;background:none;color:var(--w2);font-size:14px;display:flex;align-items:center;justify-content:center;transition:.15s}
+.mob-dclose:active{border-color:var(--g);color:var(--g)}
+.mob-dcats{display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
+.mob-dlist{flex:1;overflow-y:auto;padding:10px 12px;display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.mob-item{padding:12px 8px;background:var(--w1);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color .15s,background .15s,transform .1s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
+.mob-item:active{border-color:var(--g);background:var(--g3);transform:scale(.96)}
+.mbi-ico{font-size:26px;line-height:1}
+.mbi-name{font-size:10px;font-weight:600;color:var(--w8);line-height:1.3}
+.mbi-dims{font-size:9px;color:var(--w2)}
 </style>
 </head>
 <body>
@@ -186,17 +242,26 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
   <input class="ri" type="number" id="rD" value="15" min="5" max="100" step="1" oninput="onRoomInp()">
   <span class="tb-lbl" style="margin-left:2px">м</span>
   <div class="tb-sep"></div>
-  <button class="tb-btn act" id="btn-rect"   onclick="setShape('rect')">Прямоуг.</button>
-  <button class="tb-btn"     id="btn-square" onclick="setShape('square')">Квадрат</button>
-  <button class="tb-btn"     id="btn-l"      onclick="setShape('l')">Г-образ.</button>
+  <div class="tb-shp" style="display:flex;gap:3px">
+    <button class="tb-btn act" id="btn-rect"   onclick="setShape('rect')">Прямоуг.</button>
+    <button class="tb-btn"     id="btn-square" onclick="setShape('square')">Квадрат</button>
+    <button class="tb-btn"     id="btn-l"      onclick="setShape('l')">Г-образ.</button>
+  </div>
   <div class="tb-sep"></div>
-  <button class="tb-btn" onclick="toggleView()">2D/3D</button>
-  <button class="tb-btn" onclick="resetCam()">⟳ Камера</button>
+  <div class="tb-view-grp" style="display:flex;gap:5px">
+    <button class="tb-btn" onclick="toggleView()">2D/3D</button>
+    <button class="tb-btn" onclick="resetCam()">⟳ Камера</button>
+  </div>
   <div class="tb-right">
     <button class="tb-btn" onclick="undoAction()">↩</button>
     <button class="tb-btn" onclick="saveScene()">💾 Сохранить</button>
     <button class="tb-btn" onclick="clearAll()">Очистить</button>
     <button class="tb-btn tb-gold" onclick="exportScene()">Экспорт PNG</button>
+  </div>
+  <div class="tb-mob-right">
+    <button class="tb-btn" onclick="toggleView()">2D/3D</button>
+    <button class="tb-btn" onclick="undoAction()">↩</button>
+    <button class="tb-btn tb-gold" onclick="openMobDrawer()">+ Добавить</button>
   </div>
 </div>
 
@@ -263,6 +328,30 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
   <div class="sbi">Банкет: <span id="sb-banq">—</span></div>
   <div class="sbi">Фуршет: <span id="sb-cock">—</span></div>
   <div class="sbi">Театр: <span id="sb-thtr">—</span></div>
+</div>
+
+<!-- MOBILE FAB -->
+<button class="mob-fab" onclick="openMobDrawer()" aria-label="Добавить оборудование">+</button>
+
+<!-- MOBILE DRAWER -->
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-bg" onclick="closeMobDrawer()"></div>
+  <div class="mob-drawer-inner">
+    <div class="mob-dh">
+      <span class="mob-dtitle">Каталог</span>
+      <button class="mob-dclose" onclick="closeMobDrawer()">✕</button>
+    </div>
+    <div class="mob-dcats" id="mobCats">
+      <button class="pl-cat act" onclick="setMobCat('all',this)">Всё</button>
+      <button class="pl-cat" onclick="setMobCat('light',this)">Свет</button>
+      <button class="pl-cat" onclick="setMobCat('audio',this)">Звук</button>
+      <button class="pl-cat" onclick="setMobCat('structure',this)">Сцена</button>
+      <button class="pl-cat" onclick="setMobCat('display',this)">Экран</button>
+      <button class="pl-cat" onclick="setMobCat('furniture',this)">Мебель</button>
+      <button class="pl-cat" onclick="setMobCat('fx',this)">FX</button>
+    </div>
+    <div class="mob-dlist" id="mobList"></div>
+  </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -358,6 +447,9 @@ let activeTab='scene';
 
 // touch
 let t0=null,tDist0=0,tTheta0=0,tPhi0=0,tR0=0;
+// mobile
+const isMob=window.matchMedia('(hover:none),(max-width:768px)').matches;
+let mobCat='all';
 
 function snap(v){return Math.round(v/SNAP)*SNAP;}
 
@@ -408,6 +500,9 @@ function init(){
   buildRightPanel('scene');
   buildTplModal();
   loadSaves();
+
+  // mobile init: 2D top-down view, full-screen canvas
+  if(isMob){is2D=true;camR=40;updateCam();renderMobCat();}
 
   // events
   canvas.addEventListener('mousedown',onMD);
@@ -1257,6 +1352,40 @@ function animate(){
   beamMeshes.forEach((b,i)=>{if(b.material) b.material.opacity=.13+Math.sin(t*1.5+i*.7)*.04;});
   placed.filter(o=>o.isMesh&&o.userData.fs).forEach((o,i)=>{o.userData.fs.material.opacity=.09+Math.sin(t*1.2+i*.5)*.03;});
   renderer.render(scene,camera);
+}
+
+// ═══════════════════════════════════
+// MOBILE DRAWER
+// ═══════════════════════════════════
+function openMobDrawer(){
+  renderMobCat();
+  document.getElementById('mobDrawer').classList.add('open');
+}
+function closeMobDrawer(){
+  document.getElementById('mobDrawer').classList.remove('open');
+}
+function setMobCat(cat,btn){
+  mobCat=cat;
+  document.querySelectorAll('#mobCats .pl-cat').forEach(b=>b.classList.remove('act'));
+  if(btn) btn.classList.add('act');
+  renderMobCat();
+}
+function renderMobCat(){
+  const list=CAT.filter(c=>mobCat==='all'||c.cat===mobCat);
+  document.getElementById('mobList').innerHTML=list.map(c=>`
+    <button class="mob-item" onclick="tapPlace(CAT.find(x=>x.id==='${c.id}'));closeMobDrawer()">
+      <span class="mbi-ico">${c.e}</span>
+      <span class="mbi-name">${c.name}</span>
+      <span class="mbi-dims">${c.w}×${c.d} м</span>
+    </button>`).join('');
+}
+
+// tap-to-place: drop item at camera target + small random offset
+function tapPlace(item){
+  if(!item) return;
+  const ox=(Math.random()-.5)*4, oz=(Math.random()-.5)*4;
+  placeItem(item, snap(camTgt.x+ox), snap(camTgt.z+oz));
+  toast(item.e+' '+item.name+' добавлен');
 }
 
 window.addEventListener('load',init);
