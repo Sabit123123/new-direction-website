@@ -372,6 +372,6 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileM
   window.addEventListener('scroll',()=>bar.style.width=Math.min(100,scrollY/(document.body.scrollHeight-innerHeight)*100)+'%',{passive:true});
 })();
 </script>
-<script src="bundle.min.js" defer></script>
+<script>if(!window.matchMedia('(hover:none)').matches){var s=document.createElement('script');s.src='bundle.min.js';document.body.appendChild(s);}</script>
 </body>
 </html>
