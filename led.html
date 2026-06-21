@@ -3,383 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Аренда LED-экранов для мероприятий в Казахстане. Indoor и outdoor панели, видеопроцессоры. New Direction.">
-<title>LED-экраны — New Direction</title>
+<meta name="description" content="Аренда LED экранов в Алматы — indoor и outdoor LED панели, монтаж конструкций, видеопроцессинг, прямые трансляции. New Direction Kazakhstan.">
+<meta name="theme-color" content="#050507">
+<title>LED Экраны — New Direction Kazakhstan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#070706;--bg2:#0c0c0a;--bg3:#131310;
-  --gold:#C9A227;--gold-light:#F0C94A;--gold-dim:rgba(201,162,39,.10);--gold-glow:rgba(201,162,39,.45);
-  --red:#FF2D20;
-  --white:#F5F0E8;--white70:rgba(245,240,232,.7);--white40:rgba(245,240,232,.4);--white15:rgba(245,240,232,.15);
-  --border:rgba(255,255,255,.07);--border-gold:rgba(201,162,39,.28);
-  --font-head:'Barlow Condensed','Inter',system-ui,sans-serif;
-  --font:'Inter',system-ui,sans-serif;
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold)}
-img{max-width:100%;display:block}a{color:inherit;text-decoration:none}
-.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(201,162,39,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(201,162,39,.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
-nav.scrolled{background:rgba(5,5,7,.94);backdrop-filter:blur(24px);padding:14px 48px;border-bottom:1px solid var(--border);box-shadow:0 0 40px rgba(0,0,0,.6)}
-nav.scrolled::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-glow),transparent)}
-.nav-logo{display:flex;flex-direction:column;line-height:1;gap:2px}
-.nav-logo-main{font-family:var(--font-head);font-size:22px;font-weight:900;letter-spacing:.18em;color:var(--white);text-transform:uppercase}
-.nav-logo-main span{color:var(--gold)}
-.nav-logo-sub{font-size:9px;font-weight:600;letter-spacing:.35em;color:var(--gold);text-transform:uppercase}
-.nav-links{display:flex;gap:40px;list-style:none}
-.nav-links a{color:var(--white40);font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;position:relative}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .25s}
-.nav-links a:hover{color:var(--white)}.nav-links a:hover::after{transform:scaleX(1)}
-.nav-cta{background:var(--gold)!important;color:#050507!important;padding:10px 24px!important;font-weight:800!important;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);letter-spacing:.12em!important}
-.nav-cta::after{display:none!important}.nav-cta:hover{background:var(--gold-light)!important;color:#000!important}
-.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
-.nav-burger span{display:block;width:24px;height:2px;background:var(--white)}
-.mobile-menu{display:none;position:fixed;inset:0;z-index:999;background:rgba(5,5,7,.98);backdrop-filter:blur(24px);flex-direction:column;align-items:center;justify-content:center;gap:32px;padding:40px}
-.mobile-menu.open{display:flex}
-.mobile-menu a{font-family:var(--font-head);font-size:36px;font-weight:900;color:var(--white);letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
-.mobile-menu a:hover{color:var(--gold)}
-.mobile-close{position:absolute;top:24px;right:24px;background:none;border:none;cursor:pointer;padding:8px}
-.mobile-close svg{width:28px;height:28px;stroke:var(--white);fill:none;stroke-width:2;stroke-linecap:round}
-
-.svc-hero{min-height:65vh;display:flex;align-items:flex-end;position:relative;overflow:hidden}
-.svc-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.38) saturate(.75)}
-.svc-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(7,7,6,.65) 45%,rgba(7,7,6,.3) 100%)}
-.svc-hero-content{position:relative;z-index:2;padding:80px 48px;max-width:1240px;margin:0 auto;width:100%}
-.breadcrumb{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:var(--white40);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px}
-.breadcrumb a:hover{color:var(--gold)}.breadcrumb-sep{color:var(--gold);opacity:.5}
-.svc-tag{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border-gold);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;padding:6px 18px;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);background:rgba(201,162,39,.05);margin-bottom:22px}
-.svc-tag::before{content:'';width:5px;height:5px;background:var(--gold);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
-.svc-hero-title{font-family:var(--font-head);font-size:clamp(52px,9vw,108px);font-weight:900;text-transform:uppercase;letter-spacing:.01em;line-height:.9}
-.svc-hero-title span{color:var(--gold)}
-.svc-hero-sub{font-size:16px;color:var(--white70);max-width:580px;line-height:1.7;margin-top:22px}
-
-.svc-body{max-width:1240px;margin:0 auto;padding:80px 48px}
-.sec-tag{display:inline-flex;align-items:center;gap:12px;font-size:10px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
-.sec-tag::before{content:'';width:20px;height:2px;background:var(--gold);box-shadow:0 0 6px var(--gold-glow)}
-.sec-tag::after{content:'';width:6px;height:6px;background:var(--red);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
-h2.sec-h{font-family:var(--font-head);font-size:clamp(32px,5vw,58px);font-weight:900;text-transform:uppercase;letter-spacing:.01em;line-height:1;margin-bottom:14px}
-.sec-desc{font-size:15px;color:var(--white40);line-height:1.75;max-width:620px}
-
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,162,39,.07);margin-top:56px}
-.feat{background:var(--bg2);padding:38px 30px;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);transition:background .3s}
-.feat:hover{background:var(--bg3)}
-.feat::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--gold);transition:height .35s}
-.feat:hover::before{height:100%}
-.feat-icon{font-size:34px;margin-bottom:16px;display:block}
-.feat-num{font-family:var(--font-head);font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.2em;margin-bottom:8px}
-.feat-title{font-family:var(--font-head);font-size:19px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
-.feat-text{font-size:13px;color:var(--white40);line-height:1.7}
-
-.equip-section{margin-top:80px;padding-top:80px;border-top:1px solid var(--border);position:relative}
-.equip-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-glow),transparent)}
-.equip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:48px}
-.equip-item{background:var(--bg2);border:1px solid var(--border);padding:22px 24px;display:flex;align-items:flex-start;gap:16px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);transition:border-color .25s,background .25s}
-.equip-item:hover{border-color:var(--border-gold);background:var(--bg3)}
-.equip-item-img{width:90px;height:90px;object-fit:cover;flex-shrink:0;filter:brightness(.85) saturate(.8);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%)}
-.equip-item-body{flex:1}
-.equip-item-brand{font-size:9px;font-weight:800;color:var(--gold);letter-spacing:.25em;text-transform:uppercase;margin-bottom:4px}
-.equip-item-name{font-family:var(--font-head);font-size:19px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;line-height:1.1;margin-bottom:6px}
-.equip-item-spec{font-size:12px;color:var(--white40);line-height:1.65}
-.spec-tag{display:inline-block;padding:2px 8px;background:var(--gold-dim);border:1px solid var(--border-gold);font-size:9px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;margin-top:6px;margin-right:4px;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)}
-.equip-item-icon{width:90px;height:90px;flex-shrink:0;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:36px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%)}
-
-/* SPECS TABLE */
-.specs-section{margin-top:80px;padding-top:80px;border-top:1px solid var(--border);position:relative}
-.specs-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-glow),transparent)}
-.specs-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(201,162,39,.07);margin-top:48px}
-.spec-card{background:var(--bg2);padding:32px 28px;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
-.spec-card-label{font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
-.spec-card-value{font-family:var(--font-head);font-size:36px;font-weight:900;color:var(--white);line-height:1;margin-bottom:6px}
-.spec-card-sub{font-size:12px;color:var(--white40);line-height:1.5}
-
-.gallery-section{margin-top:80px;padding-top:80px;border-top:1px solid var(--border);position:relative}
-.gallery-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-glow),transparent)}
-.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:48px}
-.gal-img{aspect-ratio:4/3;overflow:hidden;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
-.gal-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.8) saturate(.85);transition:transform .5s,filter .3s}
-.gal-img:hover img{transform:scale(1.07);filter:brightness(.95) saturate(1)}
-
-.cta-banner{margin-top:80px;padding:64px;background:var(--bg3);border:1px solid var(--border-gold);clip-path:polygon(0 0,calc(100% - 28px) 0,100% 28px,100% 100%,28px 100%,0 calc(100% - 28px));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
-.cta-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--red),var(--gold))}
-.cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 100% at 80% 50%,rgba(201,162,39,.05),transparent);pointer-events:none}
-.cta-banner h3{font-family:var(--font-head);font-size:clamp(26px,3.5vw,44px);font-weight:900;text-transform:uppercase;line-height:1;margin-bottom:10px}
-.cta-banner h3 span{color:var(--gold)}
-.cta-banner p{font-size:14px;color:var(--white40);line-height:1.7;max-width:400px}
-.cta-actions{display:flex;gap:12px;flex-shrink:0;flex-wrap:wrap}
-.btn-p{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#050507;font-size:12px;font-weight:800;letter-spacing:.14em;padding:16px 36px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));text-transform:uppercase;transition:background .2s,box-shadow .2s,transform .2s;border:none;cursor:pointer;white-space:nowrap;font-family:var(--font)}
-.btn-p:hover{background:var(--gold-light);box-shadow:0 0 30px var(--gold-glow);transform:translateY(-2px)}
-.btn-s{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--white);font-size:12px;font-weight:700;letter-spacing:.14em;padding:15px 36px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));border:1px solid var(--white15);text-transform:uppercase;transition:all .25s;white-space:nowrap}
-.btn-s:hover{border-color:var(--gold);background:var(--gold-dim);color:var(--gold);transform:translateY(-2px)}
-
-footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:var(--bg2);position:relative}
-footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-glow),transparent)}
-.footer-logo{font-family:var(--font-head);font-size:20px;font-weight:900;letter-spacing:.15em;text-transform:uppercase}
-.footer-logo span{color:var(--gold);text-shadow:0 0 16px var(--gold-glow)}
-.footer-copy{font-size:11px;color:var(--white40)}
-.footer-links{display:flex;gap:28px}
-.footer-links a{font-size:11px;font-weight:700;color:var(--white40);letter-spacing:.1em;text-transform:uppercase;transition:color .2s}
-.footer-links a:hover{color:var(--gold)}
-
-@media(max-width:768px){
-  nav{padding:16px 20px}nav.scrolled{padding:12px 20px}
-  .nav-links{display:none}.nav-burger{display:flex}
-  .svc-hero-content{padding:60px 20px 44px}
-  .svc-body{padding:56px 20px}
-  .features-grid{grid-template-columns:1fr}
-  .equip-grid{grid-template-columns:1fr}
-  .specs-cards{grid-template-columns:1fr}
-  .gallery{grid-template-columns:1fr 1fr}
-  .cta-banner{padding:40px 28px}
-  .cta-actions{width:100%;flex-direction:column}
-  .btn-p,.btn-s{width:100%;justify-content:center;white-space:normal;text-align:center}
-  footer{flex-direction:column;text-align:center;padding:28px 20px}
-  .footer-links{justify-content:center}
-}
-</style>
-<style>
-.scroll-progress{position:fixed;top:0;left:0;z-index:9999;height:2px;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));box-shadow:0 0 12px var(--gold-glow),0 0 30px rgba(201,162,39,.3);pointer-events:none}
-.cur-dot{position:fixed;z-index:9998;pointer-events:none;width:7px;height:7px;border-radius:50%;background:var(--gold);mix-blend-mode:exclusion;transform:translate(-50%,-50%);left:-100px;top:-100px;transition:width .15s,height .15s}
-.cur-ring{position:fixed;z-index:9997;pointer-events:none;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(201,162,39,.45);transform:translate(-50%,-50%);left:-100px;top:-100px;transition:width .3s cubic-bezier(.34,1.56,.64,1),height .3s cubic-bezier(.34,1.56,.64,1),border-color .25s,background .25s,opacity .3s}
-.cur-ring.on-link{width:58px;height:58px;border-color:var(--gold);background:rgba(201,162,39,.06)}
-.cur-ring.clicking{width:24px;height:24px;background:rgba(201,162,39,.25)}
-@media(hover:none){.cur-dot,.cur-ring{display:none!important}}
-.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;animation:orbDrift 22s ease-in-out infinite}
-.orb-1{width:700px;height:700px;left:-250px;top:-150px;background:radial-gradient(circle,rgba(201,162,39,.045),transparent 70%)}
-.orb-2{width:550px;height:550px;right:-160px;top:35%;background:radial-gradient(circle,rgba(255,45,32,.025),transparent 70%);animation-delay:-8s}
-@keyframes orbDrift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(50px,35px) scale(1.06)}66%{transform:translate(-35px,50px) scale(.94)}}
-.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:128px;animation:grainShift 8s steps(1) infinite}
-@keyframes grainShift{0%{background-position:0 0}20%{background-position:-35px 20px}40%{background-position:55px -15px}60%{background-position:-20px 45px}80%{background-position:30px -40px}}
-@media(prefers-reduced-motion:reduce){.cur-dot,.cur-ring,.orb,.grain{display:none!important}}
-@media(hover:none),(max-width:768px){.feat,.role-card,.pstep,.gal-img,.cta-banner,.stat-item,.stat-block,.etype-card,.service-card,.why-item,.why-image-wrap,.review-card,.portfolio-item,.equip-track-wrap,.client-item,.planner-promo,.planner-banner,.planner-icon,.faq-item,.contact-card,.contact-item,footer>*{opacity:1!important;transform:none!important;visibility:visible!important}}
+:root{--bg:#050507;--bg2:#090910;--bg3:#0e0e16;--gold:#C9A227;--gold-l:#E8C84A;--gold-d:rgba(201,162,39,.08);--gold-g:rgba(201,162,39,.4);--gold-b:rgba(201,162,39,.2);--red:#FF2D20;--w:#F5F0E8;--w80:rgba(245,240,232,.8);--w50:rgba(245,240,232,.5);--w20:rgba(245,240,232,.2);--w10:rgba(245,240,232,.1);--border:rgba(255,255,255,.07);--pad:clamp(20px,5vw,48px);--fh:'Barlow Condensed',sans-serif;--fb:'Inter',sans-serif;}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--w);font-family:var(--fb);overflow-x:hidden;cursor:none}@media(hover:none){body{cursor:auto}}img{display:block;max-width:100%;height:auto}a{color:inherit;text-decoration:none}button{cursor:pointer;border:none;background:none;font-family:inherit}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--gold-b)}
+#scrollProgress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--red));z-index:9999;width:0;pointer-events:none}
+#curDot{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}#curRing{position:fixed;width:32px;height:32px;border:1.5px solid var(--gold-g);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s}#curRing.big{width:52px;height:52px;border-color:var(--gold)}
+[data-anim]{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}[data-anim="left"]{transform:translateX(-32px)}[data-anim="right"]{transform:translateX(32px)}[data-anim="scale"]{transform:scale(.93)}[data-anim="fade"]{opacity:0;transform:none}[data-anim].in{opacity:1;transform:none}[data-delay="1"]{transition-delay:.1s}[data-delay="2"]{transition-delay:.2s}[data-delay="3"]{transition-delay:.3s}[data-delay="4"]{transition-delay:.4s}[data-delay="5"]{transition-delay:.5s}[data-delay="6"]{transition-delay:.6s}@media(prefers-reduced-motion:reduce){[data-anim]{opacity:1!important;transform:none!important;transition:none!important}}
+#navbar{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 var(--pad);display:flex;align-items:center;justify-content:space-between;height:72px;background:rgba(5,5,7,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}.nav-logo{font-family:var(--fh);font-weight:900;font-size:20px;letter-spacing:.07em;line-height:1;text-transform:uppercase}.nav-logo strong{color:var(--gold)}.nav-logo small{display:block;font-size:8px;letter-spacing:.45em;color:var(--w50);font-weight:600;margin-top:3px;text-transform:uppercase}.nav-links{display:flex;align-items:center;gap:32px;list-style:none}.nav-links a{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--w80);transition:color .2s;position:relative;padding-bottom:2px}.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}.nav-links a:hover,.nav-links a.active{color:var(--w)}.nav-links a:hover::after,.nav-links a.active::after{width:100%}.nav-cta{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:11px 24px;border:1px solid var(--gold);color:var(--gold);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,0 100%);transition:background .2s,color .2s;white-space:nowrap}.nav-cta:hover{background:var(--gold);color:#000}.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}.nav-burger span{display:block;width:24px;height:1.5px;background:var(--w)}@media(max-width:900px){.nav-links{display:none}.nav-burger{display:flex}.nav-cta{display:none}}
+.mobile-menu{position:fixed;inset:0;background:rgba(5,5,7,.98);z-index:499;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transform:translateX(100%);transition:transform .45s cubic-bezier(.22,1,.36,1)}.mobile-menu.open{transform:translateX(0)}.mobile-menu a{font-family:var(--fh);font-size:clamp(28px,7vw,48px);font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--w80);transition:color .2s}.mobile-menu a:hover{color:var(--gold)}.mm-close{position:absolute;top:24px;right:24px;font-size:26px;color:var(--w50);cursor:pointer}
+.svc-hero{position:relative;height:70vh;min-height:480px;display:flex;align-items:flex-end;overflow:hidden;padding-top:72px}.svc-hero-bg{position:absolute;inset:0}.svc-hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.38}.svc-hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,rgba(5,5,7,.55) 50%,rgba(5,5,7,.25) 100%)}.svc-hero-content{position:relative;z-index:2;padding:0 var(--pad) clamp(40px,6vw,72px);max-width:1280px;width:100%;margin:0 auto}.breadcrumb{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--w50);margin-bottom:20px}.breadcrumb a{color:var(--w50);transition:color .2s}.breadcrumb a:hover{color:var(--gold)}.breadcrumb-sep{color:var(--gold)}.svc-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-b);padding:6px 16px;margin-bottom:20px}.svc-hero-title{font-family:var(--fh);font-size:clamp(48px,8vw,104px);font-weight:900;text-transform:uppercase;line-height:.9;letter-spacing:-.02em}.svc-hero-title em{color:var(--gold);font-style:italic}.svc-hero-sub{font-size:clamp(14px,1.6vw,17px);color:var(--w80);max-width:560px;line-height:1.7;margin-top:20px}
+section{padding:clamp(60px,9vw,110px) var(--pad)}.container{max-width:1280px;margin:0 auto;width:100%}.section-label{font-size:10px;font-weight:700;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}.section-label::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold)}.section-title{font-family:var(--fh);font-size:clamp(32px,5vw,64px);font-weight:900;text-transform:uppercase;line-height:.93;letter-spacing:-.01em}.section-title em{color:var(--gold);font-style:italic}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:52px}.feat{background:var(--bg2);padding:36px 28px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;transition:background .3s}.feat:hover{background:var(--bg3)}.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transition:opacity .35s}.feat:hover::before{opacity:1}.feat-num{font-family:var(--fh);font-size:56px;font-weight:900;color:var(--gold-d);line-height:1;position:absolute;top:12px;right:14px}.feat-icon{font-size:26px}.feat-title{font-family:var(--fh);font-size:clamp(18px,2.2vw,23px);font-weight:700;text-transform:uppercase;letter-spacing:.05em;position:relative;z-index:1}.feat-desc{font-size:13px;color:var(--w50);line-height:1.65;position:relative;z-index:1}@media(max-width:900px){.features-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:500px){.features-grid{grid-template-columns:1fr}}
+.equip-section{background:var(--bg3)}.equip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:48px}.equip-card{background:var(--bg2);border:1px solid var(--border);padding:28px 24px;transition:border-color .3s,background .3s}.equip-card:hover{border-color:var(--gold-b);background:var(--bg)}.equip-card-tag{font-size:9px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}.equip-card-name{font-family:var(--fh);font-size:clamp(16px,2vw,21px);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}.equip-card-spec{font-size:12px;color:var(--w50);line-height:1.6}@media(max-width:700px){.equip-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:420px){.equip-grid{grid-template-columns:1fr}}
+.work-process{background:var(--bg)}.psteps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px;position:relative}.psteps::before{content:'';position:absolute;top:36px;left:calc(12.5% + 4px);right:calc(12.5% + 4px);height:1px;background:linear-gradient(90deg,var(--gold-b),var(--gold),var(--gold-b))}.pstep{padding:0 20px;text-align:center;position:relative;z-index:1}.pstep-num{font-family:var(--fh);font-size:clamp(52px,6vw,76px);font-weight:900;color:rgba(201,162,39,.1);line-height:1;margin-bottom:20px;position:relative;display:inline-block}.pstep-num::after{content:'';position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}.pstep-title{font-family:var(--fh);font-size:clamp(14px,1.8vw,19px);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}.pstep-desc{font-size:12px;color:var(--w50);line-height:1.6}@media(max-width:700px){.psteps{grid-template-columns:1fr;gap:32px}.psteps::before{display:none}}
+.gallery-section{background:var(--bg3)}.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:48px}.gal-img{overflow:hidden;aspect-ratio:4/3}.gal-img img{width:100%;height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.22,1,.36,1)}.gal-img:hover img{transform:scale(1.07)}@media(max-width:700px){.gallery{grid-template-columns:repeat(2,1fr)}}
+.cta-section{background:var(--bg);padding:clamp(48px,7vw,88px) var(--pad)}.cta-banner{background:var(--bg3);border:1px solid var(--gold-b);padding:clamp(40px,6vw,72px) clamp(28px,5vw,64px);display:flex;align-items:center;justify-content:space-between;gap:40px;position:relative;overflow:hidden;max-width:1280px;margin:0 auto}.cta-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 100% at 80% 50%,var(--gold-d),transparent);pointer-events:none}.cta-title{font-family:var(--fh);font-size:clamp(28px,4.5vw,56px);font-weight:900;text-transform:uppercase;line-height:.93;letter-spacing:-.01em;margin-bottom:12px;position:relative;z-index:1}.cta-title em{color:var(--gold);font-style:italic}.cta-sub{font-size:14px;color:var(--w50);line-height:1.65;max-width:420px;margin-bottom:28px;position:relative;z-index:1}.cta-btns{display:flex;gap:12px;flex-wrap:wrap;position:relative;z-index:1}.btn-primary{display:inline-flex;align-items:center;gap:10px;font-family:var(--fh);font-size:15px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:16px 36px;background:var(--gold);color:#000;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);transition:background .2s}.btn-primary:hover{background:var(--gold-l)}.btn-secondary{display:inline-flex;align-items:center;gap:10px;font-family:var(--fh);font-size:15px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:15px 34px;border:1px solid var(--w20);color:var(--w80);clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);transition:border-color .2s,color .2s}.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}.cta-deco{font-size:clamp(60px,8vw,100px);flex-shrink:0;position:relative;z-index:1}@media(max-width:700px){.cta-banner{flex-direction:column;text-align:center}.cta-deco{display:none}}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:clamp(40px,5vw,64px) var(--pad) clamp(20px,3vw,36px)}.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:48px;margin-bottom:40px}.footer-logo{font-family:var(--fh);font-size:24px;font-weight:900;text-transform:uppercase;letter-spacing:.07em;line-height:1.1;margin-bottom:14px}.footer-logo strong{color:var(--gold)}.footer-desc{font-size:13px;color:var(--w50);line-height:1.7;max-width:260px}.footer-col-title{font-size:10px;font-weight:700;letter-spacing:.35em;text-transform:uppercase;color:var(--w50);margin-bottom:18px}.footer-links{display:flex;flex-direction:column;gap:10px;list-style:none}.footer-links a{font-size:13px;color:var(--w50);transition:color .2s}.footer-links a:hover{color:var(--gold)}.footer-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:20px;flex-wrap:wrap;gap:10px}.footer-copy{font-size:11px;color:var(--w50)}.footer-city{font-size:11px;color:var(--w50)}.footer-city span{color:var(--gold)}@media(max-width:700px){.footer-grid{grid-template-columns:1fr;gap:28px}}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");background-size:180px;pointer-events:none;z-index:9990;opacity:.35}
 </style>
 </head>
 <body>
-<div class="grid-bg" aria-hidden="true"></div>
-<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-<div class="cur-dot" id="curDot" aria-hidden="true"></div>
-<div class="cur-ring" id="curRing" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
-<div class="orb orb-1" aria-hidden="true"></div>
-<div class="orb orb-2" aria-hidden="true"></div>
-
+<div id="scrollProgress"></div><div id="curDot"></div><div id="curRing"></div>
 <nav id="navbar">
-  <a href="index.html" class="nav-logo">
-    <span class="nav-logo-main">New <span>Direction</span></span>
-    <span class="nav-logo-sub">Event Tech · Kazakhstan</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html#services">Услуги</a></li>
-    <li><a href="index.html#portfolio">Проекты</a></li>
-    <li><a href="index.html#equipment">Оборудование</a></li>
-    <li><a href="planner.html">3D Планировщик</a></li>
-    <li><a href="index.html#faq">FAQ</a></li>
-    <li><a href="index.html#contact" class="nav-cta">Связаться</a></li>
-  </ul>
-  <button class="nav-burger" id="burgerBtn" aria-label="Открыть меню"><span></span><span></span><span></span></button>
+  <a href="index.html" class="nav-logo">NEW<strong>&middot;</strong>DIRECTION<small>Event Production</small></a>
+  <ul class="nav-links"><li><a href="index.html#services">Услуги</a></li><li><a href="index.html#portfolio">Портфолио</a></li><li><a href="index.html#why">О нас</a></li><li><a href="index.html#contact">Контакты</a></li><li><a href="planner.html">Планер</a></li></ul>
+  <a href="https://wa.me/77757614816" class="nav-cta" target="_blank" rel="noopener">Обсудить проект</a>
+  <div class="nav-burger" id="burger"><span></span><span></span><span></span></div>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" id="closeMenu"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  <a href="index.html#services" onclick="closeMobileMenu()">Услуги</a>
-  <a href="index.html#portfolio" onclick="closeMobileMenu()">Проекты</a>
-  <a href="planner.html">3D Планировщик</a>
-  <a href="index.html#contact" onclick="closeMobileMenu()">Контакты</a>
-</div>
+<div class="mobile-menu" id="mobileMenu"><span class="mm-close" id="mmClose">✕</span><a href="index.html">Главная</a><a href="index.html#services">Услуги</a><a href="index.html#contact">Контакты</a><a href="planner.html">Планер зала</a><a href="https://wa.me/77757614816" target="_blank" rel="noopener" style="color:var(--gold)">WhatsApp</a></div>
 
-<!-- HERO -->
 <div class="svc-hero">
-  <img class="svc-hero-img" src="4F883F2F-986F-4770-8395-2C97AAB4C6A0.JPG.jpeg" alt="LED-экраны New Direction">
-  <div class="svc-hero-overlay"></div>
+  <div class="svc-hero-bg"><img src="https://picsum.photos/1600/900?random=303" alt="LED Экраны" loading="eager"></div>
   <div class="svc-hero-content">
-    <div class="breadcrumb"><a href="index.html">Главная</a><span class="breadcrumb-sep">/</span><span>LED-экраны</span></div>
-    <div class="svc-tag">03 · Услуга</div>
-    <h1 class="svc-hero-title">LED-<br><span>экраны</span></h1>
-    <p class="svc-hero-sub">Яркие, чёткие, масштабируемые. LED-экраны любого размера для indoor и outdoor событий — от бизнес-форумов до фестивалей на открытом воздухе.</p>
+    <div class="breadcrumb"><a href="index.html">Главная</a> <span class="breadcrumb-sep">/</span> <span>LED Экраны</span></div>
+    <div class="svc-tag">Услуга 03</div>
+    <h1 class="svc-hero-title">LED<br><em>Экраны</em></h1>
+    <p class="svc-hero-sub">Indoor и outdoor LED панели высокого разрешения — монтаж, контент-менеджмент, видеопроцессинг и прямые трансляции для мероприятий любого масштаба.</p>
   </div>
 </div>
 
-<!-- BODY -->
-<div class="svc-body">
-
-  <div class="sec-tag">Что входит</div>
-  <h2 class="sec-h">LED-решения<br>под любой формат</h2>
-  <p class="sec-desc">Проектируем, монтируем и обслуживаем LED-экраны. Подбираем шаг пикселей под площадку и расстояние до зрителя — гарантируем идеальную картинку в любых условиях.</p>
-
-  <div class="features-grid">
-    <div class="feat">
-      <span class="feat-icon">📺</span>
-      <div class="feat-num">01</div>
-      <div class="feat-title">Высокое разрешение</div>
-      <p class="feat-text">Indoor-панели с шагом пикселей P2.6–P3.9 для залов, где зрители находятся на расстоянии 3–15 м. Чёткое изображение, насыщенные цвета, HDR-контент.</p>
-    </div>
-    <div class="feat">
-      <span class="feat-icon">☀️</span>
-      <div class="feat-num">02</div>
-      <div class="feat-title">Яркость для улицы</div>
-      <p class="feat-text">Outdoor-модули P5–P10 с яркостью до 5000 нит — читаются при прямом солнечном свете. IP65-защита от пыли и влаги, ветровые нагрузки до 100 км/ч.</p>
-    </div>
-    <div class="feat">
-      <span class="feat-icon">🎬</span>
-      <div class="feat-num">03</div>
-      <div class="feat-title">Медиасервер и контент</div>
-      <p class="feat-text">Видеопроцессор Novastar обеспечивает синхронизацию панелей, цветовую калибровку и поддержку сигналов HDMI/DVI/SDI. Оператор управляет контентом в реальном времени.</p>
+<section>
+  <div class="container">
+    <div class="section-label" data-anim>Что входит в услугу</div>
+    <h2 class="section-title" data-anim data-delay="1">Наши <em>возможности</em></h2>
+    <div class="features-grid">
+      <div class="feat" data-anim data-delay="1"><span class="feat-num">01</span><div class="feat-icon">🖥️</div><h3 class="feat-title">Indoor / Outdoor LED</h3><p class="feat-desc">Высококачественные LED панели с шагом пикселя от 2.6 мм для indoor и от 6 мм для outdoor. Яркость до 10 000 нит для уличных мероприятий.</p></div>
+      <div class="feat" data-anim data-delay="2"><span class="feat-num">02</span><div class="feat-icon">🏗️</div><h3 class="feat-title">Монтаж конструкций</h3><p class="feat-desc">Профессиональный монтаж LED стен любой конфигурации — от простых прямых экранов до изогнутых, угловых и потолочных конструкций.</p></div>
+      <div class="feat" data-anim data-delay="3"><span class="feat-num">03</span><div class="feat-icon">🎬</div><h3 class="feat-title">Контент-менеджмент</h3><p class="feat-desc">Разработка и управление контентом — загрузка видео, презентаций, live-трансляций. Поддержка всех форматов и разрешений.</p></div>
+      <div class="feat" data-anim data-delay="1"><span class="feat-num">04</span><div class="feat-icon">📡</div><h3 class="feat-title">Видеопроцессинг</h3><p class="feat-desc">Профессиональные видеопроцессоры Barco и Dataton — масштабирование, микширование и распределение сигнала на несколько экранов.</p></div>
+      <div class="feat" data-anim data-delay="2"><span class="feat-num">05</span><div class="feat-icon">📺</div><h3 class="feat-title">Прямая трансляция</h3><p class="feat-desc">Организация live-стриминга на YouTube, VK Video и корпоративные платформы. Многокамерная съёмка и режиссура.</p></div>
+      <div class="feat" data-anim data-delay="3"><span class="feat-num">06</span><div class="feat-icon">📱</div><h3 class="feat-title">Мобильные экраны</h3><p class="feat-desc">Мобильные LED экраны на колёсной базе — быстрая установка без монтажа для outdoor событий, пресс-конференций и промо-акций.</p></div>
     </div>
   </div>
+</section>
 
-  <!-- SPECS -->
-  <div class="specs-section">
-    <div class="sec-tag">Технические параметры</div>
-    <h2 class="sec-h">Цифры, которые<br>говорят сами</h2>
-    <div class="specs-cards">
-      <div class="spec-card">
-        <div class="spec-card-label">Максимальный размер</div>
-        <div class="spec-card-value">20×8м</div>
-        <div class="spec-card-sub">Единое полотно из модульных панелей без ограничений</div>
-      </div>
-      <div class="spec-card">
-        <div class="spec-card-label">Яркость outdoor</div>
-        <div class="spec-card-value">5000 нит</div>
-        <div class="spec-card-sub">Видимость при прямом солнечном свете</div>
-      </div>
-      <div class="spec-card">
-        <div class="spec-card-label">Частота обновления</div>
-        <div class="spec-card-value">3840 Гц</div>
-        <div class="spec-card-sub">Без мерцания на фото и видео съёмке</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EQUIPMENT -->
-  <div class="equip-section">
-    <div class="sec-tag">Парк оборудования</div>
-    <h2 class="sec-h">LED-панели и<br>системы управления</h2>
-    <p class="sec-desc">Используем модульные системы ведущих производителей с возможностью компоновки экранов любого размера и формата.</p>
-
+<section class="equip-section">
+  <div class="container">
+    <div class="section-label" data-anim>Наш парк</div>
+    <h2 class="section-title" data-anim data-delay="1">Оборудование</h2>
     <div class="equip-grid">
-      <div class="equip-item">
-        <img class="equip-item-img" src="4F883F2F-986F-4770-8395-2C97AAB4C6A0.JPG.jpeg" alt="LED панели indoor">
-        <div class="equip-item-body">
-          <div class="equip-item-brand">Novastar / Absen</div>
-          <div class="equip-item-name">Indoor LED P2.6 / P3.9</div>
-          <p class="equip-item-spec">Сверхтонкие indoor-панели для залов. Быстрый монтаж на стальную конструкцию, магнитные крышки кабинетов, фронтальное обслуживание.</p>
-          <span class="spec-tag">P2.6</span><span class="spec-tag">Indoor</span><span class="spec-tag">HDR</span>
-        </div>
-      </div>
-      <div class="equip-item">
-        <div class="equip-item-icon">🌅</div>
-        <div class="equip-item-body">
-          <div class="equip-item-brand">Novastar / Unilumin</div>
-          <div class="equip-item-name">Outdoor LED P5 / P10</div>
-          <p class="equip-item-spec">Уличные панели IP65 для open-air мероприятий и фасадного размещения. Алюминиевый корпус, надёжный подвес, устойчивость к осадкам.</p>
-          <span class="spec-tag">P5</span><span class="spec-tag">Outdoor</span><span class="spec-tag">IP65</span>
-        </div>
-      </div>
-      <div class="equip-item">
-        <div class="equip-item-icon">🖥</div>
-        <div class="equip-item-body">
-          <div class="equip-item-brand">Novastar</div>
-          <div class="equip-item-name">MX40 Pro Видеопроцессор</div>
-          <p class="equip-item-spec">Профессиональный видеопроцессор для управления экранной стеной. Поддержка 4K-вхождений, многоканальный вывод, цветовая калибровка по ICC-профилю.</p>
-          <span class="spec-tag">4K</span><span class="spec-tag">SDI/HDMI</span><span class="spec-tag">Calibration</span>
-        </div>
-      </div>
-      <div class="equip-item">
-        <div class="equip-item-icon">📐</div>
-        <div class="equip-item-body">
-          <div class="equip-item-brand">Global Truss</div>
-          <div class="equip-item-name">Конструкции подвеса и портал</div>
-          <p class="equip-item-spec">Стальные порталы и фермы для напольной установки и подвеса LED-экранов. Расчёт ветровых нагрузок, укосы и якорение для outdoor. Монтаж за 2–4 часа.</p>
-          <span class="spec-tag">Портал</span><span class="spec-tag">Подвес</span><span class="spec-tag">Напольный</span>
-        </div>
-      </div>
+      <div class="equip-card" data-anim data-delay="1"><div class="equip-card-tag">Indoor LED</div><div class="equip-card-name">DALI P2.6 Indoor</div><div class="equip-card-spec">Шаг 2.6 мм · 1920×1080 на 4.8м · 1000 нит · 60 Гц · Быстрый монтаж</div></div>
+      <div class="equip-card" data-anim data-delay="2"><div class="equip-card-tag">Outdoor LED</div><div class="equip-card-name">DALI P6 Outdoor</div><div class="equip-card-spec">Шаг 6 мм · IP65 · 6500 нит · Широкий угол обзора · Всепогодный</div></div>
+      <div class="equip-card" data-anim data-delay="3"><div class="equip-card-tag">Процессор</div><div class="equip-card-name">Barco E2</div><div class="equip-card-spec">4K · 12 входов · 16 выходов · Multiviewer · Seamless переключение</div></div>
+      <div class="equip-card" data-anim data-delay="1"><div class="equip-card-tag">Медиасервер</div><div class="equip-card-name">Dataton Watchpax 60</div><div class="equip-card-spec">4×4K выхода · 8 ТБ хранилище · Pixel mapping · NDI · TimeCode</div></div>
+      <div class="equip-card" data-anim data-delay="2"><div class="equip-card-tag">Камера</div><div class="equip-card-name">Sony FX6 Full Frame</div><div class="equip-card-spec">4K 120fps · S-Cinetone · IS · Dual Base ISO · SDI / HDMI</div></div>
+      <div class="equip-card" data-anim data-delay="3"><div class="equip-card-tag">Стример</div><div class="equip-card-name">Roland V-160HD</div><div class="equip-card-spec">16 HDMI входов · 4K · Encoder · Встроенный стриминг · Переключение</div></div>
     </div>
   </div>
+</section>
 
-  <!-- GALLERY -->
-  <div class="gallery-section">
-    <div class="sec-tag">Реализованные проекты</div>
-    <h2 class="sec-h">LED на реальных<br>мероприятиях</h2>
+<section class="work-process">
+  <div class="container">
+    <div class="section-label" data-anim>Процесс работы</div>
+    <h2 class="section-title" data-anim data-delay="1">Как мы <em>работаем</em></h2>
+    <div class="psteps">
+      <div class="pstep" data-anim data-delay="1"><div class="pstep-num">01</div><h3 class="pstep-title">Техзадание</h3><p class="pstep-desc">Определяем размеры экрана, контент, условия освещённости и технические требования мероприятия.</p></div>
+      <div class="pstep" data-anim data-delay="2"><div class="pstep-num">02</div><h3 class="pstep-title">Проектирование</h3><p class="pstep-desc">Проектируем конфигурацию LED стены, схему прокладки кабелей и систему видеопроцессинга.</p></div>
+      <div class="pstep" data-anim data-delay="3"><div class="pstep-num">03</div><h3 class="pstep-title">Монтаж</h3><p class="pstep-desc">Монтируем LED стену за 4–12 часов, настраиваем видеопроцессор, тестируем все входы и сигналы.</p></div>
+      <div class="pstep" data-anim data-delay="4"><div class="pstep-num">04</div><h3 class="pstep-title">Шоу</h3><p class="pstep-desc">Видеоинженер управляет трансляцией, обеспечивая бесперебойную работу всей видеосистемы.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="container">
+    <div class="section-label" data-anim>Наши работы</div>
+    <h2 class="section-title" data-anim data-delay="1">Галерея</h2>
     <div class="gallery">
-      <div class="gal-img"><img src="4F883F2F-986F-4770-8395-2C97AAB4C6A0.JPG.jpeg" alt="LED экран на мероприятии" loading="lazy"></div>
-      <div class="gal-img"><img src="6872c26f-2476-4f54-bbda-8f4828220496.JPG.jpeg" alt="LED экран концерт" loading="lazy"></div>
-      <div class="gal-img"><img src="0b7d2f25-f9e0-42c0-a681-93f985b446c5.JPG.jpeg" alt="LED видеостена" loading="lazy"></div>
+      <div class="gal-img" data-anim data-delay="1"><img src="https://picsum.photos/800/600?random=311" alt="LED 1" loading="lazy"></div>
+      <div class="gal-img" data-anim data-delay="2"><img src="https://picsum.photos/800/600?random=312" alt="LED 2" loading="lazy"></div>
+      <div class="gal-img" data-anim data-delay="3"><img src="https://picsum.photos/800/600?random=313" alt="LED 3" loading="lazy"></div>
+      <div class="gal-img" data-anim data-delay="1"><img src="https://picsum.photos/800/600?random=314" alt="LED 4" loading="lazy"></div>
+      <div class="gal-img" data-anim data-delay="2"><img src="https://picsum.photos/800/600?random=315" alt="LED 5" loading="lazy"></div>
+      <div class="gal-img" data-anim data-delay="3"><img src="https://picsum.photos/800/600?random=316" alt="LED 6" loading="lazy"></div>
     </div>
   </div>
+</section>
 
-  <!-- CTA -->
-  <div class="cta-banner">
-    <div class="cta-glow"></div>
+<div class="cta-section">
+  <div class="cta-banner" data-anim="scale">
     <div>
-      <h3>Нужен LED-экран<br><span>для вашего события?</span></h3>
-      <p>Укажите размер площадки, тип события и ожидаемое количество гостей — подберём оптимальную конфигурацию и рассчитаем стоимость.</p>
+      <h2 class="cta-title">Нужен<br><em>LED экран?</em></h2>
+      <p class="cta-sub">Рассчитаем стоимость и подберём оптимальное видеорешение — от небольшого экрана до масштабной LED стены.</p>
+      <div class="cta-btns"><a href="https://wa.me/77757614816" class="btn-primary" target="_blank" rel="noopener">WhatsApp &rarr;</a><a href="index.html#contact" class="btn-secondary">Оставить заявку</a></div>
     </div>
-    <div class="cta-actions">
-      <a href="https://wa.me/77757614816?text=Здравствуйте!%20Интересует%20аренда%20LED-экрана%20для%20мероприятия." class="btn-p" target="_blank" rel="noopener noreferrer">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-        Написать в WhatsApp
-      </a>
-      <a href="index.html#contact" class="btn-s">Другие способы связи</a>
-    </div>
+    <div class="cta-deco">📺</div>
   </div>
-
 </div>
 
 <footer>
-  <div class="footer-logo">New <span>Direction</span></div>
-  <p class="footer-copy">© 2026 New Direction. Все права защищены.</p>
-  <nav class="footer-links">
-    <a href="index.html#services">Услуги</a>
-    <a href="index.html#portfolio">Проекты</a>
-    <a href="planner.html">Планировщик</a>
-    <a href="index.html#contact">Контакты</a>
-  </nav>
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-logo">NEW<strong>&middot;</strong>DIRECTION</div><p class="footer-desc">Профессиональное техническое обеспечение мероприятий в Алматы и по всему Казахстану.</p></div>
+      <div><div class="footer-col-title">Услуги</div><ul class="footer-links"><li><a href="sound.html">Звуковое оборудование</a></li><li><a href="lighting.html">Световое оборудование</a></li><li><a href="led.html">LED Экраны</a></li><li><a href="stages.html">Сцены и конструкции</a></li><li><a href="backline.html">Бэклайн</a></li><li><a href="crew.html">Технический персонал</a></li></ul></div>
+      <div><div class="footer-col-title">Контакты</div><ul class="footer-links"><li><a href="https://wa.me/77757614816" target="_blank" rel="noopener">+7 775 761 4816</a></li><li><a href="https://instagram.com/newdirection_kz" target="_blank" rel="noopener">@newdirection_kz</a></li><li><a href="planner.html">Планировщик зала</a></li><li><a href="index.html">На главную</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div class="footer-copy">&copy; 2025 New Direction. Все права защищены.</div><div class="footer-city">Event Production <span>&middot;</span> Алматы, Казахстан</div></div>
+  </div>
 </footer>
-
-<script>
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
-const burgerBtn = document.getElementById('burgerBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-const closeMenu = document.getElementById('closeMenu');
-burgerBtn.addEventListener('click', () => { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; });
-function closeMobileMenu() { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; }
-closeMenu.addEventListener('click', closeMobileMenu);
-mobileMenu.addEventListener('click', e => { if (e.target === mobileMenu) closeMobileMenu(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
-</script>
 <script>
 (function(){
-  if(matchMedia('(hover:none)').matches)return;
-  const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
-  if(!dot||!ring)return;
-  let mx=-100,my=-100,rx=-100,ry=-100;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-  (function t(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(t);})();
-  document.querySelectorAll('a,button,.feat,.role-card,.gal-img,.btn-p,.btn-s').forEach(el=>{
-    el.addEventListener('mouseenter',()=>ring.classList.add('on-link'));
-    el.addEventListener('mouseleave',()=>ring.classList.remove('on-link'));
-  });
-  document.addEventListener('mousedown',()=>ring.classList.add('clicking'));
-  document.addEventListener('mouseup',()=>ring.classList.remove('clicking'));
-  document.querySelectorAll('.feat,.role-card').forEach(c=>{
-    c.addEventListener('mousemove',e=>{
-      const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-      c.style.transform=`perspective(900px) rotateX(${(-y*7).toFixed(1)}deg) rotateY(${(x*7).toFixed(1)}deg) translateZ(5px)`;
-      c.style.transition='transform .12s';
-    });
-    c.addEventListener('mouseleave',()=>{c.style.transform='';c.style.transition='transform .5s cubic-bezier(.34,1.56,.64,1),background .3s,border-color .25s';});
-  });
-})();
-(function(){
-  const bar=document.getElementById('scrollProgress');
-  if(!bar)return;
-  window.addEventListener('scroll',()=>bar.style.width=Math.min(100,scrollY/(document.body.scrollHeight-innerHeight)*100)+'%',{passive:true});
+  var io=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('[data-anim]').forEach(function(el){io.observe(el);});
+  var sp=document.getElementById('scrollProgress');if(sp)window.addEventListener('scroll',function(){sp.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';},{passive:true});
+  var b=document.getElementById('burger'),mm=document.getElementById('mobileMenu'),mc=document.getElementById('mmClose');if(b&&mm){b.addEventListener('click',function(){mm.classList.toggle('open');});if(mc)mc.addEventListener('click',function(){mm.classList.remove('open');});mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mm.classList.remove('open');});});}
+  if(!window.matchMedia('(hover:none)').matches){var s=document.createElement('script');s.src='bundle.min.js';document.body.appendChild(s);}
 })();
 </script>
-<script>if(!window.matchMedia('(hover:none)').matches){var s=document.createElement('script');s.src='bundle.min.js';document.body.appendChild(s);}</script>
 </body>
 </html>
