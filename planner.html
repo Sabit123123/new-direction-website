@@ -446,10 +446,10 @@ let curCat='all',saves=[];
 let activeTab='scene';
 
 // touch
-let t0=null,tDist0=0,tTheta0=0,tPhi0=0,tR0=0;
-// mobile
-const isMob=window.matchMedia('(hover:none),(max-width:768px)').matches;
-let mobCat='all';
+let t0=null,tDist0=0,tTheta0=0,tPhi0=0,tR0=0,tapT0=0;
+// mobile — use var to avoid TDZ in all evaluation contexts
+var isMob=!!(window.matchMedia&&window.matchMedia('(hover:none),(max-width:768px)').matches);
+var mobCat='all';
 
 function snap(v){return Math.round(v/SNAP)*SNAP;}
 
@@ -502,7 +502,12 @@ function init(){
   loadSaves();
 
   // mobile init: 2D top-down view, full-screen canvas
-  if(isMob){is2D=true;camR=40;updateCam();renderMobCat();}
+  if(isMob){
+    is2D=true;camR=40;updateCam();
+    renderMobCat();
+    document.getElementById('hint').textContent='Нажмите + Добавить чтобы разместить оборудование';
+    setTimeout(onResize,200); // re-sync canvas size after layout settles
+  }
 
   // events
   canvas.addEventListener('mousedown',onMD);
@@ -869,6 +874,7 @@ function onTS(e){
   } else if(e.touches.length===1){
     lastMX=e.touches[0].clientX;lastMY=e.touches[0].clientY;
     t0={x:e.touches[0].clientX,y:e.touches[0].clientY};
+    tapT0=Date.now();
   }
 }
 function onTM(e){
@@ -877,12 +883,40 @@ function onTM(e){
     const d=touchDist(e);camR=Math.max(3,Math.min(120,tR0*(tDist0/d)));updateCam();
   } else if(e.touches.length===1){
     const dx=e.touches[0].clientX-lastMX,dy=e.touches[0].clientY-lastMY;
-    camTheta-=dx*.005;camPhi=Math.max(.05,Math.min(Math.PI/2-.02,camPhi-dy*.005));
+    if(is2D){
+      // 2D mode: pan the camera target
+      const spd=camR*0.0012;
+      const cosT=Math.cos(camTheta),sinT=Math.sin(camTheta);
+      camTgt.x-=(dx*cosT-dy*sinT)*spd;
+      camTgt.z-=(dx*sinT+dy*cosT)*spd;
+    }else{
+      // 3D mode: orbit
+      camTheta-=dx*.005;camPhi=Math.max(.05,Math.min(Math.PI/2-.02,camPhi-dy*.005));
+    }
     lastMX=e.touches[0].clientX;lastMY=e.touches[0].clientY;
     updateCam();
   }
 }
-function onTE(){t0=null;}
+function onTE(e){
+  // Tap detection: short press, tiny movement → raycast select
+  if(t0&&Date.now()-tapT0<300){
+    const dx=Math.abs((e.changedTouches[0]?.clientX||lastMX)-t0.x);
+    const dy=Math.abs((e.changedTouches[0]?.clientY||lastMY)-t0.y);
+    if(dx<10&&dy<10){
+      const touch=e.changedTouches[0];
+      const rect=renderer.domElement.getBoundingClientRect();
+      const m=new THREE.Vector2(
+        ((touch.clientX-rect.left)/rect.width)*2-1,
+        -((touch.clientY-rect.top)/rect.height)*2+1
+      );
+      raycaster.setFromCamera(m,camera);
+      const hits=raycaster.intersectObjects(placed.filter(o=>o.isMesh&&o.userData.item));
+      if(hits.length) selectObj(hits[0].object);
+      else deselectObj();
+    }
+  }
+  t0=null;
+}
 function touchDist(e){
   const t=e.touches;
   return Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
@@ -1336,8 +1370,15 @@ function hideTips(){document.getElementById('dim-tip').style.display='none';docu
 // RESIZE + ANIMATE
 // ═══════════════════════════════════
 function onResize(){
-  const w=document.getElementById('canvasArea');
-  const ww=w.clientWidth,hh=w.clientHeight;
+  var ww,hh;
+  if(isMob){
+    ww=window.innerWidth;
+    hh=window.innerHeight-48; // topbar height
+  }else{
+    const ca=document.getElementById('canvasArea');
+    ww=ca.clientWidth;hh=ca.clientHeight;
+  }
+  if(!ww||!hh)return;
   camera.aspect=ww/hh;camera.updateProjectionMatrix();
   renderer.setSize(ww,hh);
 }
