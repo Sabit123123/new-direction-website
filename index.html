@@ -346,6 +346,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:clamp(48
   <ul class="nav-links">
     <li><a href="#services">Услуги</a></li>
     <li><a href="#portfolio">Портфолио</a></li>
+    <li><a href="#plans">Планировки</a></li>
     <li><a href="#why">О нас</a></li>
     <li><a href="#contact">Контакты</a></li>
     <li><a href="planner.html">Планер</a></li>
@@ -361,6 +362,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:clamp(48
   <span class="mm-close" id="mmClose" role="button" aria-label="Закрыть меню">✕</span>
   <a href="#services">Услуги</a>
   <a href="#portfolio">Портфолио</a>
+  <a href="#plans">Планировки</a>
   <a href="#why">О нас</a>
   <a href="#contact">Контакты</a>
   <a href="planner.html">Планер зала</a>
@@ -523,30 +525,61 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:clamp(48
       </div>
     </div>
     <div class="portfolio-grid">
-      <div class="portfolio-item" data-cat="concert">
-        <img src="https://picsum.photos/800/600?random=11" alt="Концерт — New Direction" loading="lazy">
-        <div class="pf-overlay"><div><div class="pf-tag">Концерт</div><div class="pf-label">Summer Fest 2024</div></div></div>
-      </div>
       <div class="portfolio-item" data-cat="corporate">
-        <img src="https://picsum.photos/800/600?random=22" alt="Корпоратив — New Direction" loading="lazy">
-        <div class="pf-overlay"><div><div class="pf-tag">Корпоратив</div><div class="pf-label">Huawei Annual</div></div></div>
-      </div>
-      <div class="portfolio-item" data-cat="wedding">
-        <img src="https://picsum.photos/800/600?random=33" alt="Свадьба — New Direction" loading="lazy">
-        <div class="pf-overlay"><div><div class="pf-tag">Свадьба</div><div class="pf-label">Grand Wedding</div></div></div>
-      </div>
-      <div class="portfolio-item" data-cat="corporate">
-        <img src="https://picsum.photos/800/600?random=44" alt="Форум — New Direction" loading="lazy">
-        <div class="pf-overlay"><div><div class="pf-tag">Корпоратив</div><div class="pf-label">Beeline Forum</div></div></div>
+        <img src="4F883F2F-986F-4770-8395-2C97AAB4C6A0.JPG.jpeg" alt="Huawei Seeds for the Future — New Direction" loading="lazy">
+        <div class="pf-overlay"><div><div class="pf-tag">Корпоратив</div><div class="pf-label">Huawei — Seeds for the Future</div></div></div>
       </div>
       <div class="portfolio-item" data-cat="concert">
-        <img src="https://picsum.photos/800/600?random=55" alt="Концерт — New Direction" loading="lazy">
-        <div class="pf-overlay"><div><div class="pf-tag">Концерт</div><div class="pf-label">Almaty Music Night</div></div></div>
+        <img src="6872c26f-2476-4f54-bbda-8f4828220496.JPG.jpeg" alt="Сцена SVOY DOM — New Direction" loading="lazy">
+        <div class="pf-overlay"><div><div class="pf-tag">Концерт</div><div class="pf-label">SVOY DOM × ASYL TAS</div></div></div>
       </div>
-      <div class="portfolio-item" data-cat="wedding">
-        <img src="https://picsum.photos/800/600?random=66" alt="Свадьба — New Direction" loading="lazy">
-        <div class="pf-overlay"><div><div class="pf-tag">Свадьба</div><div class="pf-label">Luxury Ceremony</div></div></div>
+      <div class="portfolio-item" data-cat="concert">
+        <img src="0b7d2f25-f9e0-42c0-a681-93f985b446c5.JPG.jpeg" alt="Световое шоу — New Direction" loading="lazy">
+        <div class="pf-overlay"><div><div class="pf-tag">Свет</div><div class="pf-label">Световое шоу</div></div></div>
       </div>
+      <div class="portfolio-item" data-cat="corporate">
+        <img src="IMG_3868.jpg.jpeg" alt="YSL Beauté — New Direction" loading="lazy">
+        <div class="pf-overlay"><div><div class="pf-tag">Корпоратив</div><div class="pf-label">YSL Beauté</div></div></div>
+      </div>
+      <div class="portfolio-item" data-cat="corporate">
+        <img src="83750a4d-aa8c-4985-9b55-e8533736cc82.JPG.jpeg" alt="YSL Beauté Pop-up — New Direction" loading="lazy">
+        <div class="pf-overlay"><div><div class="pf-tag">Корпоратив</div><div class="pf-label">YSL Beauté — Pop-up</div></div></div>
+      </div>
+      <div class="portfolio-item" data-cat="corporate">
+        <img src="d59f6870-4181-44fb-84d3-64b5f815ce7d.JPG.jpeg" alt="Озвучивание бутика AIT — New Direction" loading="lazy">
+        <div class="pf-overlay"><div><div class="pf-tag">Инсталляция</div><div class="pf-label">AIT — бутик</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PLANS FEED (планировщик → лента)
+════════════════════════════════ -->
+<style>
+#plans{padding:clamp(60px,9vw,110px) 0}
+.plans-sub{font-size:14px;color:var(--w50);max-width:560px;line-height:1.7;margin-top:14px}
+.plans-sub a{color:var(--gold);border-bottom:1px solid var(--gold-b)}
+.plans-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:36px}
+.plan-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .25s,transform .25s}
+.plan-card:hover{border-color:var(--gold-b);transform:translateY(-4px)}
+.plan-card .pc-thumb{width:100%;aspect-ratio:16/10;object-fit:cover;background:linear-gradient(135deg,#0e0e16,#05050a);display:block}
+.plan-card .pc-body{padding:14px 16px 16px}
+.plan-card .pc-name{font-family:var(--fh);font-weight:800;font-size:19px;letter-spacing:.02em;line-height:1.15}
+.plan-card .pc-loc{font-size:12px;color:var(--w50);margin-top:5px;display:flex;align-items:center;gap:5px}
+.pc-links{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.pc-link{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border:1px solid var(--gold-b);color:var(--gold);border-radius:3px;transition:background .2s,color .2s}
+.pc-link:hover{background:var(--gold);color:#000}
+.plans-empty{grid-column:1/-1;text-align:center;color:var(--w50);font-size:14px;padding:34px 0;line-height:1.7}
+.plans-empty a{color:var(--gold)}
+</style>
+<section id="plans">
+  <div class="container">
+    <div class="section-label" data-anim>Реализованные проекты</div>
+    <h2 class="section-title" data-anim data-delay="1">Планировки <em>залов</em></h2>
+    <p class="plans-sub" data-anim data-delay="2">Схемы расстановки света, звука и сцены с наших мероприятий — собраны в интерактивном <a href="planner.html">планировщике зала</a>.</p>
+    <div class="plans-grid" id="plansGrid">
+      <div class="plans-empty" id="plansEmpty">Загрузка планировок…</div>
     </div>
   </div>
 </section>
@@ -592,28 +625,78 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:clamp(48
   </div>
   <div class="equip-wrap">
     <div class="equip-track">
-      <div class="equip-item">MIDAS<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">L-ACOUSTICS<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">SHURE<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">TURBO POWER AUDIO<span class="equip-dot">&middot;</span></div>
       <div class="equip-item">TURBOSOUND<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">MARTIN<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">ROBE<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">CHAUVET<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">AYRTON<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">DALI<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">BARCO<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">MEYER SOUND<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">MIDAS<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">L-ACOUSTICS<span class="equip-dot">&middot;</span></div>
       <div class="equip-item">SHURE<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">TURBOSOUND<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">MIDAS<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">YAMAHA<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">FENDER<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">AMPEG<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">BEHRINGER<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SENNHEISER<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">KLARK TEKNIK<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">PIONEER DJ<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">RCF<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">JBL<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">ALLEN &amp; HEATH<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">ALESIS<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">PEAVEY<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">CROWN<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">MAPEX<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SABIAN<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SE ELECTRONICS<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">LIGHT SKY<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">AVOLITES<span class="equip-dot">&middot;</span></div>
       <div class="equip-item">MARTIN<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">ROBE<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">CHAUVET<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">AYRTON<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">DALI<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">BARCO<span class="equip-dot">&middot;</span></div>
-      <div class="equip-item">MEYER SOUND<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">ANZHEE<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">FREE COLOR<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">DICOLOR<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">NOVASTAR<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">RGBLINK<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">AVERMEDIA<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">LG<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SAMSUNG<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">EAGLE GROUP<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">LEDIKA<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">LEGO TOTEM<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">MENNEKES<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">ALPENBOX<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">TURBO POWER AUDIO<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">TURBOSOUND<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SHURE<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">MIDAS<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">YAMAHA<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">FENDER<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">AMPEG<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">BEHRINGER<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SENNHEISER<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">KLARK TEKNIK<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">PIONEER DJ<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">RCF<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">JBL<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">ALLEN &amp; HEATH<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">ALESIS<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">PEAVEY<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">CROWN<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">MAPEX<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SABIAN<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SE ELECTRONICS<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">LIGHT SKY<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">AVOLITES<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">MARTIN<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">ANZHEE<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">FREE COLOR<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">DICOLOR<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">NOVASTAR<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">RGBLINK<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">AVERMEDIA<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">LG<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">SAMSUNG<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">EAGLE GROUP<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">LEDIKA<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">LEGO TOTEM<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">MENNEKES<span class="equip-dot">&middot;</span></div>
+      <div class="equip-item">ALPENBOX<span class="equip-dot">&middot;</span></div>
     </div>
   </div>
 </section>
@@ -960,6 +1043,37 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:clamp(48
   if(!window.matchMedia('(hover:none)').matches){
     var s=document.createElement('script'); s.src='bundle.min.js'; document.body.appendChild(s);
   }
+})();
+</script>
+
+<!-- Firebase (опционально) — лента опубликованных планировок -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+(function(){
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  async function loadPlansFeed(){
+    var grid=document.getElementById('plansGrid'), empty=document.getElementById('plansEmpty');
+    if(!grid) return;
+    if(!(window.NDFire&&NDFire.configured)){
+      if(empty) empty.innerHTML='Лента появится после настройки Firebase. Планировки создаются в <a href="planner.html">планировщике зала</a>.';
+      return;
+    }
+    try{
+      var scenes=await NDFire.fetchScenes();
+      if(!scenes.length){ if(empty) empty.innerHTML='Пока нет опубликованных планировок. Создайте первую в <a href="planner.html">планировщике зала</a>.'; return; }
+      grid.innerHTML=scenes.map(function(s){
+        var links='';
+        if(s.gmaps) links+='<a class="pc-link" href="'+esc(s.gmaps)+'" target="_blank" rel="noopener">Google Maps</a>';
+        if(s.gis2)  links+='<a class="pc-link" href="'+esc(s.gis2)+'" target="_blank" rel="noopener">2ГИС</a>';
+        var thumb=s.thumbnail?'<img class="pc-thumb" src="'+esc(s.thumbnail)+'" alt="'+esc(s.name)+'" loading="lazy">':'<div class="pc-thumb"></div>';
+        var loc=s.address?'<div class="pc-loc">📍 '+esc(s.address)+'</div>':'';
+        return '<div class="plan-card">'+thumb+'<div class="pc-body"><div class="pc-name">'+esc(s.name)+'</div>'+loc+(links?'<div class="pc-links">'+links+'</div>':'')+'</div></div>';
+      }).join('');
+    }catch(e){ console.warn('feed error',e); if(empty) empty.textContent='Не удалось загрузить ленту.'; }
+  }
+  if(document.readyState!=='loading') loadPlansFeed(); else document.addEventListener('DOMContentLoaded',loadPlansFeed);
 })();
 </script>
 </body>

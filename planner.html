@@ -211,6 +211,34 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
 .mbi-ico{font-size:26px;line-height:1}
 .mbi-name{font-size:10px;font-weight:600;color:var(--w8);line-height:1.3}
 .mbi-dims{font-size:9px;color:var(--w2)}
+
+/* filters: вид + комплект */
+.pl-flt-lbl{font-size:8px;font-weight:700;color:var(--w2);letter-spacing:.16em;text-transform:uppercase;margin:6px 0 4px}
+.pl-kits{display:flex;gap:3px;flex-wrap:wrap;padding-bottom:8px}
+.pl-kit{padding:3px 7px;font-size:9px;font-weight:700;border:1px solid var(--border);border-radius:10px;background:none;color:var(--w2);transition:.15s;letter-spacing:.02em;text-transform:capitalize}
+.pl-kit:hover{color:var(--w8);border-color:var(--w2)}
+.pl-kit.act{border-color:var(--kc,var(--g));color:var(--kc,var(--g));background:rgba(255,255,255,.05)}
+.pl-newpos{width:100%;padding:7px;margin-bottom:8px;background:var(--g3);border:1px solid var(--g4);color:var(--g);font-size:11px;font-weight:700;border-radius:3px;letter-spacing:.04em;transition:.2s}
+.pl-newpos:hover{background:var(--g4);border-color:var(--g)}
+.pl-kbadge{display:inline-block;font-size:8px;font-weight:700;border:1px solid;border-radius:8px;padding:0 5px;margin-left:4px;text-transform:capitalize;vertical-align:middle}
+.pl-mdl{display:inline-block;font-size:8px;font-weight:800;color:#54d6a0;border:1px solid #54d6a055;border-radius:8px;padding:0 4px;margin-left:3px;vertical-align:middle}
+/* form controls in modals */
+.fld{margin-bottom:10px}
+.fld label{display:block;font-size:10px;font-weight:700;color:var(--w5);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.fld input,.fld select,.fld textarea{width:100%;background:var(--w1);border:1px solid var(--border);border-radius:3px;color:var(--w);font-size:12px;padding:7px 9px;outline:none;font-family:var(--fb)}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--g)}
+.fld select option{background:#0a0a10}
+.fld-row{display:flex;gap:8px}.fld-row>.fld{flex:1}
+.fld-check{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--w8)}
+.fld-check input{width:auto}
+.modal-btns{display:flex;gap:8px;margin-top:8px}
+.mbtn{flex:1;padding:10px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);background:transparent;color:var(--w5);transition:.2s}
+.mbtn:hover{border-color:var(--g);color:var(--g)}
+.mbtn.gold{background:var(--g);color:#050507;border-color:var(--g);font-weight:800}
+.mbtn.gold:hover{background:var(--g2)}
+.mdl-note{font-size:10px;color:var(--w2);margin-top:4px;line-height:1.5}
+.thumb-prev{width:100%;height:120px;object-fit:cover;border-radius:3px;border:1px solid var(--border);margin-top:6px;background:#0a0a10}
+.obj-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid;margin-right:4px}
 </style>
 </head>
 <body>
@@ -296,15 +324,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" id="searchInp" placeholder="Поиск..." oninput="renderCat()">
     </div>
-    <div class="pl-cats">
-      <button class="pl-cat act" onclick="setCat('all',this)">Всё</button>
-      <button class="pl-cat" onclick="setCat('light',this)">Свет</button>
-      <button class="pl-cat" onclick="setCat('audio',this)">Звук</button>
-      <button class="pl-cat" onclick="setCat('structure',this)">Сцена</button>
-      <button class="pl-cat" onclick="setCat('display',this)">Экран</button>
-      <button class="pl-cat" onclick="setCat('furniture',this)">Мебель</button>
-      <button class="pl-cat" onclick="setCat('fx',this)">FX</button>
-    </div>
+    <div class="pl-flt-lbl">Вид</div>
+    <div class="pl-cats" id="plCats"></div>
+    <div class="pl-flt-lbl">Комплект</div>
+    <div class="pl-kits" id="plKits"></div>
+    <button class="pl-newpos" onclick="openNewPos()">+ Новая позиция</button>
   </div>
   <div class="pl-list" id="plList"></div>
 </div>
@@ -364,25 +388,86 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
       <span class="mob-dtitle">Каталог</span>
       <button class="mob-dclose" onclick="closeMobDrawer()">✕</button>
     </div>
-    <div class="mob-dcats" id="mobCats">
-      <button class="pl-cat act" onclick="setMobCat('all',this)">Всё</button>
-      <button class="pl-cat" onclick="setMobCat('light',this)">Свет</button>
-      <button class="pl-cat" onclick="setMobCat('audio',this)">Звук</button>
-      <button class="pl-cat" onclick="setMobCat('structure',this)">Сцена</button>
-      <button class="pl-cat" onclick="setMobCat('display',this)">Экран</button>
-      <button class="pl-cat" onclick="setMobCat('furniture',this)">Мебель</button>
-      <button class="pl-cat" onclick="setMobCat('fx',this)">FX</button>
-    </div>
+    <div class="mob-dcats" id="mobCats"></div>
     <div class="mob-dlist" id="mobList"></div>
   </div>
 </div>
 
+<!-- NEW POSITION MODAL -->
+<div class="ov" id="newPosModal" style="display:none">
+<div class="modal" style="max-width:520px">
+<div class="mi">
+  <div class="mt">НОВАЯ <em>ПОЗИЦИЯ</em></div>
+  <div class="msub">Добавьте оборудование в каталог: укажите вид, комплект, размеры и (опционально) 3D-модель.</div>
+  <div class="fld"><label>Название</label><input id="np-name" type="text" placeholder="Напр. Robe MegaPointe"></div>
+  <div class="fld"><label>Описание (необязательно)</label><input id="np-desc" type="text" placeholder="Краткое описание"></div>
+  <div class="fld-row">
+    <div class="fld"><label>Вид</label><select id="np-vid"></select></div>
+    <div class="fld"><label>Комплект</label><select id="np-kit"></select></div>
+  </div>
+  <div class="fld-row">
+    <div class="fld"><label>Ширина, м</label><input id="np-w" type="number" min="0.05" step="0.05" value="0.5"></div>
+    <div class="fld"><label>Глубина, м</label><input id="np-d" type="number" min="0.05" step="0.05" value="0.5"></div>
+    <div class="fld"><label>Высота, м</label><input id="np-h" type="number" min="0.05" step="0.05" value="0.5"></div>
+  </div>
+  <div class="fld-row">
+    <div class="fld" style="flex:0 0 90px"><label>Цвет</label><input id="np-col" type="color" value="#888888" style="height:34px;padding:2px"></div>
+    <div class="fld"><label>3D-модель (GLB/GLTF/OBJ/FBX/STL)</label><input id="np-model" type="file" accept=".glb,.gltf,.obj,.fbx,.stl"><div class="mdl-note" id="np-model-note">Если не загружать — будет процедурная модель по размерам.</div></div>
+  </div>
+  <div class="modal-btns">
+    <button class="mbtn" onclick="closeNewPos()">Отмена</button>
+    <button class="mbtn gold" onclick="saveNewPos()">Создать позицию</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- SAVE SCENE MODAL -->
+<div class="ov" id="saveModal" style="display:none">
+<div class="modal" style="max-width:520px">
+<div class="mi">
+  <div class="mt">СОХРАНИТЬ <em>СЦЕНУ</em></div>
+  <div class="msub">Подпишите сцену, укажите площадку и (по желанию) опубликуйте её в ленте на основном сайте.</div>
+  <div class="fld"><label>Название</label><input id="sv-name" type="text" placeholder="Напр. Корпоратив Halyk, Алматы"></div>
+  <div class="fld"><label>Адрес / площадка</label><input id="sv-addr" type="text" placeholder="Напр. Алматы, Rixos Almaty"></div>
+  <div class="fld-row">
+    <div class="fld"><label>Ссылка Google Maps</label><input id="sv-gmaps" type="url" placeholder="https://maps.google.com/..."></div>
+    <div class="fld"><label>Ссылка 2ГИС</label><input id="sv-gis2" type="url" placeholder="https://2gis.kz/..."></div>
+  </div>
+  <img id="sv-thumb" class="thumb-prev" alt="превью">
+  <label class="fld-check" style="margin-top:10px"><input id="sv-pub" type="checkbox" onchange="toggleSvPub()"> Показывать на основном сайте (в ленте)</label>
+  <div id="sv-admin" style="display:none;margin-top:8px">
+    <div class="fld-row">
+      <div class="fld"><label>E-mail администратора</label><input id="sv-email" type="email" placeholder="admin@..."></div>
+      <div class="fld"><label>Пароль</label><input id="sv-pass" type="password" placeholder="••••••"></div>
+    </div>
+    <div class="mdl-note" id="sv-pub-note">Публикация требует входа администратора Firebase.</div>
+  </div>
+  <div class="modal-btns">
+    <button class="mbtn" onclick="closeSaveModal()">Отмена</button>
+    <button class="mbtn gold" id="sv-go" onclick="doSaveScene()">Сохранить</button>
+  </div>
+</div>
+</div>
+</div>
+
 <script src="three.min.js"></script>
+<script src="libs/GLTFLoader.js"></script>
+<script src="libs/OBJLoader.js"></script>
+<script src="libs/MTLLoader.js"></script>
+<script src="libs/STLLoader.js"></script>
+<script src="libs/fflate.min.js"></script>
+<script src="libs/FBXLoader.js"></script>
+<script src="catalog.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="firebase-config.js"></script>
 <script>
 // ═══════════════════════════════════
-// CATALOG
+// CATALOG / TEMPLATES — данные вынесены в catalog.js (TC, VID, KIT, CAT, TPLS)
 // ═══════════════════════════════════
-const TC={light:'#4488ff',audio:'#aaaaaa',structure:'#887744',display:'#4466ff',furniture:'#885533',fx:'#44aa88'};
+/* OLD inline catalog removed — see catalog.js
 const CAT=[
   {id:'mh',     cat:'light',    name:'Движущаяся голова',  e:'💡',w:.4, d:.4, h:.7,  col:0x223366,beam:0xaabbff,ang:.4},
   {id:'par',    cat:'light',    name:'PAR прожектор',      e:'🔦',w:.22,d:.22,h:.28, col:0x333322,beam:0xffee88,ang:.55},
@@ -447,6 +532,7 @@ const TPLS=[
     {id:'sub',x:-7,z:-6},{id:'sub',x:7,z:-6},{id:'top',x:-6,z:-6},{id:'top',x:6,z:-6},
   ]},
 ];
+*/
 
 // ═══════════════════════════════════
 // STATE
@@ -465,8 +551,13 @@ let camTgt=new THREE.Vector3();
 let lastMX=0,lastMY=0;
 const dragPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0);
 const SNAP=0.5;
-let curCat='all',saves=[];
+let curCat='all',curKit='all',saves=[];
+let customItems=[];           // пользовательские позиции («Новая позиция»)
+let customModels={};          // id -> {ext,url} импортированная 3D-модель (dataURL)
 let activeTab='scene';
+// все позиции = каталог + пользовательские; поиск позиции по id
+function allItems(){return CAT.concat(customItems);}
+function findItem(id){return CAT.find(c=>c.id===id)||customItems.find(c=>c.id===id);}
 let floorTex='beige',wallTex='gray',wallH=4.2;
 const WALL_COLORS={white:0xf0f0ec,gray:0x909088,black:0x1c1c14,beige:0xc4a882};
 
@@ -520,6 +611,8 @@ function init(){
 
   roomVerts=calcVerts(roomShape,roomW,roomD);
   buildRoom();
+  loadCustomItems();
+  buildCatFilters();
   renderCat();
   updateSun();
   buildRightPanel('scene');
@@ -671,53 +764,142 @@ function makeDimSp(text){
 // ═══════════════════════════════════
 // EQUIPMENT
 // ═══════════════════════════════════
-function makeEquipMesh(item){
-  let geo;
-  if(item.cat==='light'&&['mh','par','ledpar','wash'].includes(item.id)){
-    geo=new THREE.CylinderGeometry(item.w/2,item.w/2*.7,item.h,12);
-  } else if(item.round){
-    geo=new THREE.CylinderGeometry(item.w/2,item.w/2,item.h,24);
-  } else {
-    geo=new THREE.BoxGeometry(item.w,item.h,item.d);
+// ── helpers: pick item-root from a (possibly child) mesh, list placed roots ──
+function rootOf(o){while(o&&!(o.userData&&o.userData.item))o=o.parent;return o;}
+function placedItems(){return placed.filter(o=>o.userData&&o.userData.item);}
+
+// ── procedural-mesh helpers ──
+function _mat(col,opts){return new THREE.MeshStandardMaterial(Object.assign({color:col,metalness:.35,roughness:.6},opts||{}));}
+function _box(w,h,d,col,opts){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),_mat(col,opts));m.castShadow=true;m.receiveShadow=true;return m;}
+function _cyl(rt,rb,h,col,seg,opts){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg||18),_mat(col,opts));m.castShadow=true;m.receiveShadow=true;return m;}
+function _glow(col){return new THREE.MeshStandardMaterial({color:col,emissive:new THREE.Color(col),emissiveIntensity:.9,roughness:.4});}
+
+// Build a procedural THREE.Group sized exactly to item w(X)×d(Z)×h(Y), base at y=0.
+function buildProc(item){
+  const g=new THREE.Group();
+  const w=item.w,d=item.d,h=item.h,col=(item.col!=null)?item.col:0x666666,A=item.arch||'box';
+  const glow=[];
+  const add=(m,x,y,z)=>{m.position.set(x||0,y||0,z||0);g.add(m);return m;};
+  const cone=(r,y,z,c)=>{const m=new THREE.Mesh(new THREE.CircleGeometry(r,16),_mat(c||0x0a0a0a,{roughness:.9}));m.position.set(0,y,z);g.add(m);return m;};
+  switch(A){
+    case 'speaker': speakerCab(); break;
+    case 'monitor':{ const m=_box(w,h,d,col); m.rotation.x=-0.32; m.position.set(0,h*0.46,0); g.add(m); cone(Math.min(w,h)*0.28,h*0.5,d*0.22,0x0a0a0a); break; }
+    case 'linearray':{ add(_box(w,h,d,col),0,h/2,0); [-w*0.22,w*0.22].forEach(xx=>cone2(xx,h*0.5,d/2+0.004,Math.min(w,h)*0.2)); add(_box(w*1.02,h*0.06,d*0.1,0x222222),0,h*0.97,d*0.38); break; }
+    case 'column':{ add(_box(w,h,d,col),0,h/2,0); const n=Math.max(4,Math.round(h/0.25)); for(let i=0;i<n;i++)cone2(0,h*0.1+(i+0.5)*(h*0.85)/n,d/2+0.004,w*0.3); break; }
+    case 'amp_guitar':{ add(_box(w,h,d,0x161008),0,h/2,0); const gr=_box(w*0.82,h*0.62,0.01,0x2a2a2a); gr.position.set(0,h*0.46,d/2+0.006); g.add(gr); break; }
+    case 'rack':{ add(_box(w,h,d,0x111111),0,h/2,0); const n=Math.max(3,Math.round(h/0.18)); for(let i=0;i<n;i++){const u=_box(w*0.86,0.02,0.01,0x2a2a2a);u.position.set(0,(i+0.5)*h/n,d/2+0.006);g.add(u);} break; }
+    case 'amp': case 'di': case 'processor': case 'box': case 'powerbox':{ add(_box(w,h,d,col),0,h/2,0); const f=_box(w*0.9,h*0.8,0.008,0x191919); f.position.set(0,h*0.5,d/2+0.006); g.add(f); if(A==='powerbox')for(let i=0;i<4;i++){const s=_box(w*0.13,h*0.13,0.01,0x070707);s.position.set((-1.5+i)*w*0.2,h*0.5,d/2+0.012);g.add(s);} break; }
+    case 'console': case 'dj_controller': case 'dj_mixer':{ add(_box(w,h*0.55,d,col),0,h*0.275,0); const top=_box(w*0.98,h*0.12,d*0.96,0x0e0e16); top.rotation.x=-0.12; top.position.set(0,h*0.55,0); g.add(top); const cols=Math.max(4,Math.min(40,Math.round(w/0.05))); for(let i=0;i<cols;i++){const fdr=_box(0.012,0.012,d*0.4,0xC9A227);fdr.position.set(-w*0.45+(i+0.5)*w*0.9/cols,h*0.59,0);g.add(fdr);} break; }
+    case 'dj_player':{ add(_box(w,h*0.5,d,col),0,h*0.25,0); const plate=new THREE.Mesh(new THREE.CircleGeometry(Math.min(w,d)*0.32,24),_mat(0x999999,{metalness:.8,roughness:.3})); plate.rotation.x=-Math.PI/2; plate.position.set(0,h*0.52,d*0.05); g.add(plate); break; }
+    case 'head':{ const baseH=h*0.3,armH=h*0.5,barrel=Math.min(w,d)*0.85; add(_box(w,baseH,d,0x191919),0,baseH/2,0); add(_box(w*0.12,armH,d*0.55,0x2a2a2a),-w*0.34,baseH+armH/2,0); add(_box(w*0.12,armH,d*0.55,0x2a2a2a),w*0.34,baseH+armH/2,0); const head=_cyl(barrel*0.5,barrel*0.5,w*0.6,0x131313,20); head.rotation.z=Math.PI/2; head.position.set(0,baseH+armH*0.8,0); g.add(head); const lm=_glow(item.beam||0xffffff); const lens=new THREE.Mesh(new THREE.CircleGeometry(barrel*0.42,18),lm); lens.rotation.x=-Math.PI/2; lens.position.set(0,baseH+armH*0.8-barrel*0.5,0); g.add(lens); glow.push(lm); break; }
+    case 'par': case 'wash':{ const r=w*0.5; add(_cyl(r,r*0.85,h*0.8,0x1a1a1a,18),0,h*0.4,0); const lm=_glow(item.beam||0xffffff); const lens=new THREE.Mesh(new THREE.CircleGeometry(r*0.82,18),lm); lens.rotation.x=-Math.PI/2; lens.position.set(0,0.012,0); g.add(lens); glow.push(lm); break; }
+    case 'spot':{ add(_cyl(0.03,0.03,h*0.5,0x222222,10),0,h*0.25,0); const body=_cyl(Math.min(h*0.2,d*0.4),Math.min(h*0.16,d*0.3),w,0x1a1a1a,16); body.rotation.z=Math.PI/2; body.position.set(0,h*0.62,0); g.add(body); const lm=_glow(item.beam||0xffffff); const lens=new THREE.Mesh(new THREE.CircleGeometry(Math.min(h*0.18,d*0.35),16),lm); lens.rotation.z=Math.PI/2; lens.rotation.y=Math.PI/2; lens.position.set(w*0.5,h*0.62,0); g.add(lens); glow.push(lm); break; }
+    case 'blinder':{ add(_box(w,h,d*0.5,0x1a1a1a),0,h/2,0); const cs=Math.max(2,Math.round(w/0.2)),rs=Math.max(1,Math.round(h/0.2)); const lm=_glow(item.beam||0xffffcc); glow.push(lm); for(let i=0;i<cs;i++)for(let j=0;j<rs;j++){const b=new THREE.Mesh(new THREE.CircleGeometry(Math.min(w/cs,h/rs)*0.4,10),lm);b.position.set(-w*0.5+(i+0.5)*w/cs,(j+0.5)*h/rs,d*0.25+0.004);g.add(b);} break; }
+    case 'strip':{ const lm=_glow(item.beam||0x44ccff); glow.push(lm); add(_box(w,h,d,0x111111),0,h/2,0); const bar=new THREE.Mesh(new THREE.BoxGeometry(w*0.96,h*0.5,0.006),lm); bar.position.set(0,h*0.5,d/2+0.004); g.add(bar); break; }
+    case 'laser':{ add(_box(w,h,d,0x111111),0,h/2,0); const lm=_glow(item.beam||0x33ff66); glow.push(lm); const ap=new THREE.Mesh(new THREE.CircleGeometry(Math.min(w,h)*0.13,12),lm); ap.position.set(0,h*0.6,d/2+0.006); g.add(ap); break; }
+    case 'ledpanel': case 'ledcurtain':{ add(_box(w,h,d,0x0a0a0a),0,h/2,0); const lm=new THREE.MeshStandardMaterial({color:item.beam||0x2266ff,emissive:new THREE.Color(item.beam||0x2266ff),emissiveIntensity:.55,roughness:.5}); const face=new THREE.Mesh(new THREE.PlaneGeometry(w*0.97,h*0.96),lm); face.position.set(0,h/2,d/2+0.006); g.add(face); glow.push(lm); break; }
+    case 'tv':{ add(_box(w,h,d,0x0a0a0a),0,h/2,0); const lm=new THREE.MeshStandardMaterial({color:0x0a0f1a,emissive:new THREE.Color(0x123a66),emissiveIntensity:.4,roughness:.4}); const scr=new THREE.Mesh(new THREE.PlaneGeometry(w*0.92,h*0.88),lm); scr.position.set(0,h/2,d/2+0.005); g.add(scr); glow.push(lm); break; }
+    case 'mic':{ add(_cyl(w*0.4,w*0.4,h*0.7,0x222222,12),0,h*0.35,0); add(_cyl(w*0.55,w*0.55,h*0.3,0x4a4a4a,12),0,h*0.85,0); break; }
+    case 'truss':{ const cr=Math.min(d,h)*0.13; const chord=(yy,zz)=>{const c=_cyl(cr,cr,w,0x9a9a88,8);c.rotation.z=Math.PI/2;c.position.set(0,yy,zz);g.add(c);}; chord(h-cr,d/2-cr);chord(h-cr,-(d/2-cr));chord(cr,d/2-cr);chord(cr,-(d/2-cr)); const n=Math.max(2,Math.round(w/0.45)); for(let i=0;i<=n;i++){const x=-w/2+i*w/n; const v=_cyl(cr*0.5,cr*0.5,h-2*cr,0x777766,6); v.position.set(x,h/2,d/2-cr); g.add(v); const v2=_cyl(cr*0.5,cr*0.5,d-2*cr,0x777766,6); v2.rotation.x=Math.PI/2; v2.position.set(x,h-cr,0); g.add(v2);} break; }
+    case 'stage':{ const topH=Math.min(0.12,h*0.2); add(_box(w,topH,d,col),0,h-topH/2,0); const lw=0.06,legH=h-topH; [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sz])=>add(_box(lw,legH,lw,0x111111),sx*(w/2-lw),legH/2,sz*(d/2-lw))); break; }
+    case 'stand':{ add(_cyl(0.025,0.032,h,0x333333,10),0,h/2,0); const sp=Math.max(w,d)*0.32; [0,1,2].forEach(i=>{const a=i*2*Math.PI/3;const leg=_cyl(0.012,0.012,h*0.5,0x444444,6);leg.position.set(Math.cos(a)*sp,h*0.2,Math.sin(a)*sp);leg.rotation.z=-Math.cos(a)*0.5;leg.rotation.x=Math.sin(a)*0.5;g.add(leg);}); add(_box(Math.min(w,0.4),0.02,Math.min(d,0.4),0x222222),0,h,0); break; }
+    case 'lift': case 'totem':{ add(_box(w,h,d,A==='totem'?0x1a1a1a:0x444444),0,h/2,0); if(A==='lift')add(_box(w*1.6,0.06,d*1.6,0x222222),0,0.03,0); break; }
+    case 'winch':{ add(_box(w,h*0.7,d,0x333333),0,h*0.65,0); add(_cyl(0.012,0.012,h*0.6,0x888888,6),0,h*0.3,0); break; }
+    case 'roof':{ const postH=h*0.7,t=0.12; [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sz])=>add(_box(t,postH,t,0x777766),sx*(w/2-t),postH/2,sz*(d/2-t))); const roof=new THREE.Mesh(new THREE.ConeGeometry(Math.max(w,d)*0.72,h*0.32,4),_mat(col,{side:THREE.DoubleSide,roughness:.85})); roof.rotation.y=Math.PI/4; roof.position.set(0,postH+h*0.16,0); g.add(roof); break; }
+    case 'ladder':{ const st=4; for(let i=0;i<st;i++)add(_box(w,h/st*0.5,d/st,0x2a2a22),0,(i+0.5)*h/st,d/2-(i+0.5)*d/st); break; }
+    case 'cable':{ add(_box(w,h,d,col),0,h/2,0); break; }
+    case 'confetti':{ add(_box(w,h*0.3,d,0x222222),0,h*0.15,0); const tube=_cyl(w*0.32,w*0.32,h*0.8,0x444444,12); tube.rotation.x=-0.5; tube.position.set(0,h*0.6,0); g.add(tube); break; }
+    case 'haze':{ add(_box(w,h*0.8,d,col),0,h*0.4,0); const nz=_cyl(0.025,0.04,d*0.3,0x666666,10); nz.rotation.x=Math.PI/2; nz.position.set(0,h*0.5,d*0.55); g.add(nz); break; }
+    case 'drums':{ add(_cyl(w*0.28,w*0.28,h*0.4,0xcfcfcf,18),0,h*0.3,0); add(_cyl(w*0.12,w*0.12,h*0.12,0xdddddd,14),-w*0.22,h*0.55,d*0.1); add(_cyl(w*0.12,w*0.12,h*0.12,0xdddddd,14),w*0.22,h*0.55,d*0.1); break; }
+    case 'guitar': case 'bass':{ add(_box(w*0.7,h*0.32,d,0x88401a),0,h*0.18,0); add(_box(w*0.12,h*0.66,d*0.4,0x3a2008),0,h*0.6,0); break; }
+    case 'keys':{ add(_box(w,h*0.35,d,0x141414),0,h*0.62,0); const kb=_box(w*0.95,h*0.08,d*0.5,0xf0f0f0); kb.position.set(0,h*0.8,d*0.08); g.add(kb); add(_box(0.03,h*0.6,d,0x333333),-w*0.3,h*0.3,0); add(_box(0.03,h*0.6,d,0x333333),w*0.3,h*0.3,0); break; }
+    case 'chair':{ add(_box(w*0.9,0.05,d*0.9,col),0,h*0.5,0); add(_box(w*0.9,h*0.45,0.05,col),0,h*0.72,-d*0.42); [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sz])=>add(_box(0.04,h*0.5,0.04,col),sx*w*0.4,h*0.25,sz*d*0.4)); break; }
+    case 'table': case 'tableRound': case 'bar':{ const top=item.round?_cyl(w*0.5,w*0.5,0.05,col,24):_box(w,0.05,d,col); add(top,0,h-0.03,0); if(item.round||A==='bar'){ add(_cyl(0.05,0.07,h-0.05,col,12),0,(h-0.05)/2,0); add(_cyl(w*0.3,w*0.3,0.03,col,18),0,0.015,0);} else { [[-1,-1],[1,-1],[1,1],[-1,1]].forEach(([sx,sz])=>add(_box(0.05,h-0.05,0.05,col),sx*(w/2-0.08),(h-0.05)/2,sz*(d/2-0.08)));} break; }
+    case 'sofa':{ add(_box(w,h*0.45,d,col),0,h*0.22,0); add(_box(w,h*0.5,d*0.25,col),0,h*0.55,-d*0.37); add(_box(w*0.1,h*0.4,d,col),-w*0.45,h*0.5,0); add(_box(w*0.1,h*0.4,d,col),w*0.45,h*0.5,0); break; }
+    default: add(_box(w,h,d,col),0,h/2,0);
   }
-  const mat=new THREE.MeshStandardMaterial({
-    color:item.col,
-    metalness:item.cat==='structure'?.5:.3,
-    roughness:item.cat==='audio'?.7:.45,
-    emissive:item.beam?new THREE.Color(item.beam):new THREE.Color(0),
-    emissiveIntensity:item.beam?.2:0,
-  });
-  const m=new THREE.Mesh(geo,mat);
-  m.castShadow=true;m.receiveShadow=true;
-  return m;
+  function speakerCab(){ add(_box(w,h,d,col),0,h/2,0); const r=Math.min(w,h)*0.22; cone2(0,h*0.62,d/2+0.004,r); cone2(0,h*0.3,d/2+0.004,r*0.6); }
+  function cone2(x,y,z,r){const m=new THREE.Mesh(new THREE.CircleGeometry(r,16),_mat(0x0a0a0a,{roughness:.9}));m.position.set(x,y,z);g.add(m);return m;}
+  g.userData.glowMats=glow;
+  return g;
+}
+
+// ── real / imported model loading (GLB·GLTF·OBJ·FBX·STL) with cache + fit ──
+const _gltfL=new THREE.GLTFLoader();
+const _objL=new THREE.OBJLoader();
+const _stlL=new THREE.STLLoader();
+const _fbxL=(typeof THREE.FBXLoader!=='undefined')?new THREE.FBXLoader():null;
+const _mcache={};
+function loadAnyModel(src,ext,item,cb,onErr){
+  if(_mcache[src]){cb(_mcache[src].clone(true));return;}
+  const done=o=>{_mcache[src]=o;cb(o.clone(true));};
+  try{
+    if(ext==='glb'||ext==='gltf') _gltfL.load(src,g=>done(g.scene),undefined,onErr);
+    else if(ext==='obj') _objL.load(src,o=>done(o),undefined,onErr);
+    else if(ext==='fbx'){ if(_fbxL)_fbxL.load(src,o=>done(o),undefined,onErr); else onErr&&onErr(new Error('FBX loader missing')); }
+    else if(ext==='stl') _stlL.load(src,geo=>{const m=new THREE.Mesh(geo,_mat(item.col||0x999999));done(m);},undefined,onErr);
+    else onErr&&onErr(new Error('Формат не поддерживается: '+ext));
+  }catch(e){onErr&&onErr(e);}
+}
+// scale/center a loaded model to footprint w×d×h, base on floor (y=0)
+function fitModelToBox(obj,w,d,h){
+  obj.updateMatrixWorld(true);
+  let box=new THREE.Box3().setFromObject(obj),sz=new THREE.Vector3();box.getSize(sz);
+  const s=Math.min(w/(sz.x||1),h/(sz.y||1),d/(sz.z||1));
+  obj.scale.multiplyScalar(s);
+  obj.updateMatrixWorld(true);
+  box=new THREE.Box3().setFromObject(obj);
+  const c=new THREE.Vector3();box.getCenter(c);
+  obj.position.x+=-c.x; obj.position.z+=-c.z; obj.position.y+=-box.min.y;
+}
+function loadModelInto(g,item,path){
+  let ext,src;
+  if(path&&typeof path==='object'){ext=(path.ext||'').toLowerCase();src=path.url;}
+  else {ext=String(path).split('?')[0].split('.').pop().toLowerCase();src=path;}
+  loadAnyModel(src,ext,item,obj=>{
+    fitModelToBox(obj,item.w,item.d,item.h);
+    obj.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;if(o.material)o.material=Array.isArray(o.material)?o.material.map(m=>m.clone()):o.material.clone();}});
+    for(let i=g.children.length-1;i>=0;i--){const c=g.children[i];g.remove(c);if(c.geometry)c.geometry.dispose();}
+    g.add(obj); g.userData.glowMats=[]; g.userData.hasModel=true;
+    if(selObj===g) setHL(g,true);
+  },err=>{ console.warn('Модель не загрузилась ('+src+'), оставляю процедурную:',err&&err.message); });
+}
+
+// Returns a THREE.Group: procedural by default, swapped to a real/imported model if available.
+function makeEquipMesh(item){
+  const g=buildProc(item);
+  const custom=(typeof customModels!=='undefined')&&customModels[item.id];
+  const path=custom||item.model;
+  if(path) loadModelInto(g,item,path);
+  return g;
 }
 
 function placeItem(item,x,z,ry){
-  const mesh=makeEquipMesh(item);
+  const root=makeEquipMesh(item);
   const sx=snap(x),sz=snap(z);
-  mesh.position.set(sx,item.h/2,sz);
-  if(ry) mesh.rotation.y=ry;
-  mesh.name='eq_'+item.id+'_'+Date.now();
-  mesh.userData={item,origCol:item.col,origEmit:item.beam||0};
-  scene.add(mesh);placed.push(mesh);
+  root.position.set(sx,0,sz);
+  if(ry) root.rotation.y=ry;
+  root.name='eq_'+item.id+'_'+Date.now();
+  root.userData=Object.assign(root.userData||{},{item,origCol:item.col,origEmit:item.beam||0});
+  scene.add(root);placed.push(root);
 
-  if(item.beam&&item.cat==='light'){addBeam(mesh,item);}
+  if(item.beam&&item.cat==='light'){addBeam(root,item);}
   if(item.cat==='light'){
     const sl=new THREE.SpotLight(new THREE.Color(item.beam||0xffffff),.55,10,item.ang||Math.PI/6,.4);
     sl.position.set(sx,item.h,sz);sl.target.position.set(sx,0,sz);sl.castShadow=false;
     scene.add(sl);scene.add(sl.target);
-    mesh.userData.sl=sl;mesh.userData.slt=sl.target;
+    root.userData.sl=sl;root.userData.slt=sl.target;
     placed.push(sl,sl.target);
   }
-  addLabel(mesh,item);
-  if(item.beam&&item.cat==='light') addFloorSpot(mesh,item);
+  addLabel(root,item);
+  if(item.beam&&item.cat==='light') addFloorSpot(root,item);
 
-  undoStack.push({type:'place',mesh,lights:[mesh.userData.sl,mesh.userData.slt].filter(Boolean)});
+  undoStack.push({type:'place',mesh:root,lights:[root.userData.sl,root.userData.slt].filter(Boolean)});
   if(undoStack.length>30) undoStack.shift();
-  selectObj(mesh);
+  selectObj(root);
   hideHint();
   updateCount();
-  return mesh;
+  return root;
 }
 
 function addBeam(mesh,item){
@@ -757,7 +939,7 @@ function addLabel(mesh,item){
 function rebuildBeams(){
   beamMeshes.forEach(b=>{scene.remove(b);if(b.geometry)b.geometry.dispose();});
   beamMeshes=[];
-  placed.filter(o=>o.isMesh&&o.userData.item).forEach(m=>{
+  placedItems().forEach(m=>{
     const it=m.userData.item;
     if(it.beam&&it.cat==='light') addBeam(m,it);
   });
@@ -787,35 +969,59 @@ function addWindow(wall){
 // ═══════════════════════════════════
 // CATALOG UI
 // ═══════════════════════════════════
+// Динамически строит ряды фильтров: Вид (категории) + Комплект (тарифы)
+function buildCatFilters(){
+  const vc=document.getElementById('plCats');
+  if(vc){
+    vc.innerHTML='<button class="pl-cat act" onclick="setCat(\'all\',this)">Всё</button>'+
+      VID.map(v=>`<button class="pl-cat" onclick="setCat('${v.key}',this)">${v.e} ${v.label}</button>`).join('');
+  }
+  const kc=document.getElementById('plKits');
+  if(kc){
+    kc.innerHTML='<button class="pl-kit act" onclick="setKit(\'all\',this)">Любой</button>'+
+      KIT.map(k=>`<button class="pl-kit" style="--kc:${KIT_META[k].c}" onclick="setKit('${k}',this)">${k}</button>`).join('');
+  }
+  const mc=document.getElementById('mobCats');
+  if(mc){
+    mc.innerHTML='<button class="pl-cat act" onclick="setMobCat(\'all\',this)">Всё</button>'+
+      VID.map(v=>`<button class="pl-cat" onclick="setMobCat('${v.key}',this)">${v.e} ${v.label}</button>`).join('');
+  }
+}
 function setCat(c,btn){
   curCat=c;
-  document.querySelectorAll('.pl-cat').forEach(b=>b.classList.remove('act'));
-  if(btn) btn.classList.add('act');
-  document.getElementById('searchInp').value='';
+  document.querySelectorAll('#plCats .pl-cat').forEach(b=>b.classList.toggle('act',b===btn));
+  renderCat();
+}
+function setKit(k,btn){
+  curKit=k;
+  document.querySelectorAll('#plKits .pl-kit').forEach(b=>b.classList.toggle('act',b===btn));
   renderCat();
 }
 
 function renderCat(){
   const q=(document.getElementById('searchInp').value||'').toLowerCase();
-  const items=CAT.filter(it=>{
-    const matchCat=curCat==='all'||it.cat===curCat;
-    const matchQ=!q||it.name.toLowerCase().includes(q);
-    return matchCat&&matchQ;
+  const items=allItems().filter(it=>{
+    const mc=curCat==='all'||it.cat===curCat;
+    const mk=curKit==='all'||it.kit===curKit;
+    const mq=!q||it.name.toLowerCase().includes(q)||(it.desc&&it.desc.toLowerCase().includes(q));
+    return mc&&mk&&mq;
   });
   const el=document.getElementById('plList');
   if(!items.length){el.innerHTML='<div class="pl-empty">Ничего не найдено</div>';return;}
   el.innerHTML='';
   items.forEach(item=>{
+    const km=KIT_META[item.kit]||{c:'#888'};
+    const hasMdl=item.model||customModels[item.id];
     const d=document.createElement('div');
     d.className='pl-item';d.draggable=true;d.dataset.id=item.id;
-    d.title=`${item.name} | ${item.w}×${item.d} м`;
+    d.title=`${item.name}${item.desc?' — '+item.desc:''} | ${item.w}×${item.d}×${item.h} м | ${VID_LABEL[item.cat]||item.cat} · ${item.kit}`;
     d.innerHTML=`
       <div class="pl-ico" style="background:${TC[item.cat]}18">
         ${item.e}<span class="pl-dot" style="background:${TC[item.cat]}"></span>
       </div>
       <div style="min-width:0;flex:1">
         <div class="pl-name">${item.name}</div>
-        <div class="pl-dims">${item.w}×${item.d} м</div>
+        <div class="pl-dims">${item.w}×${item.d} м <span class="pl-kbadge" style="color:${km.c};border-color:${km.c}66">${item.kit}</span>${hasMdl?'<span class="pl-mdl">3D</span>':''}</div>
       </div>`;
     d.addEventListener('dragstart',e=>{e.dataTransfer.setData('cat-id',item.id);d.classList.add('dragging');});
     d.addEventListener('dragend',()=>d.classList.remove('dragging'));
@@ -830,7 +1036,7 @@ function onDrop(e){
   e.preventDefault();
   document.getElementById('canvasArea').classList.remove('drop-hl');
   const id=e.dataTransfer.getData('cat-id');if(!id)return;
-  const item=CAT.find(c=>c.id===id);if(!item)return;
+  const item=findItem(id);if(!item)return;
   const rect=renderer.domElement.getBoundingClientRect();
   const mouse=new THREE.Vector2(((e.clientX-rect.left)/rect.width)*2-1,-((e.clientY-rect.top)/rect.height)*2+1);
   raycaster.setFromCamera(mouse,camera);
@@ -855,9 +1061,9 @@ function onMD(e){
     const h=raycaster.intersectObjects(wallMeshes);
     if(h.length){addWindow(h[0].object);return;}
   }
-  const hittable=placed.filter(o=>o.isMesh&&o.userData.item);
-  const h=raycaster.intersectObjects(hittable);
-  if(h.length){selectObj(h[0].object);dragObj=h[0].object;document.body.style.cursor='grabbing';return;}
+  const hittable=placedItems();
+  const h=raycaster.intersectObjects(hittable,true);
+  if(h.length){const r=rootOf(h[0].object);selectObj(r);dragObj=r;document.body.style.cursor='grabbing';return;}
   deselectObj();
 }
 
@@ -945,8 +1151,8 @@ function onTE(e){
         -((touch.clientY-rect.top)/rect.height)*2+1
       );
       raycaster.setFromCamera(m,camera);
-      const hits=raycaster.intersectObjects(placed.filter(o=>o.isMesh&&o.userData.item));
-      if(hits.length) selectObj(hits[0].object);
+      const hits=raycaster.intersectObjects(placedItems(),true);
+      if(hits.length) selectObj(rootOf(hits[0].object));
       else deselectObj();
     }
   }
@@ -972,20 +1178,29 @@ function onKey(e){
 // ═══════════════════════════════════
 // SELECTION
 // ═══════════════════════════════════
+// highlight a group (or mesh) by tinting all mesh emissives gold; restores on off
+function setHL(root,on){
+  if(!root||!root.traverse)return;
+  root.traverse(o=>{
+    if(o.isMesh&&o.material){
+      (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{
+        if(!m.emissive)return;
+        if(on){ if(m.__oe===undefined)m.__oe=m.emissive.getHex(); m.emissive.setHex(0xC9A227); }
+        else if(m.__oe!==undefined){ m.emissive.setHex(m.__oe); m.__oe=undefined; }
+      });
+    }
+  });
+}
 function selectObj(obj){
   if(selObj&&selObj!==obj) restoreCol(selObj);
   selObj=obj;
-  if(obj.material.emissive) obj.material.emissive.setHex(0xC9A227);
-  else obj.material.color.setHex(0xC9A227);
+  setHL(obj,true);
   const hs=document.getElementById('hud-sel');
   hs.style.display='';hs.textContent='✦ '+(obj.userData.item?.name||obj.name);
   if(activeTab==='obj') buildObjTab();
   else prTab('obj',document.querySelector('.pr-tab:nth-child(2)'));
 }
-function restoreCol(obj){
-  if(obj.material.emissive) obj.material.emissive.setHex(obj.userData.origEmit||0);
-  else obj.material.color.setHex(obj.userData.origCol||0);
-}
+function restoreCol(obj){ setHL(obj,false); }
 function deselectObj(){
   if(selObj) restoreCol(selObj);
   selObj=null;
@@ -1169,15 +1384,7 @@ function exportScene(){
 // ═══════════════════════════════════
 // SAVE / LOAD
 // ═══════════════════════════════════
-function saveScene(){
-  const name=prompt('Название сохранения:',`Проект ${new Date().toLocaleDateString('ru')}`);
-  if(!name)return;
-  const data={name,rW:roomW,rD:roomD,shape:roomShape,items:placed.filter(o=>o.isMesh&&o.userData.item).map(o=>({id:o.userData.item.id,x:o.position.x,z:o.position.z,ry:o.rotation.y}))};
-  saves=saves.filter(s=>s.name!==name);saves.push(data);
-  localStorage.setItem('nd_planner_saves',JSON.stringify(saves));
-  toast('Сохранено: '+name);
-  if(activeTab==='list') buildListTab();
-}
+function saveScene(){ openSaveModal(); }
 
 function loadSave(name){
   const d=saves.find(s=>s.name===name);if(!d)return;
@@ -1187,7 +1394,7 @@ function loadSave(name){
   roomShape=d.shape||'rect';
   ['rect','square','l'].forEach(n=>document.getElementById('btn-'+n)?.classList.toggle('act',n===roomShape));
   roomVerts=calcVerts(roomShape,roomW,roomD);buildRoom();
-  d.items.forEach(it=>{const item=CAT.find(c=>c.id===it.id);if(item) placeItem(item,it.x,it.z,it.ry);});
+  d.items.forEach(it=>{const item=findItem(it.id);if(item) placeItem(item,it.x,it.z,it.ry);});
   deselectObj();toast('Загружено: '+name);
   if(activeTab==='list') buildListTab();
 }
@@ -1313,18 +1520,52 @@ function buildObjTab(el){
     el.innerHTML='<div class="empty-msg">Выберите объект<br>кликнув на него</div>';return;
   }
   const o=selObj,it=o.userData.item;
+  const km=KIT_META[it.kit]||{c:'#888'};
+  const hasMdl=it.model||customModels[it.id];
   el.innerHTML=`
 <div class="prs">
   <div class="prt">Объект</div>
-  <div style="font-size:13px;font-weight:700;color:var(--g);margin-bottom:10px">${it.e} ${it.name}</div>
+  <div style="font-size:13px;font-weight:700;color:var(--g);margin-bottom:6px">${it.e} ${it.name}</div>
+  ${it.desc?`<div style="font-size:10px;color:var(--w5);margin-bottom:8px">${it.desc}</div>`:''}
+  <div class="prr"><label>Вид</label><select class="pri" onchange="setObjTag('cat',this.value)">${VID.map(v=>`<option value="${v.key}" ${v.key===it.cat?'selected':''}>${v.label}</option>`).join('')}</select></div>
+  <div class="prr"><label>Комплект</label><select class="pri" onchange="setObjTag('kit',this.value)">${KIT.map(k=>`<option ${k===it.kit?'selected':''}>${k}</option>`).join('')}</select></div>
   <div class="prr"><label>X (м)</label><input class="pri" type="number" value="${o.position.x.toFixed(1)}" step=".5" oninput="setProp('x',this.value)"></div>
   <div class="prr"><label>Y (м)</label><input class="pri" type="number" value="${o.position.z.toFixed(1)}" step=".5" oninput="setProp('z',this.value)"></div>
   <div class="prr"><label>Угол°</label><input class="pri" type="number" value="${Math.round(o.rotation.y*180/Math.PI)}" step="45" oninput="setProp('ry',this.value)"></div>
   <div class="prr"><label>Размер</label><span style="font-size:10px;color:var(--w5)">${it.w}×${it.d}×${it.h} м</span></div>
   <div class="prr"><label>Масштаб</label><input type="range" min=".3" max="3" step=".05" value="${o.scale.x.toFixed(2)}" oninput="setScale(this.value)"><span class="slv" id="sc-v">${o.scale.x.toFixed(2)}×</span></div>
+</div>
+<div class="prs">
+  <div class="prt">3D-модель</div>
+  <div style="font-size:10px;color:var(--w5);margin-bottom:5px">${hasMdl?'✓ модель назначена':'процедурная (по размерам)'}</div>
+  <label class="pl-newpos" style="display:block;text-align:center;cursor:pointer;margin-bottom:4px">Загрузить модель (GLB/GLTF/OBJ/FBX/STL)<input type="file" accept=".glb,.gltf,.obj,.fbx,.stl" onchange="onObjModel(event)" style="display:none"></label>
+  ${customModels[it.id]?'<button class="sa-btn" style="width:100%" onclick="resetObjModel()">Сбросить к процедурной</button>':''}
+</div>
+<div class="prs">
   <button class="pr-dup" onclick="dupSelected()">Дублировать (Ctrl+D)</button>
   <button class="pr-del" onclick="delSelected()">🗑 Удалить (Del)</button>
 </div>`;
+}
+
+function setObjTag(prop,val){
+  if(!selObj||!selObj.userData.item)return;
+  const it=selObj.userData.item;it[prop]=val;
+  if(it.id&&it.id.indexOf('cust_')===0){const ci=customItems.find(c=>c.id===it.id);if(ci){ci[prop]=val;persistCustom();}}
+  document.getElementById('hud-sel').textContent='✦ '+it.name;
+  renderCat();if(isMob)renderMobCat();
+}
+function resetObjModel(){
+  if(!selObj||!selObj.userData.item)return;
+  const it=selObj.userData.item;
+  delete customModels[it.id];persistCustom();
+  // перестроить объект процедурно
+  const root=selObj,proc=buildProc(it);
+  for(let i=root.children.length-1;i>=0;i--){const c=root.children[i];root.remove(c);if(c.geometry)c.geometry.dispose();}
+  proc.children.slice().forEach(c=>root.add(c));
+  root.userData.glowMats=proc.userData.glowMats;root.userData.hasModel=false;
+  if(it.model) loadModelInto(root,it,it.model); // вернуть встроенную модель если была
+  setHL(root,true);renderCat();buildObjTab();
+  toast('Сброшено к процедурной модели');
 }
 
 function setProp(prop,val){
@@ -1337,19 +1578,24 @@ function setProp(prop,val){
 
 function buildListTab(el){
   if(!el) el=document.getElementById('prBody');
-  const items=placed.filter(o=>o.isMesh&&o.userData.item);
+  const items=placedItems();
   const counts={};
   items.forEach(o=>{const id=o.userData.item.id;counts[id]=(counts[id]||0)+1;});
 
   let html='<div class="prs"><div class="prt">Оборудование</div>';
   if(!items.length){html+='<div class="empty-msg">Нет объектов</div>';}
   else{
-    const totals={};
-    CAT.filter(c=>counts[c.id]).forEach(c=>{
-      totals[c.cat]=(totals[c.cat]||0)+counts[c.id];
+    const byKit={},byVid={};
+    allItems().filter(c=>counts[c.id]).forEach(c=>{
+      byKit[c.kit]=(byKit[c.kit]||0)+counts[c.id];
+      byVid[c.cat]=(byVid[c.cat]||0)+counts[c.id];
       html+=`<div class="sumr"><span class="lbl">${c.e} ${c.name}</span><span class="cnt">${counts[c.id]}</span></div>`;
     });
     html+=`<div class="sumtotal">Итого: <strong>${items.length}</strong> объект${items.length===1?'':'ов'}</div>`;
+    html+='</div><div class="prs"><div class="prt">По виду</div>';
+    VID.filter(v=>byVid[v.key]).forEach(v=>{html+=`<div class="sumr"><span class="lbl">${v.e} ${v.label}</span><span class="cnt">${byVid[v.key]}</span></div>`;});
+    html+='</div><div class="prs"><div class="prt">По комплекту</div>';
+    KIT.filter(k=>byKit[k]).forEach(k=>{const c=(KIT_META[k]||{}).c||'#888';html+=`<div class="sumr"><span class="lbl" style="text-transform:capitalize">${k}</span><span class="cnt" style="color:${c}">${byKit[k]}</span></div>`;});
   }
   html+='</div>';
 
@@ -1358,7 +1604,9 @@ function buildListTab(el){
   if(!saves.length){html+='<div class="empty-msg">Нет сохранений</div>';}
   else{
     saves.forEach(s=>{
-      html+=`<div class="save-item"><span class="sn">${s.name}</span><div class="sa"><button class="sa-btn" onclick="loadSave('${s.name.replace(/'/g,"\\'")}')">Загрузить</button><button class="sa-btn" onclick="delSave('${s.name.replace(/'/g,"\\'")}')">✕</button></div></div>`;
+      const nm=s.name.replace(/'/g,"\\'");
+      const loc=s.address?`<div style="font-size:9px;color:var(--w2)">📍 ${s.address}${s.publish?' · <span style="color:#54d6a0">в ленте</span>':''}</div>`:(s.publish?'<div style="font-size:9px;color:#54d6a0">в ленте</div>':'');
+      html+=`<div class="save-item" style="flex-direction:column;align-items:stretch;gap:4px"><div style="display:flex;justify-content:space-between;align-items:center"><span class="sn">${s.name}</span><div class="sa"><button class="sa-btn" onclick="loadSave('${nm}')">Загрузить</button><button class="sa-btn" onclick="delSave('${nm}')">✕</button></div></div>${loc}</div>`;
     });
   }
   html+='</div>';
@@ -1385,7 +1633,7 @@ function loadTpl(id){
   roomShape=tpl.shape||'rect';
   ['rect','square','l'].forEach(n=>document.getElementById('btn-'+n)?.classList.toggle('act',n===roomShape));
   roomVerts=calcVerts(roomShape,roomW,roomD);buildRoom();
-  tpl.items.forEach(it=>{const item=CAT.find(c=>c.id===it.id);if(item) placeItem(item,it.x,it.z,it.ry||0);});
+  tpl.items.forEach(it=>{const item=findItem(it.id);if(item) placeItem(item,it.x,it.z,it.ry||0);});
   deselectObj();closeModal();toast(`Шаблон "${tpl.name}" загружен`);
 }
 
@@ -1418,7 +1666,7 @@ function updateSB(){
 }
 
 function updateCount(){
-  const n=placed.filter(o=>o.isMesh&&o.userData.item).length;
+  const n=placedItems().length;
   document.getElementById('hud-cnt').textContent=n?n+' объект'+(n===1?'':n<5?'а':'ов'):'Пусто';
   document.getElementById('sb-cnt').textContent=n||'0';
   if(activeTab==='list') buildListTab();
@@ -1483,11 +1731,12 @@ const clock=new THREE.Clock();
 function animate(){
   requestAnimationFrame(animate);
   const t=clock.getElapsedTime();
-  placed.filter(o=>o.isMesh&&o.userData.item?.cat==='light'&&o!==selObj).forEach(o=>{
-    if(o.material.emissiveIntensity!==undefined) o.material.emissiveIntensity=.16+Math.sin(t*1.8+o.position.x)*.06;
+  placedItems().forEach(o=>{
+    if(o.userData.item&&o.userData.item.cat==='light'&&o!==selObj&&o.userData.glowMats)
+      o.userData.glowMats.forEach(m=>{m.emissiveIntensity=.7+Math.sin(t*1.8+o.position.x)*.25;});
   });
   beamMeshes.forEach((b,i)=>{if(b.material) b.material.opacity=.13+Math.sin(t*1.5+i*.7)*.04;});
-  placed.filter(o=>o.isMesh&&o.userData.fs).forEach((o,i)=>{o.userData.fs.material.opacity=.09+Math.sin(t*1.2+i*.5)*.03;});
+  placedItems().forEach((o,i)=>{if(o.userData.fs)o.userData.fs.material.opacity=.09+Math.sin(t*1.2+i*.5)*.03;});
   renderer.render(scene,camera);
 }
 
@@ -1508,9 +1757,9 @@ function setMobCat(cat,btn){
   renderMobCat();
 }
 function renderMobCat(){
-  const list=CAT.filter(c=>mobCat==='all'||c.cat===mobCat);
+  const list=allItems().filter(c=>mobCat==='all'||c.cat===mobCat);
   document.getElementById('mobList').innerHTML=list.map(c=>`
-    <button class="mob-item" onclick="tapPlace(CAT.find(x=>x.id==='${c.id}'));closeMobDrawer()">
+    <button class="mob-item" onclick="tapPlace(findItem('${c.id}'));closeMobDrawer()">
       <span class="mbi-ico">${c.e}</span>
       <span class="mbi-name">${c.name}</span>
       <span class="mbi-dims">${c.w}×${c.d} м</span>
@@ -1523,6 +1772,135 @@ function tapPlace(item){
   const ox=(Math.random()-.5)*4, oz=(Math.random()-.5)*4;
   placeItem(item, snap(camTgt.x+ox), snap(camTgt.z+oz));
   toast(item.e+' '+item.name+' добавлен');
+}
+
+// ═══════════════════════════════════
+// CUSTOM ITEMS («Новая позиция») + ИМПОРТ МОДЕЛЕЙ
+// ═══════════════════════════════════
+function loadCustomItems(){
+  try{customItems=JSON.parse(localStorage.getItem('nd_planner_customitems'))||[];}catch(e){customItems=[];}
+  try{customModels=JSON.parse(localStorage.getItem('nd_planner_custommodels'))||{};}catch(e){customModels={};}
+}
+function persistCustom(){
+  localStorage.setItem('nd_planner_customitems',JSON.stringify(customItems));
+  localStorage.setItem('nd_planner_custommodels',JSON.stringify(customModels));
+}
+function defaultArch(cat){return {audio:'speaker',light:'par',laser:'laser',video:'ledpanel',structure:'box',backline:'amp_guitar',dj:'dj_mixer',fx:'haze',power:'powerbox',furniture:'table'}[cat]||'box';}
+function fileExt(name){return String(name).split('?')[0].split('.').pop().toLowerCase();}
+function fileToData(file,cb){const r=new FileReader();r.onload=()=>cb({ext:fileExt(file.name),url:r.result});r.readAsDataURL(file);}
+
+let _npModel=null; // {ext,url} для новой позиции
+function openNewPos(){
+  document.getElementById('np-vid').innerHTML=VID.map(v=>`<option value="${v.key}">${v.label}</option>`).join('');
+  document.getElementById('np-kit').innerHTML=KIT.map(k=>`<option value="${k}">${k}</option>`).join('');
+  document.getElementById('np-name').value='';document.getElementById('np-desc').value='';
+  document.getElementById('np-w').value='0.5';document.getElementById('np-d').value='0.5';document.getElementById('np-h').value='0.5';
+  document.getElementById('np-col').value='#888888';
+  document.getElementById('np-model').value='';
+  document.getElementById('np-model-note').textContent='Если не загружать — будет процедурная модель по размерам.';
+  _npModel=null;
+  document.getElementById('newPosModal').style.display='flex';
+}
+function closeNewPos(){document.getElementById('newPosModal').style.display='none';}
+document.addEventListener('change',e=>{
+  if(e.target&&e.target.id==='np-model'){
+    const f=e.target.files[0];if(!f){_npModel=null;return;}
+    fileToData(f,d=>{_npModel=d;document.getElementById('np-model-note').textContent='Модель загружена: '+f.name;});
+  }
+});
+function saveNewPos(){
+  const name=document.getElementById('np-name').value.trim();
+  if(!name){toast('Введите название','err');return;}
+  const cat=document.getElementById('np-vid').value, kit=document.getElementById('np-kit').value;
+  const w=Math.max(.05,parseFloat(document.getElementById('np-w').value)||.5);
+  const d=Math.max(.05,parseFloat(document.getElementById('np-d').value)||.5);
+  const h=Math.max(.05,parseFloat(document.getElementById('np-h').value)||.5);
+  const col=parseInt(document.getElementById('np-col').value.replace('#','0x'));
+  const id='cust_'+Date.now();
+  const item={id,cat,kit,name,desc:document.getElementById('np-desc').value.trim(),w,d,h,col,arch:defaultArch(cat),e:(VID.find(v=>v.key===cat)||{}).e||'📦'};
+  customItems.push(item);
+  if(_npModel) customModels[id]=_npModel;
+  persistCustom();
+  closeNewPos();
+  renderCat();if(isMob)renderMobCat();
+  toast('Позиция добавлена: '+name);
+}
+
+// per-object: импорт/замена 3D-модели у выбранного объекта (по его типу)
+function onObjModel(ev){
+  if(!selObj||!selObj.userData.item)return;
+  const f=ev.target.files[0];if(!f)return;
+  const item=selObj.userData.item;
+  fileToData(f,d=>{
+    customModels[item.id]=d;persistCustom();
+    loadModelInto(selObj,item,d);  // мгновенно заменить модель выбранного объекта
+    renderCat();
+    toast('Модель применена: '+f.name);
+  });
+}
+
+// ═══════════════════════════════════
+// SAVE / PUBLISH SCENE
+// ═══════════════════════════════════
+let _pendingThumb=null;
+function openSaveModal(){
+  _pendingThumb=makeThumb();
+  document.getElementById('sv-name').value=`Проект ${new Date().toLocaleDateString('ru')}`;
+  ['sv-addr','sv-gmaps','sv-gis2','sv-email','sv-pass'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('sv-pub').checked=false;
+  document.getElementById('sv-admin').style.display='none';
+  const img=document.getElementById('sv-thumb');if(_pendingThumb)img.src=_pendingThumb;
+  const note=document.getElementById('sv-pub-note');
+  note.textContent=(window.NDFire&&NDFire.configured)?'Публикация требует входа администратора Firebase.':'⚠ Firebase не настроен (firebase-config.js) — публикация недоступна, сцена сохранится локально.';
+  document.getElementById('saveModal').style.display='flex';
+}
+function closeSaveModal(){document.getElementById('saveModal').style.display='none';}
+function toggleSvPub(){document.getElementById('sv-admin').style.display=document.getElementById('sv-pub').checked?'block':'none';}
+function makeThumb(){
+  try{
+    placedItems().forEach(o=>{if(o.userData.lbl)o.userData.lbl.visible=false;});
+    renderer.render(scene,camera);
+    const full=renderer.domElement, cw=480, ch=Math.round(cw*full.height/full.width);
+    const c=document.createElement('canvas');c.width=cw;c.height=ch;
+    c.getContext('2d').drawImage(full,0,0,cw,ch);
+    const url=c.toDataURL('image/jpeg',0.7);
+    placedItems().forEach(o=>{if(o.userData.lbl)o.userData.lbl.visible=true;});
+    return url;
+  }catch(e){return null;}
+}
+async function doSaveScene(){
+  const name=document.getElementById('sv-name').value.trim();
+  if(!name){toast('Введите название','err');return;}
+  const publish=document.getElementById('sv-pub').checked;
+  const data={
+    id:'sc_'+Date.now(),name,
+    address:document.getElementById('sv-addr').value.trim(),
+    gmaps:document.getElementById('sv-gmaps').value.trim(),
+    gis2:document.getElementById('sv-gis2').value.trim(),
+    publish,thumbnail:_pendingThumb||'',
+    rW:roomW,rD:roomD,shape:roomShape,
+    items:placedItems().map(o=>({id:o.userData.item.id,x:o.position.x,z:o.position.z,ry:o.rotation.y})),
+    createdAt:Date.now()
+  };
+  saves=saves.filter(s=>s.name!==name);saves.push(data);
+  localStorage.setItem('nd_planner_saves',JSON.stringify(saves));
+  if(publish){
+    const go=document.getElementById('sv-go');go.disabled=true;go.textContent='Публикация…';
+    const ok=await publishScene(data);
+    go.disabled=false;go.textContent='Сохранить';
+    if(!ok){toast('Сохранено локально, публикация не удалась','err');closeSaveModal();if(activeTab==='list')buildListTab();return;}
+    toast('Сохранено и опубликовано: '+name);
+  }else toast('Сохранено: '+name);
+  closeSaveModal();
+  if(activeTab==='list')buildListTab();
+}
+async function publishScene(data){
+  if(!(window.NDFire&&NDFire.configured)){toast('Firebase не настроен','err');return false;}
+  const email=document.getElementById('sv-email').value.trim();
+  const pass=document.getElementById('sv-pass').value;
+  if(!email||!pass){toast('Введите e-mail и пароль администратора','err');return false;}
+  try{await NDFire.publish(data,email,pass);return true;}
+  catch(e){console.warn('publish error',e);toast('Ошибка публикации: '+(e&&e.message||e),'err');return false;}
 }
 
 window.addEventListener('load',init);
