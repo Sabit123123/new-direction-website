@@ -170,11 +170,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
   .mob-fab{display:flex!important}
   /* bottom drawer */
   .mob-drawer{display:flex!important}
-  /* mode bar lower */
-  .mode-bar{bottom:72px}
+  /* mode bar lower — leave 56px on the right for zoom buttons */
+  .mode-bar{bottom:72px;left:10px;transform:none;right:56px;justify-content:flex-start}
   .zbtn-wrap{bottom:72px}
   /* bigger touch targets */
-  .mpill{padding:8px 18px;font-size:11px}
+  .mpill{padding:8px 14px;font-size:10px}
   .zbtn{width:40px;height:40px;font-size:18px}
   /* modal single column */
   .tpl-grid,.msteps{grid-template-columns:1fr}
@@ -232,12 +232,21 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
 </div>
 <script>
 (function(){
-  if(window.matchMedia&&window.matchMedia('(hover:none),(max-width:768px)').matches){
-    var s=document.querySelectorAll('.mstep .mst');
-    if(s[1])s[1].innerHTML='<strong>Нажмите «+ Добавить»</strong> и выберите оборудование из каталога';
-    if(s[2])s[2].innerHTML='<strong>Листайте пальцем</strong> — камера. Двумя пальцами — зум';
-    if(s[3])s[3].innerHTML='<strong>Нажмите объект</strong> — выделить. Красная кнопка — удалить';
-  }
+  if(!window.matchMedia||!window.matchMedia('(hover:none),(max-width:768px)').matches)return;
+  // modal steps are above this script — update immediately
+  var s=document.querySelectorAll('.mstep .mst');
+  if(s[1])s[1].innerHTML='<strong>Нажмите «+ Добавить»</strong> и выберите оборудование из каталога';
+  if(s[2])s[2].innerHTML='<strong>Листайте пальцем</strong> — камера. Двумя пальцами — зум';
+  if(s[3])s[3].innerHTML='<strong>Нажмите объект</strong> — выделить. Красная кнопка — удалить';
+  // hint and mode pills are below — wait for DOM ready
+  document.addEventListener('DOMContentLoaded',function(){
+    var h=document.getElementById('hint');
+    if(h)h.textContent='Нажмите + Добавить, чтобы разместить оборудование';
+    var pv=document.getElementById('pill-view');
+    var pe=document.getElementById('pill-edit');
+    if(pv)pv.textContent='👁 Вид';
+    if(pe)pe.textContent='📐 Зал';
+  });
 })();
 </script>
 
