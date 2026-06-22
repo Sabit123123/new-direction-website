@@ -181,10 +181,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
   .mi{padding:20px}
   .mt{font-size:22px}
 }
-/* desktop hides mobile elements */
+/* desktop hides mobile elements (no !important — mobile media query flex wins) */
 .tb-mob-right{display:none}
-.mob-fab{display:none!important}
-.mob-drawer{display:none!important}
+.mob-fab{display:none}
+.mob-drawer{display:none}
 
 /* MOB FAB */
 .mob-fab{position:fixed;bottom:22px;right:18px;width:56px;height:56px;border-radius:28px;background:var(--g);border:none;color:#050507;font-size:28px;font-weight:900;align-items:center;justify-content:center;z-index:500;box-shadow:0 4px 24px rgba(201,162,39,.5);transition:transform .15s,box-shadow .15s}
@@ -230,6 +230,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
 </div>
 </div>
 </div>
+<script>
+(function(){
+  if(window.matchMedia&&window.matchMedia('(hover:none),(max-width:768px)').matches){
+    var s=document.querySelectorAll('.mstep .mst');
+    if(s[1])s[1].innerHTML='<strong>Нажмите «+ Добавить»</strong> и выберите оборудование из каталога';
+    if(s[2])s[2].innerHTML='<strong>Листайте пальцем</strong> — камера. Двумя пальцами — зум';
+    if(s[3])s[3].innerHTML='<strong>Нажмите объект</strong> — выделить. Красная кнопка — удалить';
+  }
+})();
+</script>
 
 <!-- TOPBAR -->
 <div class="topbar">
@@ -354,7 +364,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="three.min.js"></script>
 <script>
 // ═══════════════════════════════════
 // CATALOG
@@ -506,6 +516,11 @@ function init(){
     is2D=true;camR=40;updateCam();
     renderMobCat();
     document.getElementById('hint').textContent='Нажмите + Добавить чтобы разместить оборудование';
+    // replace desktop-specific modal instructions with mobile-friendly ones
+    const steps=document.querySelectorAll('.mstep .mst');
+    if(steps[1]) steps[1].innerHTML='<strong>Нажмите «+ Добавить»</strong> и выберите оборудование из каталога';
+    if(steps[2]) steps[2].innerHTML='<strong>Листайте пальцем</strong> — камера. Двумя пальцами — зум';
+    if(steps[3]) steps[3].innerHTML='<strong>Нажмите объект</strong> — выделить. Красная кнопка — удалить';
     setTimeout(onResize,200); // re-sync canvas size after layout settles
   }
 
