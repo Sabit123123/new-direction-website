@@ -412,7 +412,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
   </div>
   <div class="fld-row">
     <div class="fld" style="flex:0 0 90px"><label>Цвет</label><input id="np-col" type="color" value="#888888" style="height:34px;padding:2px"></div>
-    <div class="fld"><label>3D-модель (GLB/GLTF/OBJ/FBX/STL)</label><input id="np-model" type="file" accept=".glb,.gltf,.obj,.fbx,.stl"><div class="mdl-note" id="np-model-note">Если не загружать — будет процедурная модель по размерам.</div></div>
+    <div class="fld"><label>3D-модель (GLB/GLTF/OBJ/FBX/STL/DAE)</label><input id="np-model" type="file" accept=".glb,.gltf,.obj,.fbx,.stl,.dae"><div class="mdl-note" id="np-model-note">Если не загружать — будет процедурная модель по размерам.</div></div>
   </div>
   <div class="modal-btns">
     <button class="mbtn" onclick="closeNewPos()">Отмена</button>
@@ -456,6 +456,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
 <script src="libs/OBJLoader.js"></script>
 <script src="libs/MTLLoader.js"></script>
 <script src="libs/STLLoader.js"></script>
+<script src="libs/ColladaLoader.js"></script>
 <script src="libs/fflate.min.js"></script>
 <script src="libs/FBXLoader.js"></script>
 <script src="catalog.js"></script>
@@ -829,6 +830,7 @@ const _gltfL=new THREE.GLTFLoader();
 const _objL=new THREE.OBJLoader();
 const _stlL=new THREE.STLLoader();
 const _fbxL=(typeof THREE.FBXLoader!=='undefined')?new THREE.FBXLoader():null;
+const _daeL=(typeof THREE.ColladaLoader!=='undefined')?new THREE.ColladaLoader():null;
 const _mcache={};
 function loadAnyModel(src,ext,item,cb,onErr){
   if(_mcache[src]){cb(_mcache[src].clone(true));return;}
@@ -837,6 +839,7 @@ function loadAnyModel(src,ext,item,cb,onErr){
     if(ext==='glb'||ext==='gltf') _gltfL.load(src,g=>done(g.scene),undefined,onErr);
     else if(ext==='obj') _objL.load(src,o=>done(o),undefined,onErr);
     else if(ext==='fbx'){ if(_fbxL)_fbxL.load(src,o=>done(o),undefined,onErr); else onErr&&onErr(new Error('FBX loader missing')); }
+    else if(ext==='dae'){ if(_daeL)_daeL.load(src,c=>done(c.scene),undefined,onErr); else onErr&&onErr(new Error('Collada loader missing')); }
     else if(ext==='stl') _stlL.load(src,geo=>{const m=new THREE.Mesh(geo,_mat(item.col||0x999999));done(m);},undefined,onErr);
     else onErr&&onErr(new Error('Формат не поддерживается: '+ext));
   }catch(e){onErr&&onErr(e);}
@@ -1538,7 +1541,7 @@ function buildObjTab(el){
 <div class="prs">
   <div class="prt">3D-модель</div>
   <div style="font-size:10px;color:var(--w5);margin-bottom:5px">${hasMdl?'✓ модель назначена':'процедурная (по размерам)'}</div>
-  <label class="pl-newpos" style="display:block;text-align:center;cursor:pointer;margin-bottom:4px">Загрузить модель (GLB/GLTF/OBJ/FBX/STL)<input type="file" accept=".glb,.gltf,.obj,.fbx,.stl" onchange="onObjModel(event)" style="display:none"></label>
+  <label class="pl-newpos" style="display:block;text-align:center;cursor:pointer;margin-bottom:4px">Загрузить модель (GLB/GLTF/OBJ/FBX/STL/DAE)<input type="file" accept=".glb,.gltf,.obj,.fbx,.stl,.dae" onchange="onObjModel(event)" style="display:none"></label>
   ${customModels[it.id]?'<button class="sa-btn" style="width:100%" onclick="resetObjModel()">Сбросить к процедурной</button>':''}
 </div>
 <div class="prs">
