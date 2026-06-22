@@ -185,6 +185,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;heigh
 .tb-mob-right{display:none}
 .mob-fab{display:none}
 .mob-drawer{display:none}
+/* texture picker */
+.tex-row{display:flex;gap:4px;margin-top:6px}
+.tex-btn{flex:1;padding:7px 2px;border-radius:3px;border:2px solid rgba(255,255,255,.12);font-size:9px;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.8);transition:.15s;cursor:pointer;text-transform:uppercase;letter-spacing:.04em;color:#fff}
+.tex-btn.act{border-color:var(--g);box-shadow:0 0 0 1px var(--g)}
 
 /* MOB FAB */
 .mob-fab{position:fixed;bottom:22px;right:18px;width:56px;height:56px;border-radius:28px;background:var(--g);border:none;color:#050507;font-size:28px;font-weight:900;align-items:center;justify-content:center;z-index:500;box-shadow:0 4px 24px rgba(201,162,39,.5);transition:transform .15s,box-shadow .15s}
@@ -463,6 +467,8 @@ const dragPlane=new THREE.Plane(new THREE.Vector3(0,1,0),0);
 const SNAP=0.5;
 let curCat='all',saves=[];
 let activeTab='scene';
+let floorTex='beige',wallTex='gray',wallH=4.2;
+const WALL_COLORS={white:0xf0f0ec,gray:0x909088,black:0x1c1c14,beige:0xc4a882};
 
 // touch
 let t0=null,tDist0=0,tTheta0=0,tPhi0=0,tR0=0,tapT0=0;
@@ -484,17 +490,17 @@ function init(){
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=0.9;
-  renderer.setClearColor(0x050507);
+  renderer.toneMappingExposure=1.2;
+  renderer.setClearColor(0xf2f1ee);
 
   scene=new THREE.Scene();
-  scene.fog=new THREE.FogExp2(0x050507,0.007);
+  scene.fog=new THREE.FogExp2(0xf2f1ee,0.004);
   camera=new THREE.PerspectiveCamera(52,1,.1,600);
   updateCam();
   raycaster=new THREE.Raycaster();
 
-  ambLight=new THREE.AmbientLight(0x302820,1.2);
-  hemiLight=new THREE.HemisphereLight(0xfff5e0,0x080808,.4);
+  ambLight=new THREE.AmbientLight(0xffffff,2.5);
+  hemiLight=new THREE.HemisphereLight(0xffffff,0xe8e8e0,0.8);
   sunLight=new THREE.DirectionalLight(0xfff5e0,1.5);
   sunLight.castShadow=true;
   sunLight.shadow.mapSize.set(2048,2048);
@@ -504,12 +510,12 @@ function init(){
   scene.add(ambLight,hemiLight,sunLight);
 
   const fg=new THREE.PlaneGeometry(300,300);
-  const fm=new THREE.Mesh(fg,new THREE.MeshLambertMaterial({color:0x060604}));
+  const fm=new THREE.Mesh(fg,new THREE.MeshLambertMaterial({color:0xf0efec}));
   fm.rotation.x=-Math.PI/2; fm.receiveShadow=true; fm.name='basefloor';
   scene.add(fm);
 
-  const grid=new THREE.GridHelper(200,200,0x181814,0x181814);
-  grid.material.opacity=.3; grid.material.transparent=true;
+  const grid=new THREE.GridHelper(200,200,0xc0c0b8,0xd0d0c8);
+  grid.material.opacity=.5; grid.material.transparent=true;
   scene.add(grid);
 
   roomVerts=calcVerts(roomShape,roomW,roomD);
@@ -572,25 +578,25 @@ function buildRoom(){
   [...roomMeshes,...wallMeshes,...cornerHandles,...dimSprites,...beamMeshes].forEach(m=>{scene.remove(m);if(m.geometry)m.geometry.dispose();});
   roomMeshes=[];wallMeshes=[];cornerHandles=[];dimSprites=[];
 
-  const v=roomVerts,wallH=4.2,wallT=.1;
+  const v=roomVerts,wallT=.1;
 
   // floor
   const sh=new THREE.Shape();
   v.forEach((p,i)=>i===0?sh.moveTo(p.x,p.z):sh.lineTo(p.x,p.z));
   sh.closePath();
   const fgeo=new THREE.ShapeGeometry(sh);
-  const ftex=makeParquet();
+  const ftex=makeFloorTex(floorTex);
   const fm=new THREE.Mesh(fgeo,new THREE.MeshLambertMaterial({map:ftex,side:THREE.DoubleSide}));
   fm.rotation.x=-Math.PI/2;fm.receiveShadow=true;fm.name='roomfloor';
   scene.add(fm);roomMeshes.push(fm);
 
   // ceiling
-  const cm=new THREE.Mesh(fgeo.clone(),new THREE.MeshLambertMaterial({color:0x0b0b09,side:THREE.DoubleSide,transparent:true,opacity:.35}));
+  const cm=new THREE.Mesh(fgeo.clone(),new THREE.MeshLambertMaterial({color:0xe0e0d8,side:THREE.DoubleSide,transparent:true,opacity:.18}));
   cm.rotation.x=-Math.PI/2;cm.position.y=wallH;cm.name='ceiling';
   scene.add(cm);roomMeshes.push(cm);
 
   // walls
-  const wallMat=new THREE.MeshLambertMaterial({color:0x1c1c14});
+  const wallMat=new THREE.MeshLambertMaterial({color:WALL_COLORS[wallTex]||0x909088});
   for(let i=0;i<v.length;i++){
     const a=v[i],b=v[(i+1)%v.length];
     const dx=b.x-a.x,dz=b.z-a.z,len=Math.hypot(dx,dz);
@@ -624,18 +630,23 @@ function buildRoom(){
   updateSB();
 }
 
-function makeParquet(){
+function makeFloorTex(type){
   const sz=512,c=document.createElement('canvas');c.width=c.height=sz;
   const ctx=c.getContext('2d');
-  ctx.fillStyle='#1a1208';ctx.fillRect(0,0,sz,sz);
+  const P={
+    white:{bg:'#f0efe8',plank:'#e8e7e0',line:'rgba(0,0,0,.07)'},
+    gray: {bg:'#929288',plank:'#848480',line:'rgba(0,0,0,.12)'},
+    black:{bg:'#1a1a14',plank:'#141410',line:'rgba(0,0,0,.28)'},
+    beige:{bg:'#c4a882',plank:'#b89870',line:'rgba(0,0,0,.09)'}
+  };
+  const p=P[type]||P.beige;
+  ctx.fillStyle=p.bg;ctx.fillRect(0,0,sz,sz);
   const pw=64,ph=16;
   for(let r=0;r<sz/ph+1;r++){
     for(let cl=-1;cl<sz/pw+1;cl++){
       const x=(cl*pw+(r%2)*pw/2)%sz,y=r*ph;
-      const s=.65+Math.random()*.25;
-      ctx.fillStyle=`rgba(${~~(38*s)},${~~(26*s)},${~~(10*s)},1)`;
-      ctx.fillRect(x,y,pw-1,ph-1);
-      ctx.strokeStyle='rgba(0,0,0,.22)';ctx.lineWidth=.7;
+      ctx.fillStyle=p.plank;ctx.fillRect(x,y,pw-1,ph-1);
+      ctx.strokeStyle=p.line;ctx.lineWidth=.7;
       ctx.beginPath();ctx.moveTo(x+6,y+ph/2);ctx.lineTo(x+pw-8,y+ph/2);ctx.stroke();
     }
   }
@@ -1045,13 +1056,45 @@ function updateSun(){
 // CAMERA
 // ═══════════════════════════════════
 function updateCam(){
-  if(is2D){camera.position.set(camTgt.x,camR,camTgt.z);camera.lookAt(camTgt);return;}
-  camera.position.set(camTgt.x+camR*Math.sin(camPhi)*Math.sin(camTheta),camTgt.y+camR*Math.cos(camPhi),camTgt.z+camR*Math.sin(camPhi)*Math.cos(camTheta));
-  camera.lookAt(camTgt);
+  if(is2D){camera.position.set(camTgt.x,camR,camTgt.z);camera.lookAt(camTgt);}
+  else{camera.position.set(camTgt.x+camR*Math.sin(camPhi)*Math.sin(camTheta),camTgt.y+camR*Math.cos(camPhi),camTgt.z+camR*Math.sin(camPhi)*Math.cos(camTheta));camera.lookAt(camTgt);}
+  const th=((Math.round(camTheta*180/Math.PI)%360)+360)%360;
+  const ph=Math.round(camPhi*180/Math.PI);
+  const G=id=>document.getElementById(id);
+  if(G('sl-theta'))G('sl-theta').value=th;
+  if(G('sl-phi'))G('sl-phi').value=ph;
+  if(G('sl-r'))G('sl-r').value=Math.round(camR);
+  if(G('ct-v'))G('ct-v').textContent=th+'°';
+  if(G('cp-v'))G('cp-v').textContent=ph+'°';
+  if(G('cr-v'))G('cr-v').textContent=Math.round(camR)+'м';
 }
 function resetCam(){camTheta=Math.PI/4;camPhi=Math.PI/3;camR=30;camTgt.set(0,0,0);is2D=false;updateCam();}
 function toggleView(){is2D=!is2D;if(is2D)camR=40;else{camPhi=Math.PI/3;camR=30;}updateCam();}
 function adjZoom(d){camR=Math.max(3,Math.min(120,camR+d));updateCam();}
+function setCamTheta(v){camTheta=((+v%360)+360)%360*Math.PI/180;updateCam();}
+function setCamPhi(v){camPhi=Math.max(.05,Math.min(Math.PI/2-.02,+v*Math.PI/180));updateCam();}
+function setCamR(v){camR=Math.max(3,Math.min(120,+v));updateCam();}
+function setFloor(t){
+  floorTex=t;
+  const fm=scene.getObjectByName('roomfloor');
+  if(fm){fm.material.map=makeFloorTex(t);fm.material.needsUpdate=true;}
+  document.querySelectorAll('.tex-btn.fl').forEach(b=>b.classList.toggle('act',b.dataset.v===t));
+}
+function setWall(t){
+  wallTex=t;
+  const col=WALL_COLORS[t]||0x909088;
+  wallMeshes.forEach(m=>{m.material.color.setHex(col);m.material.needsUpdate=true;});
+  document.querySelectorAll('.tex-btn.wl').forEach(b=>b.classList.toggle('act',b.dataset.v===t));
+}
+function setWallH(v){
+  wallH=Math.max(2.5,Math.min(10,parseFloat(v)));
+  const el=document.getElementById('wh-v');if(el)el.textContent=wallH.toFixed(1)+' м';
+  buildRoom();
+}
+function setScale(v){
+  if(!selObj)return;const s=+v;selObj.scale.set(s,s,s);
+  const el=document.getElementById('sc-v');if(el)el.textContent=s.toFixed(2)+'×';
+}
 
 // ═══════════════════════════════════
 // MODE / SHAPE
@@ -1208,6 +1251,34 @@ function buildSceneTab(el){
   <div id="capRows"></div>
 </div>
 <div class="prs">
+  <div class="prt">Текстура пола</div>
+  <div class="tex-row">
+    <button class="tex-btn fl" data-v="white" onclick="setFloor('white')" style="background:#e8e7e0;color:#333">Белый</button>
+    <button class="tex-btn fl" data-v="gray"  onclick="setFloor('gray')"  style="background:#929288">Серый</button>
+    <button class="tex-btn fl" data-v="black" onclick="setFloor('black')" style="background:#1a1a14">Чёрный</button>
+    <button class="tex-btn fl act" data-v="beige" onclick="setFloor('beige')" style="background:#c4a882">Бежевый</button>
+  </div>
+</div>
+<div class="prs">
+  <div class="prt">Цвет стен</div>
+  <div class="tex-row">
+    <button class="tex-btn wl" data-v="white" onclick="setWall('white')" style="background:#f0f0ec;color:#333">Белый</button>
+    <button class="tex-btn wl act" data-v="gray"  onclick="setWall('gray')"  style="background:#909088">Серый</button>
+    <button class="tex-btn wl" data-v="black" onclick="setWall('black')" style="background:#1c1c14">Чёрный</button>
+    <button class="tex-btn wl" data-v="beige" onclick="setWall('beige')" style="background:#c4a882">Бежевый</button>
+  </div>
+</div>
+<div class="prs">
+  <div class="prt">Высота зала</div>
+  <div class="prr"><label>Потолок</label><input type="range" min="2.5" max="10" step=".5" value="4.2" oninput="setWallH(this.value)"><span class="slv" id="wh-v">4.2 м</span></div>
+</div>
+<div class="prs">
+  <div class="prt">Камера</div>
+  <div class="prr"><label>Поворот</label><input type="range" id="sl-theta" min="0" max="359" step="1" value="45" oninput="setCamTheta(this.value)"><span class="slv" id="ct-v">45°</span></div>
+  <div class="prr"><label>Высота</label><input type="range" id="sl-phi" min="5" max="88" step="1" value="60" oninput="setCamPhi(this.value)"><span class="slv" id="cp-v">60°</span></div>
+  <div class="prr"><label>Зум</label><input type="range" id="sl-r" min="5" max="100" step="1" value="30" oninput="setCamR(this.value)"><span class="slv" id="cr-v">30м</span></div>
+</div>
+<div class="prs">
   <div class="prt">Горячие клавиши</div>
   <div class="keys">
     <span>R</span> — повернуть 45°<br>
@@ -1250,6 +1321,7 @@ function buildObjTab(el){
   <div class="prr"><label>Y (м)</label><input class="pri" type="number" value="${o.position.z.toFixed(1)}" step=".5" oninput="setProp('z',this.value)"></div>
   <div class="prr"><label>Угол°</label><input class="pri" type="number" value="${Math.round(o.rotation.y*180/Math.PI)}" step="45" oninput="setProp('ry',this.value)"></div>
   <div class="prr"><label>Размер</label><span style="font-size:10px;color:var(--w5)">${it.w}×${it.d}×${it.h} м</span></div>
+  <div class="prr"><label>Масштаб</label><input type="range" min=".3" max="3" step=".05" value="${o.scale.x.toFixed(2)}" oninput="setScale(this.value)"><span class="slv" id="sc-v">${o.scale.x.toFixed(2)}×</span></div>
   <button class="pr-dup" onclick="dupSelected()">Дублировать (Ctrl+D)</button>
   <button class="pr-del" onclick="delSelected()">🗑 Удалить (Del)</button>
 </div>`;
