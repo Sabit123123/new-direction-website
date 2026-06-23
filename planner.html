@@ -478,6 +478,7 @@ const CAT=[
   {id:'strobe', cat:'light',    name:'Стробоскоп',         e:'⚡',w:.5, d:.3, h:.2,  col:0x221100,beam:0xffffff,ang:.8},
   {id:'blind',  cat:'light',    name:'Блайндер 4×4',       e:'💥',w:.8, d:.15,h:.2,  col:0x222222,beam:0xffff88,ang:.9},
   {id:'strip',  cat:'light',    name:'LED лента 1м',       e:'✨',w:1.0,d:.05,h:.04, col:0x001122,beam:0x00ccff,ang:.3},
+  {id:'follow', cat:'light',    name:'Направленный луч',   e:'🎯',w:.3, d:.3, h:.55, col:0x332211,beam:0xffffff,ang:.05},
   {id:'sub',    cat:'audio',    name:'Сабвуфер',           e:'🔊',w:.65,d:.65,h:.75, col:0x181818},
   {id:'top',    cat:'audio',    name:'Топ-кабинет',        e:'📢',w:.42,d:.38,h:.86, col:0x222222},
   {id:'line',   cat:'audio',    name:'Line Array элемент', e:'🔉',w:.2, d:.35,h:.35, col:0x1a1a1a},
@@ -501,7 +502,8 @@ const CAT=[
   {id:'sofa',   cat:'furniture',name:'Диван 2м',            e:'🛋',w:2.0,d:.9, h:.85, col:0x2a1a0f},
   {id:'bar',    cat:'furniture',name:'Барный стол',         e:'🥂',w:.8, d:.8, h:1.1, col:0x1a0f0a},
   {id:'dj',     cat:'furniture',name:'DJ-стол',             e:'🎧',w:1.6,d:.8, h:.95, col:0x0d0d20},
-  {id:'hazer',  cat:'fx',       name:'Генератор дыма',      e:'🌫',w:.4, d:.6, h:.32, col:0x333344},
+  {id:'hazer',  cat:'fx',       name:'Генератор дыма',      e:'🌫',w:.4, d:.6, h:.32, col:0x333344, fogMaker:true},
+  {id:'laser',  cat:'fx',       name:'Лазер шоу',           e:'🔴',w:.22,d:.3, h:.14, col:0x220011, laser:true, laserCols:[0xff0000,0x00ff44,0x0044ff,0xff44ff,0xffee00]},
   {id:'co2',    cat:'fx',       name:'CO₂ пушка',           e:'❄',w:.3, d:.3, h:1.2, col:0x223344},
   {id:'conf',   cat:'fx',       name:'Конфетти-пушка',      e:'🎊',w:.2, d:.2, h:.9,  col:0x2a1a2a},
 ];
@@ -543,6 +545,7 @@ let ambLight,sunLight,hemiLight;
 let mode='view',roomShape='rect',is2D=false;
 let roomW=20,roomD=15;
 let roomVerts=[],roomMeshes=[],wallMeshes=[],dimSprites=[],beamMeshes=[],winLights=[];
+let fogActive=false;
 let cornerHandles=[],activeCorner=null,cornerDrag=false;
 let placed=[],undoStack=[];
 let selObj=null,dragObj=null;
@@ -887,6 +890,8 @@ function placeItem(item,x,z,ry){
   scene.add(root);placed.push(root);
 
   if(item.beam&&item.cat==='light'){addBeam(root,item);}
+  if(item.fogMaker){addHazerCloud(root,item);updateFogFromHazers();}
+  if(item.laser){addLaserFan(root,item);}
   if(item.cat==='light'){
     const sl=new THREE.SpotLight(new THREE.Color(item.beam||0xffffff),.55,10,item.ang||Math.PI/6,.4);
     sl.position.set(sx,item.h,sz);sl.target.position.set(sx,0,sz);sl.castShadow=false;
@@ -926,6 +931,65 @@ function addFloorSpot(mesh,item){
   fs.name='fs_'+mesh.name;scene.add(fs);mesh.userData.fs=fs;
 }
 
+function addHazerCloud(mesh,item){
+  const cloud=new THREE.Mesh(
+    new THREE.SphereGeometry(0.9,10,8),
+    new THREE.MeshBasicMaterial({color:0xcce8ff,transparent:true,opacity:.07,depthWrite:false,side:THREE.DoubleSide})
+  );
+  cloud.position.set(mesh.position.x,item.h/2+.5,mesh.position.z);
+  cloud.name='hcloud_'+mesh.name;
+  scene.add(cloud);mesh.userData.hazerCloud=cloud;
+}
+
+function updateFogFromHazers(){
+  const cnt=placed.filter(o=>o.isMesh&&o.userData.item&&o.userData.item.fogMaker).length;
+  fogActive=cnt>0;
+  if(scene.fog) scene.fog.density=fogActive?0.022:0.004;
+  placed.filter(o=>o.isMesh&&o.userData.item&&o.userData.item.laser).forEach(m=>updateLaserMesh(m));
+}
+
+function updateLaserMesh(mesh){
+  if(mesh.userData.laserGroup){
+    mesh.userData.laserGroup.children.forEach(c=>{
+      if(c.userData.isBeam) c.material.opacity=fogActive?0.72:0.0;
+      if(c.userData.isDot)  c.material.opacity=fogActive?0.18:0.60;
+    });
+  }
+}
+
+function addLaserFan(mesh,item){
+  const cols=item.laserCols||[0xff0000,0x00ff44,0x0044ff,0xff44ff,0xffee00];
+  const grp=new THREE.Group();
+  grp.position.set(mesh.position.x,0,mesh.position.z);
+  const L=14,pitch=-30*Math.PI/180,startY=item.h;
+  const angles=[-38,-19,0,19,38];
+  angles.forEach((a,i)=>{
+    const hor=a*Math.PI/180,col=cols[i%cols.length];
+    const dx=Math.sin(hor)*Math.cos(-pitch);
+    const dy=Math.sin(pitch);
+    const dz=-Math.cos(hor)*Math.cos(-pitch);
+    const beam=new THREE.Mesh(
+      new THREE.CylinderGeometry(0.014,0.014,L,5),
+      new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:fogActive?0.72:0.0,depthWrite:false,blending:THREE.AdditiveBlending})
+    );
+    beam.position.set(dx*(L/2),startY+dy*(L/2),dz*(L/2));
+    beam.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),new THREE.Vector3(dx,dy,dz).normalize());
+    beam.userData={isBeam:true};
+    grp.add(beam);
+    const t=dy<0?-startY/dy:L;
+    const dot=new THREE.Mesh(
+      new THREE.CircleGeometry(0.2,16),
+      new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:fogActive?0.18:0.60,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide})
+    );
+    dot.rotation.x=-Math.PI/2;
+    dot.position.set(dx*Math.min(t,L),0.012,dz*Math.min(t,L));
+    dot.userData={isDot:true};
+    grp.add(dot);
+  });
+  grp.name='laserfan_'+mesh.name;
+  scene.add(grp);mesh.userData.laserGroup=grp;
+}
+
 function addLabel(mesh,item){
   const c=document.createElement('canvas');c.width=230;c.height=42;
   const ctx=c.getContext('2d');
@@ -955,6 +1019,8 @@ function moveEquip(obj,sx,sz){
   if(obj.userData.beam) obj.userData.beam.position.set(sx,it.h-4.5/2,sz);
   if(obj.userData.lbl)  obj.userData.lbl.position.set(sx,it.h+.5,sz);
   if(obj.userData.fs)   obj.userData.fs.position.set(sx,.025,sz);
+  if(obj.userData.hazerCloud) obj.userData.hazerCloud.position.set(sx,it.h/2+.5,sz);
+  if(obj.userData.laserGroup){obj.userData.laserGroup.position.x=sx;obj.userData.laserGroup.position.z=sz;}
 }
 
 // ═══════════════════════════════════
@@ -1213,8 +1279,9 @@ function deselectObj(){
 function delSelected(){
   if(!selObj)return;
   const o=selObj,it=o.userData;
-  [it.sl,it.slt,it.beam,it.lbl,it.fs].forEach(x=>x&&scene.remove(x));
+  [it.sl,it.slt,it.beam,it.lbl,it.fs,it.hazerCloud,it.laserGroup].forEach(x=>x&&scene.remove(x));
   if(it.beam) beamMeshes=beamMeshes.filter(b=>b!==it.beam);
+  if(it.item&&it.item.fogMaker) setTimeout(updateFogFromHazers,0);
   scene.remove(o);
   placed=placed.filter(x=>x!==o&&x!==it.sl&&x!==it.slt);
   selObj=null;
@@ -1367,11 +1434,12 @@ function clearAll(){
   if(!confirm('Очистить всё оборудование?'))return;
   placed.forEach(o=>{
     scene.remove(o);
-    if(o.userData){[o.userData.lbl,o.userData.fs,o.userData.beam].forEach(x=>x&&scene.remove(x));}
+    if(o.userData){[o.userData.lbl,o.userData.fs,o.userData.beam,o.userData.hazerCloud,o.userData.laserGroup].forEach(x=>x&&scene.remove(x));}
   });
   beamMeshes.forEach(b=>scene.remove(b));
   winLights.forEach(l=>scene.remove(l));
   placed=[];beamMeshes=[];winLights=[];undoStack=[];
+  fogActive=false;if(scene.fog)scene.fog.density=0.004;
   deselectObj();updateCount();toast('Очищено');
 }
 
